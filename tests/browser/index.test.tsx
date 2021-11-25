@@ -5,7 +5,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-const AppMock = () => <div>App</div>;
+declare global {
+    interface Window { bookData: any; }
+}
+
+const AppMock = (props) => <div {...props}>App</div>;
 jest.mock('@components/App', () => ({ App: AppMock }));
 jest.mock('react-dom');
 
@@ -16,6 +20,10 @@ describe('index | ', () => {
         require('@browser/index.tsx');
     }
 
+    beforeAll(() => {
+        window.bookData = '{"title":"Book Title"}';
+    });
+
     beforeEach(() => {
         rootElement = document.createElement('div');
         rootElement.id = 'root';
@@ -25,6 +33,6 @@ describe('index | ', () => {
     test('the <App /> in hydrated in the root element', () => {
         requireModule();
 
-        expect(ReactDOM.hydrate).toHaveBeenCalledWith(<AppMock />, rootElement);
+        expect(ReactDOM.hydrate).toHaveBeenCalledWith(<AppMock bookData={{ title: 'Book Title' }} />, rootElement);
     });
 });

@@ -1,4 +1,4 @@
-import { getBookJson } from '@server/UseCase/GetApp/getBookJson';
+import { getBookData } from '@server/UseCase/GetApp/getBookData';
 import { Mock } from '@tests/__types__/Mock';
 import { HTTP_OK, HTTP_NOT_FOUND } from '@server/types/HttpStatusCodes';
 import axios from 'axios';
@@ -13,17 +13,17 @@ axiosMock.get.mockReturnValue(
     })
 );
 
-describe('getBookJson | ', () => {
-    test('getBookJson performs the correct request', () => {
-        getBookJson(5);
+describe('getBookData | ', () => {
+    test('getBookData performs the correct request', () => {
+        getBookData(5);
 
         expect(axiosMock.get).toHaveBeenCalledWith(
             'http://docker-vm:8080/book/5'
         );
     });
 
-    test('getBookJson returns the response data correctly', () => {
-        return expect(getBookJson(5)).resolves.toEqual({ title: 'Book Title' });
+    test('getBookData returns the response data correctly', () => {
+        return expect(getBookData(5)).resolves.toEqual({ title: 'Book Title' });
     });
 
     describe('if the request fails with an error', () => {
@@ -33,8 +33,8 @@ describe('getBookJson | ', () => {
             );
         });
 
-        test('getBookJson rejects this error', () => {
-            return expect(getBookJson(5)).rejects.toEqual(
+        test('getBookData rejects this error', () => {
+            return expect(getBookData(5)).rejects.toEqual(
                 new Error('request error!')
             );
         });
@@ -47,8 +47,8 @@ describe('getBookJson | ', () => {
             );
         });
 
-        test('getBookJson rejects a corresponding error', () => {
-            return expect(getBookJson(5)).rejects.toEqual(
+        test('getBookData rejects a corresponding error', () => {
+            return expect(getBookData(5)).rejects.toEqual(
                 new Error(
                     'The resource responded with a bad status code: ' +
                         HTTP_NOT_FOUND +

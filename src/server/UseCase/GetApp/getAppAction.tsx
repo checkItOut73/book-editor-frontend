@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
-import { BookJson } from './BookJson';
-import { getBookJson } from './getBookJson';
+import { BookData } from './BookData';
+import { getBookData } from './getBookData';
 import { App } from '@browser/components/App';
 import fs from 'fs';
 import Mustache from 'mustache';
@@ -9,7 +9,7 @@ import Mustache from 'mustache';
 const APP_TEMPLATE_FILE_PATH = process.cwd() + '/dist/browser/index.html';
 
 export async function getAppAction(request, reply) {
-    const bookJson: BookJson = await getBookJson(
+    const bookData: BookData = await getBookData(
         parseInt(request.params.bookId)
     );
 
@@ -22,6 +22,9 @@ export async function getAppAction(request, reply) {
         .header('Content-Type', 'text/html; charset=utf-8')
         .send(Mustache.render(
             template.toString(),
-            { App: ReactDOMServer.renderToString(<App />) }
+            {
+                bookData: JSON.stringify(bookData),
+                App: ReactDOMServer.renderToString(<App bookData={bookData} />)
+            }
         ));
 }

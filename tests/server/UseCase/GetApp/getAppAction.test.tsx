@@ -1,18 +1,20 @@
 import React from 'react';
 import { getAppAction } from '@server/UseCase/GetApp/getAppAction';
-import { getBookJson } from '@server/UseCase/GetApp/getBookJson';
+import { getBookData } from '@server/UseCase/GetApp/getBookData';
 import { MockFunction } from '@tests/__types__/MockFunction';
 import { Mock } from '@tests/__types__/Mock';
 import fs from 'fs';
 
-const getBookJsonMock: MockFunction<typeof getBookJson> = getBookJson;
+const getBookDataMock: MockFunction<typeof getBookData> = getBookData;
 
-jest.mock('@server/UseCase/GetApp/getBookJson');
+jest.mock('@server/UseCase/GetApp/getBookData');
 jest.mock('@browser/components/App', () => ({ App: () => <div data-app /> }));
 jest.mock('fs');
 
 const fsMock: Mock<typeof fs> = fs;
-const template = '<html><body>{{{App}}}</body></html>';
+const template = '<html><body><script type="text/javascript">' +
+    'window.bookData = "{{{bookData}}}";</script>' +
+    '<div id="app">{{{App}}}</div></body></html>';
 fsMock.readFileSync.mockReturnValue(template);
 
 describe('getAppAction | ', () => {
@@ -29,10 +31,10 @@ describe('getAppAction | ', () => {
         };
     });
 
-    test('getAppAction calls getBookJson correctly', () => {
+    test('getAppAction calls getBookData correctly', () => {
         getAppAction(request, reply);
 
-        expect(getBookJsonMock).toHaveBeenCalledWith(52);
+        expect(getBookDataMock).toHaveBeenCalledWith(52);
     });
 
     test('getAppAction reads the template file correctly', async () => {
@@ -45,7 +47,7 @@ describe('getAppAction | ', () => {
     });
 
     test('getAppAction sends the correct reply', async () => {
-        getBookJsonMock.mockReturnValue(
+        getBookDataMock.mockReturnValue(
             Promise.resolve({ title: 'Book Title' })
         );
 
@@ -56,6 +58,11 @@ describe('getAppAction | ', () => {
             'Content-Type',
             'text/html; charset=utf-8'
         );
-        expect(reply.send).toHaveBeenCalledWith('<html><body><div data-app=\"true\" data-reactroot=\"\"></div></body></html>');
+        expect(reply.send).toHaveBeenCalledWith(
+            '<html><body><script type=\"text/javascript\">' +
+            'window.bookData = \"{\"title\":\"Book Title\"}\";' +
+            '</script><div id=\"app\"><div data-app=\"true\" data-reactroot=\"\">' +
+            '</div></div></body></html>'
+        );
     });
 });

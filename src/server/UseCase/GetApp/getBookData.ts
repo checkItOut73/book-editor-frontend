@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { BookJson } from './BookJson';
+import { BookData } from './BookData';
 import { HTTP_OK } from '@server/types/HttpStatusCodes';
 
-export async function getBookJson(bookId: number): Promise<BookJson> {
+export async function getBookData(bookId: number): Promise<BookData> {
     const response = await axios.get('http://docker-vm:8080/book/' + bookId);
 
     if (HTTP_OK !== response.status) {

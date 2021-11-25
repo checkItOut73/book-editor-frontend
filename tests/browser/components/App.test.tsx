@@ -2,11 +2,13 @@ import React from 'react';
 import { create } from 'react-test-renderer';
 import { App } from '@components/App';
 
+jest.mock('@components/Book', () => ({ Book: (props) => <div {...props}>BookMock</div> }));
+
 jest.mock('react-hot-loader/root', () => ({
-    hot: (App) => () =>
+    hot: (App) => (props) =>
         (
             <div data-hot-loaded>
-                <App />
+                <App {...props} />
             </div>
         )
 }));
@@ -15,7 +17,7 @@ describe('<App />', () => {
     let component;
 
     function renderComponent() {
-        component = create(<App />);
+        component = create(<App bookData={{ title: 'Book Title' }} />);
     }
 
     test('<App /> is rendered correctly with the hot loader', () => {
@@ -25,12 +27,11 @@ describe('<App />', () => {
             <div
               data-hot-loaded={true}
             >
-              <h1>
-                hello world ! 
-                <span>
-                  123
-                </span>
-              </h1>
+              <div
+                title="Book Title"
+              >
+                BookMock
+              </div>
             </div>
         `);
     });
