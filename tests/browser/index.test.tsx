@@ -5,7 +5,7 @@
 import React from 'react';
 
 const AppMock = () => <div>App</div>;
-jest.mock('@components/App', () => AppMock);
+jest.mock('@components/App', () => ({ App: AppMock }));
 
 describe('index | ', () => {
     let rootElement;

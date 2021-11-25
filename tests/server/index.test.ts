@@ -39,6 +39,9 @@ jest.mock(
 );
 jest.mock('@configs/webpack.dev.config.js', () => webpackDevConfig);
 jest.mock('module-alias/register', () => moduleAliasRegisterSpy());
+jest.mock('@server/UseCase/GetApp/getAppAction', () => ({
+    getAppAction: 'getAppAction'
+}));
 
 describe('index | ', () => {
     function requireModule() {
@@ -59,6 +62,15 @@ describe('index | ', () => {
         expect(fastifyServerMock.register).toHaveBeenCalledWith(
             fastifyStaticMock,
             { root: path.resolve(process.cwd(), 'dist/browser') }
+        );
+    });
+
+    test('the getAppAction route is registered correctly', () => {
+        requireModule();
+
+        expect(fastifyServerMock.get).toHaveBeenCalledWith(
+            '/book/:bookId(^\\d+$)',
+            'getAppAction'
         );
     });
 
@@ -142,7 +154,7 @@ describe('index | ', () => {
             requireModule();
 
             expect(fastifyServerMock.listen).toHaveBeenCalledWith(
-                8080,
+                3000,
                 '0.0.0.0'
             );
         });

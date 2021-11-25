@@ -1,8 +1,8 @@
 {
-  "include": ["./src/server/**/*"],
+  "include": ["./src/server/**/*", "./src/browser/components/**/*"],
   "exclude": ["node_modules"],
   "compilerOptions": {
-    "outDir": "./dist/server",
+    "outDir": "./dist",
     "jsx": "react",
     "esModuleInterop": true,
     "types": ["node", "jest", "react", "react-dom", "webpack", "webpack-dev-middleware", "webpack-hot-middleware"],

@@ -5,7 +5,7 @@ const mergeOptions = require('merge-options');
 const config = {
     entry: ['webpack-hot-middleware/client'],
     output: {
-        publicPath: 'http://docker-vm:8080/',
+        publicPath: 'http://docker-vm:3000/',
         hotUpdateChunkFilename: 'hot_update/[id].[fullhash].hot-update.js',
         hotUpdateMainFilename: 'hot_update/[fullhash].hot-update.json'
     },

@@ -1,7 +1,5 @@
 import React from 'react';
 
-const Test = () => (
+export const Test = () => (
     <span>123</span>
 );
-
-export default Test;

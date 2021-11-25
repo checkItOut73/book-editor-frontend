@@ -1,9 +1,9 @@
 import React from 'react';
 import { hot } from 'react-hot-loader/root';
-import Test from './Test';
+import { Test } from './Test';
 
-const App = () => (
+const AppInner = () => (
     <h1>hello world ! <Test /></h1>
 );
 
-export default hot(App);
+export const App = hot(AppInner);
