@@ -108,7 +108,7 @@ describe('index | ', () => {
                         webpackCompiler,
                         options: {
                             publicPath: 'http://localhost',
-                            writeToDisk: false
+                            writeToDisk: true
                         }
                     });
                 });

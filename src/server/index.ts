@@ -27,7 +27,7 @@ import { getAppAction } from '@server/UseCase/GetApp/getAppAction';
         server.use(
             webpackDevMiddleware(webpackCompiler, {
                 publicPath: new URL(webpackDevConfig.output.publicPath).origin,
-                writeToDisk: false
+                writeToDisk: true
             })
         );
 

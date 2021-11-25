@@ -3,9 +3,11 @@
  */
 
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 const AppMock = () => <div>App</div>;
 jest.mock('@components/App', () => ({ App: AppMock }));
+jest.mock('react-dom');
 
 describe('index | ', () => {
     let rootElement;
@@ -20,17 +22,9 @@ describe('index | ', () => {
         document.body.appendChild(rootElement);
     });
 
-    test('the <App /> in rendered into the root element', () => {
+    test('the <App /> in hydrated in the root element', () => {
         requireModule();
 
-        expect(rootElement).toMatchInlineSnapshot(`
-            <div
-              id="root"
-            >
-              <div>
-                App
-              </div>
-            </div>
-        `);
+        expect(ReactDOM.hydrate).toHaveBeenCalledWith(<AppMock />, rootElement);
     });
 });
