@@ -91,4 +91,55 @@ describe('<Chapter />', () => {
             `);
         });
     });
+
+    describe('if a classNameModifier is given', () => {
+        beforeEach(() => {
+            props.classNameModifier = 'lastActive';
+        });
+
+        test('<Chapter /> is rendered correctly with classNameModifier', () => {
+            renderComponent();
+
+            expect(component).toMatchInlineSnapshot(`
+                <div
+                  className="book-chapter book-chapter--lastActive"
+                >
+                  <h1>
+                    Book Title
+                  </h1>
+                  <h2>
+                    Chapter 1
+                  </h2>
+                  <div
+                    heading="The missing key"
+                    verses={Array []}
+                  >
+                    ParagraphMock
+                  </div>
+                  <div
+                    heading="A secret space"
+                    verses={Array []}
+                  >
+                    ParagraphMock
+                  </div>
+                </div>
+            `);
+        });
+    });
+
+    describe('if an onTransitionEnd handler is given', () => {
+        beforeEach(() => {
+            props.onTransitionEnd = jest.fn();
+
+            renderComponent();
+        });
+
+        test('the handler is executed when the "transitionend" event is dispatched', () => {
+            expect(props.onTransitionEnd).not.toHaveBeenCalled();
+
+            component.root.props.onTransitionEnd();
+
+            expect(props.onTransitionEnd).toHaveBeenCalled();
+        });
+    });
 });

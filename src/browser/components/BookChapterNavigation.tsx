@@ -9,10 +9,10 @@ interface Props {
 }
 export const BookChapterNavigation = ({ chapters, activeChapterNumber, setActiveChapterNumber }: Props) => (
     <div className="book-chapter-navigation">
-        { chapters.map((chapterData, index) =>
+        { chapters.map((chapterData) =>
             <div
                 onClick={() => setActiveChapterNumber(chapterData.number)}
-                key={index}
+                key={chapterData.number}
                 className={
                     'book-chapter-navigation__element' +
                         (activeChapterNumber === chapterData.number ? ' book-chapter-navigation__element--active' : '')

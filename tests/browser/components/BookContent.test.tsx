@@ -25,7 +25,9 @@ describe('<BookContent />', () => {
                     paragraphs: []
                 }
             ],
-            activeChapterNumber: 1
+            activeChapterNumber: 1,
+            lastActiveChapterNumber: 1,
+            setLastActiveChapterNumber: jest.fn()
         };
     });
 
@@ -80,6 +82,7 @@ describe('<BookContent />', () => {
     describe('If the activeChapterNumber is not 1', () => {
         beforeEach(() => {
             props.activeChapterNumber = 2;
+            props.lastActiveChapterNumber = 2;
         });
 
         test('<BookContent /> is rendered correctly without title', () => {
@@ -97,6 +100,54 @@ describe('<BookContent />', () => {
                   />
                 </div>
             `);
+        });
+    });
+
+    describe('if the activeChapterNumber has changed', () => {
+        beforeEach(() => {
+            props.lastActiveChapterNumber = 1;
+            props.activeChapterNumber = 2;
+
+            renderComponent();
+        });
+
+        test('<BookContent /> is rendered correctly with active and last active chapter', () => {
+            expect(component).toMatchInlineSnapshot(`
+                <div
+                  className="book-content"
+                >
+                  <div
+                    data-chapter={true}
+                    heading="Chapter 2"
+                    number={2}
+                    paragraphs={Array []}
+                  />
+                  <div
+                    classNameModifier="lastActive"
+                    data-chapter={true}
+                    heading="Chapter 1"
+                    number={1}
+                    onTransitionEnd={[Function]}
+                    paragraphs={Array []}
+                  >
+                    <h1>
+                      Book Title
+                    </h1>
+                  </div>
+                </div>
+            `);
+        });
+
+        describe('and when the "transitionend" event of the last active chapter container is dispatched ', () => {
+            test('setLastActiveChapterNumber is called with the active chapter number', () => {
+                expect(props.setLastActiveChapterNumber).not.toHaveBeenCalled();
+
+                component.root
+                    .findByProps({ number: props.lastActiveChapterNumber })
+                    .props.onTransitionEnd();
+
+                expect(props.setLastActiveChapterNumber).toHaveBeenCalledWith(2);
+            });
         });
     });
 });

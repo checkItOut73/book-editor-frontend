@@ -3,22 +3,56 @@ import PropTypes from 'prop-types';
 import { BookData } from '@src/server/UseCase/GetApp/BookData';
 import { Chapter } from './Chapter';
 
-type Props = BookData & { activeChapterNumber: number };
+type Props = BookData & {
+    activeChapterNumber: number;
+    lastActiveChapterNumber: number;
+    setLastActiveChapterNumber: (chapterNumber: number) => void
+};
 
-export const BookContent = ({ title, chapters, activeChapterNumber }: Props) => {
+export const BookContent = ({ title, chapters, activeChapterNumber, lastActiveChapterNumber, setLastActiveChapterNumber }: Props) => {
     return <div className="book-content">
-        { chapters
-            .filter((chapterData) => activeChapterNumber === chapterData.number)
-            .map((chapterData, index) => <Chapter key={index} {...chapterData}>{ getTitle() }</Chapter>)
-        }
+        { getActiveChapter() }
+        { getLastActiveChapter() }
     </div>;
 
-    function getTitle() {
-        if ('' === title || activeChapterNumber !== 1) {
+    function getActiveChapter() {
+        return getChapter(activeChapterNumber);
+    }
+
+    function getChapter(chapterNumber, additionalProps = {}) {
+        const chapterData = chapters.find((chapterData) => chapterNumber === chapterData.number);
+
+        return <Chapter key={chapterData.number} {...chapterData} {...additionalProps}>
+            { chapterData.number === 1 ? getBookTitle() : null }
+        </Chapter>;
+    }
+
+    function getBookTitle() {
+        if ('' === title) {
             return null;
         }
 
-        return <h1 key="title">{ title }</h1>;
+        return <h1 key="book-title">{ title }</h1>;
+    }
+
+    function getLastActiveChapter() {
+        if (!hasActiveChapterNumberChanged()) {
+            return null;
+        }
+
+        return getChapter(
+            lastActiveChapterNumber,
+            {
+                classNameModifier: 'lastActive',
+                onTransitionEnd: () => {
+                    setLastActiveChapterNumber(activeChapterNumber);
+                }
+            }
+        );
+    }
+
+    function hasActiveChapterNumberChanged(): boolean {
+        return activeChapterNumber !== lastActiveChapterNumber;
     }
 }
 
@@ -35,5 +69,7 @@ BookContent.propTypes = {
             })).isRequired
         })).isRequired
     })).isRequired,
-    activeChapterNumber: PropTypes.number.isRequired
+    activeChapterNumber: PropTypes.number.isRequired,
+    lastActiveChapterNumber: PropTypes.number.isRequired,
+    setLastActiveChapterNumber: PropTypes.func.isRequired
 };

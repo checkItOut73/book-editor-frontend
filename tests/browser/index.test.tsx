@@ -3,15 +3,29 @@
  */
 
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 declare global {
     interface Window { bookData: any; }
 }
 
 const AppMock = (props) => <div {...props}>App</div>;
+
+const mainScssRequireSpy = jest.fn();
+jest.doMock('./styles/main.scss', () => {
+    mainScssRequireSpy();
+});
+
+const polyfillArrayIncludesSpy = jest.fn();
+jest.doMock('polyfill-array-includes', () => {
+    polyfillArrayIncludesSpy();
+});
+
+const ReactDOMMock = {
+    hydrate: jest.fn()
+};
+jest.doMock('react-dom', () => ReactDOMMock);
+
 jest.mock('@components/App', () => ({ App: AppMock }));
-jest.mock('react-dom');
 
 describe('index | ', () => {
     let rootElement;
@@ -30,9 +44,25 @@ describe('index | ', () => {
         document.body.appendChild(rootElement);
     });
 
+    afterEach(() => {
+        jest.resetModules();
+    });
+
+    test('the main.scss is loaded properly', () => {
+        requireModule();
+
+        expect(mainScssRequireSpy).toHaveBeenCalled();
+    });
+
+    test('the polyfill-array-includes is loaded properly', () => {
+        requireModule();
+
+        expect(polyfillArrayIncludesSpy).toHaveBeenCalled();
+    });
+
     test('the <App /> in hydrated in the root element', () => {
         requireModule();
 
-        expect(ReactDOM.hydrate).toHaveBeenCalledWith(<AppMock bookData={{ title: 'Book Title' }} />, rootElement);
+        expect(ReactDOMMock.hydrate).toHaveBeenCalledWith(<AppMock bookData={{ title: 'Book Title' }} />, rootElement);
     });
 });

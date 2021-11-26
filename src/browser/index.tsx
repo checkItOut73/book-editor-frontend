@@ -1,4 +1,5 @@
 import './styles/main.scss';
+import 'polyfill-array-includes';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { App } from '@components/App';
