@@ -3,8 +3,11 @@ import PropTypes from 'prop-types';
 import { ChapterData } from '@src/server/UseCase/GetApp/BookData';
 import { Paragraph } from './Paragraph';
 
-export const Chapter = ({ heading, paragraphs }: ChapterData) => {
+type Props = ChapterData & { children };
+
+export const Chapter = ({ children, heading, paragraphs }: Props) => {
     return <div className="book-chapter">
+        { children }
         { getHeading() }
         <>
             { paragraphs.map((paragraphData, index) => <Paragraph key={index} {...paragraphData} />) }
@@ -16,11 +19,12 @@ export const Chapter = ({ heading, paragraphs }: ChapterData) => {
             return null;
         }
 
-        return <h2>{ heading }</h2>;
+        return <h2 key="chapter-heading">{ heading }</h2>;
     }
 };
 
 Chapter.propTypes = {
+    children: PropTypes.node,
     heading: PropTypes.string.isRequired,
     paragraphs: PropTypes.arrayOf(PropTypes.shape({
         heading: PropTypes.string.isRequired,

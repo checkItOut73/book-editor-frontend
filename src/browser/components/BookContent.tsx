@@ -7,13 +7,10 @@ type Props = BookData & { activeChapterNumber: number };
 
 export const BookContent = ({ title, chapters, activeChapterNumber }: Props) => {
     return <div className="book-content">
-        { getTitle() }
-        <>
-            { chapters
-                .filter((chapterData) => activeChapterNumber === chapterData.number)
-                .map((chapterData, index) => <Chapter key={index} {...chapterData} />)
-            }
-        </>
+        { chapters
+            .filter((chapterData) => activeChapterNumber === chapterData.number)
+            .map((chapterData, index) => <Chapter key={index} {...chapterData}>{ getTitle() }</Chapter>)
+        }
     </div>;
 
     function getTitle() {
@@ -21,7 +18,7 @@ export const BookContent = ({ title, chapters, activeChapterNumber }: Props) => 
             return null;
         }
 
-        return <h1>{ title }</h1>;
+        return <h1 key="title">{ title }</h1>;
     }
 }
 

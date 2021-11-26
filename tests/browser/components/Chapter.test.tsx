@@ -22,7 +22,8 @@ describe('<Chapter />', () => {
                     heading: 'A secret space',
                     verses: []
                 }
-            ]
+            ],
+            children: [<h1 key="title">Book Title</h1>]
         };
     });
 
@@ -37,6 +38,9 @@ describe('<Chapter />', () => {
             <div
               className="book-chapter"
             >
+              <h1>
+                Book Title
+              </h1>
               <h2>
                 Chapter 1
               </h2>
@@ -68,6 +72,9 @@ describe('<Chapter />', () => {
                 <div
                   className="book-chapter"
                 >
+                  <h1>
+                    Book Title
+                  </h1>
                   <div
                     heading="The missing key"
                     verses={Array []}

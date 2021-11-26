@@ -3,7 +3,7 @@ import { create } from 'react-test-renderer';
 import { BookContent } from '@components/BookContent';
 
 jest.mock('@components/Chapter', () => ({
-    Chapter: (props) => <div {...props}>ChapterMock</div>
+    Chapter: (props) => <div {...props} data-chapter />
 }));
 
 describe('<BookContent />', () => {
@@ -40,15 +40,15 @@ describe('<BookContent />', () => {
             <div
               className="book-content"
             >
-              <h1>
-                Book Title
-              </h1>
               <div
+                data-chapter={true}
                 heading="Chapter 1"
                 number={1}
                 paragraphs={Array []}
               >
-                ChapterMock
+                <h1>
+                  Book Title
+                </h1>
               </div>
             </div>
         `);
@@ -67,12 +67,11 @@ describe('<BookContent />', () => {
                   className="book-content"
                 >
                   <div
+                    data-chapter={true}
                     heading="Chapter 1"
                     number={1}
                     paragraphs={Array []}
-                  >
-                    ChapterMock
-                  </div>
+                  />
                 </div>
             `);
         });
@@ -91,12 +90,11 @@ describe('<BookContent />', () => {
                   className="book-content"
                 >
                   <div
+                    data-chapter={true}
                     heading="Chapter 2"
                     number={2}
                     paragraphs={Array []}
-                  >
-                    ChapterMock
-                  </div>
+                  />
                 </div>
             `);
         });
