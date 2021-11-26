@@ -11,9 +11,9 @@ services:
         extra_hosts:
             - "docker-vm:192.168.99.100"
 
-    server_watcher:
-        image: node:12.13.0
-        command: npm run watch:server
-        working_dir: /var/www/html
-        volumes:
-            - .:/var/www/html
+    # server_watcher:
+    #     image: node:12.13.0
+    #     command: npm run watch:server
+    #     working_dir: /var/www/html
+    #     volumes:
+    #         - .:/var/www/html

@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const TSCONFIG_PATH = path.resolve(process.cwd(), 'tsconfig.json');
 const { compilerOptions } = require(TSCONFIG_PATH);
@@ -29,7 +30,10 @@ module.exports = {
                         presets: [
                             [
                                 '@babel/preset-env',
-                                { targets: { browsers: 'last 2 versions' } }
+                                {
+                                    targets: { browsers: 'last 2 versions' },
+                                    loose: true
+                                }
                             ],
                             '@babel/preset-typescript',
                             '@babel/preset-react'
@@ -47,7 +51,15 @@ module.exports = {
                         ]
                     }
                 }
-            }
+            },
+            {
+                test: /\.scss$/i,
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    'css-loader',
+                    'sass-loader',
+                  ]
+            },
         ]
     },
     plugins: [
@@ -59,7 +71,11 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: 'src/browser/index.html',
             filename: 'index.html'
-        })
+        }),
+        new MiniCssExtractPlugin({
+            filename: '[name].css',
+            chunkFilename: '[id].css'
+        }),
     ]
 };
 

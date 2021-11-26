@@ -48,7 +48,10 @@ describe('getAppAction | ', () => {
 
     test('getAppAction sends the correct reply', async () => {
         getBookDataMock.mockReturnValue(
-            Promise.resolve({ title: 'Book Title' })
+            Promise.resolve({
+                title: 'Book Title',
+                chapters: []
+            })
         );
 
         await getAppAction(request, reply);
@@ -60,7 +63,7 @@ describe('getAppAction | ', () => {
         );
         expect(reply.send).toHaveBeenCalledWith(
             '<html><body><script type=\"text/javascript\">' +
-            'window.bookData = \"{\"title\":\"Book Title\"}\";' +
+            'window.bookData = \"{\"title\":\"Book Title\",\"chapters\":[]}\";' +
             '</script><div id=\"app\"><div data-app=\"true\" data-reactroot=\"\">' +
             '</div></div></body></html>'
         );

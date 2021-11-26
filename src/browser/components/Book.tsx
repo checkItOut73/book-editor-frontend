@@ -1,13 +1,41 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { BookData } from '@src/server/UseCase/GetApp/BookData';
+import { BookChapterNavigation } from './BookChapterNavigation';
+import { BookContent } from './BookContent';
 
-interface Props {
-    title: string
-};
-export const Book = ({ title }: Props) => (
-    <h1>{ title }</h1>
-);
+export const Book = ({ title, chapters }: BookData) => {
+    const [activeChapterNumber, setActiveChapterNumber] = useState(1);
+
+    return <div className="book">
+        <BookChapterNavigation
+            chapters={chapters}
+            activeChapterNumber={activeChapterNumber}
+            setActiveChapterNumber={setActiveChapterNumber}
+        />
+        <BookContent
+            title={title}
+            chapters={chapters}
+            activeChapterNumber={activeChapterNumber}
+        />
+        <BookChapterNavigation
+            chapters={chapters}
+            activeChapterNumber={activeChapterNumber}
+            setActiveChapterNumber={setActiveChapterNumber}
+        />
+    </div>;
+}
 
 Book.propTypes = {
-    title: PropTypes.string
+    title: PropTypes.string.isRequired,
+    chapters: PropTypes.arrayOf(PropTypes.shape({
+        heading: PropTypes.string.isRequired,
+        paragraphs: PropTypes.arrayOf(PropTypes.shape({
+            heading: PropTypes.string.isRequired,
+            verses: PropTypes.arrayOf(PropTypes.shape({
+                text: PropTypes.string.isRequired,
+                numberInChapter: PropTypes.number.isRequired
+            })).isRequired
+        })).isRequired
+    })).isRequired
 };
