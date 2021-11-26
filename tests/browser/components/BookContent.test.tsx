@@ -46,6 +46,7 @@ describe('<BookContent />', () => {
                 data-chapter={true}
                 heading="Chapter 1"
                 number={1}
+                onTransitionEnd={[Function]}
                 paragraphs={Array []}
               >
                 <h1>
@@ -72,6 +73,7 @@ describe('<BookContent />', () => {
                     data-chapter={true}
                     heading="Chapter 1"
                     number={1}
+                    onTransitionEnd={[Function]}
                     paragraphs={Array []}
                   />
                 </div>
@@ -96,6 +98,7 @@ describe('<BookContent />', () => {
                     data-chapter={true}
                     heading="Chapter 2"
                     number={2}
+                    onTransitionEnd={[Function]}
                     paragraphs={Array []}
                   />
                 </div>
@@ -120,6 +123,7 @@ describe('<BookContent />', () => {
                     data-chapter={true}
                     heading="Chapter 2"
                     number={2}
+                    onTransitionEnd={[Function]}
                     paragraphs={Array []}
                   />
                   <div
@@ -137,17 +141,20 @@ describe('<BookContent />', () => {
                 </div>
             `);
         });
+    });
 
-        describe('and when the "transitionend" event of the last active chapter container is dispatched ', () => {
-            test('setLastActiveChapterNumber is called with the active chapter number', () => {
-                expect(props.setLastActiveChapterNumber).not.toHaveBeenCalled();
+    describe('when the "transitionend" event of the last active chapter container is dispatched ', () => {
+        test('setLastActiveChapterNumber is called with the active chapter number', () => {
+            props.activeChapterNumber = 2;
+            renderComponent();
 
-                component.root
-                    .findByProps({ number: props.lastActiveChapterNumber })
-                    .props.onTransitionEnd();
+            expect(props.setLastActiveChapterNumber).not.toHaveBeenCalled();
 
-                expect(props.setLastActiveChapterNumber).toHaveBeenCalledWith(2);
-            });
+            component.root
+                .findByProps({ number: props.lastActiveChapterNumber })
+                .props.onTransitionEnd();
+
+            expect(props.setLastActiveChapterNumber).toHaveBeenCalledWith(2);
         });
     });
 });

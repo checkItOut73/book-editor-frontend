@@ -22,9 +22,18 @@ export const BookContent = ({ title, chapters, activeChapterNumber, lastActiveCh
     function getChapter(chapterNumber, additionalProps = {}) {
         const chapterData = chapters.find((chapterData) => chapterNumber === chapterData.number);
 
-        return <Chapter key={chapterData.number} {...chapterData} {...additionalProps}>
-            { chapterData.number === 1 ? getBookTitle() : null }
-        </Chapter>;
+        return (
+            <Chapter
+                key={chapterData.number}
+                onTransitionEnd={() => {
+                    setLastActiveChapterNumber(activeChapterNumber);
+                }}
+                {...chapterData}
+                {...additionalProps}
+            >
+                { chapterData.number === 1 ? getBookTitle() : null }
+            </Chapter>
+        );
     }
 
     function getBookTitle() {
@@ -42,12 +51,7 @@ export const BookContent = ({ title, chapters, activeChapterNumber, lastActiveCh
 
         return getChapter(
             lastActiveChapterNumber,
-            {
-                classNameModifier: 'lastActive',
-                onTransitionEnd: () => {
-                    setLastActiveChapterNumber(activeChapterNumber);
-                }
-            }
+            { classNameModifier: 'lastActive' }
         );
     }
 
