@@ -27,8 +27,8 @@ describe('<Chapter />', () => {
         };
     });
 
-    function renderComponent() {
-        component = create(<Chapter {...props} />);
+    function renderComponent(options = {}) {
+        component = create(<Chapter {...props} />, options);
     }
 
     test('<Chapter /> is rendered correctly', () => {
@@ -58,6 +58,18 @@ describe('<Chapter />', () => {
               </div>
             </div>
         `);
+    });
+
+    test('ref is forwarded correctly', (done) => {
+        props.ref = React.createRef<HTMLDivElement>();
+
+        function createNodeMock(element) {
+            expect(element.type).toBe('div');
+            expect(element.props.className).toBe('book-chapter');
+            done();
+        }
+
+        renderComponent({ createNodeMock });
     });
 
     describe('if no heading is given', () => {
@@ -127,6 +139,46 @@ describe('<Chapter />', () => {
         });
     });
 
+    describe('if a height prop is given', () => {
+        beforeEach(() => {
+            props.height = 750;
+        });
+
+        test('<Chapter /> is rendered correctly with height', () => {
+            renderComponent();
+
+            expect(component).toMatchInlineSnapshot(`
+                <div
+                  className="book-chapter"
+                  style={
+                    Object {
+                      "height": "750px",
+                    }
+                  }
+                >
+                  <h1>
+                    Book Title
+                  </h1>
+                  <h2>
+                    Chapter 1
+                  </h2>
+                  <div
+                    heading="The missing key"
+                    verses={Array []}
+                  >
+                    ParagraphMock
+                  </div>
+                  <div
+                    heading="A secret space"
+                    verses={Array []}
+                  >
+                    ParagraphMock
+                  </div>
+                </div>
+            `);
+        });
+    });
+
     describe('if an onTransitionEnd handler is given', () => {
         beforeEach(() => {
             props.onTransitionEnd = jest.fn();
@@ -134,12 +186,13 @@ describe('<Chapter />', () => {
             renderComponent();
         });
 
-        test('the handler is executed when the "transitionend" event is dispatched', () => {
+        test('the handler is executed when the "transitionend" event is dispatched correctly', () => {
             expect(props.onTransitionEnd).not.toHaveBeenCalled();
 
-            component.root.props.onTransitionEnd();
+            const event = {};
+            component.root.props.onTransitionEnd(event);
 
-            expect(props.onTransitionEnd).toHaveBeenCalled();
+            expect(props.onTransitionEnd).toHaveBeenCalledWith(event);
         });
     });
 });

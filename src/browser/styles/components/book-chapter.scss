@@ -1,15 +1,25 @@
 .book-chapter {
+    overflow: hidden;
     background-color: papayawhip;
     opacity: 1;
-    transition: opacity 1.5s;
+    transition: opacity 1.5s, height 1.5s;
     z-index: 1;
 
-    &--lastActive{
+    &--lastActive {
         opacity: 0;
-        position: absolute;
-        top: 0;
-        left: 0;
-        margin: 5px 20px;
         z-index: 100;
+
+        + .book-chapter {
+            z-index: 1;
+            opacity: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            margin: 5px 20px;
+        }
+
+        + .opacity-fade-in {
+            opacity: 1;
+        }
     }
 }

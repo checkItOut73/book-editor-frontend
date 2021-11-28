@@ -4,34 +4,62 @@ import { BookData } from '@src/server/UseCase/GetApp/BookData';
 import { BookChapterNavigation } from '@components/BookChapterNavigation';
 import { BookContent } from '@components/BookContent';
 
+let intervalForFixingBottomNavigation;
+const BOTTOM_NAVIGATION_HEIGHT = 50;
+
 export const Book = ({ title, chapters }: BookData) => {
     const [activeChapterNumber, setActiveChapterNumber] = useState(1);
     const [lastActiveChapterNumber, setLastActiveChapterNumber] = useState(1);
-
-    function setActiveActiveChapterNumberMemorisingLastValue(newActiveChapterNumber: number) {
-        setLastActiveChapterNumber(activeChapterNumber);
-        setActiveChapterNumber(newActiveChapterNumber);
-    }
+    const bottomNavigationRef = React.createRef<HTMLDivElement>();
 
     return <div className="book">
         <BookChapterNavigation
             chapters={chapters}
             activeChapterNumber={activeChapterNumber}
-            setActiveChapterNumber={setActiveActiveChapterNumberMemorisingLastValue}
+            setActiveChapterNumber={setActiveChapterNumberMemorisingLastValue}
         />
         <BookContent
             title={title}
             chapters={chapters}
             activeChapterNumber={activeChapterNumber}
             lastActiveChapterNumber={lastActiveChapterNumber}
-            setLastActiveChapterNumber={setLastActiveChapterNumber}
+            onTransitionEnd={() => {
+                setLastActiveChapterNumber(activeChapterNumber);
+                stopFixingBottomNavigation();
+            }}
         />
         <BookChapterNavigation
+            ref={bottomNavigationRef}
             chapters={chapters}
             activeChapterNumber={activeChapterNumber}
-            setActiveChapterNumber={setActiveActiveChapterNumberMemorisingLastValue}
+            setActiveChapterNumber={(activeChapterNumber) => {
+                fixBottomNavigation();
+                setActiveChapterNumberMemorisingLastValue(activeChapterNumber);
+            }}
         />
     </div>;
+
+    function setActiveChapterNumberMemorisingLastValue(newActiveChapterNumber: number) {
+        setLastActiveChapterNumber(activeChapterNumber);
+        setActiveChapterNumber(newActiveChapterNumber);
+    }
+
+    function fixBottomNavigation() {
+        const bottomNavigation = bottomNavigationRef.current;
+
+        if (intervalForFixingBottomNavigation) {
+            stopFixingBottomNavigation();
+        }
+        intervalForFixingBottomNavigation = setInterval(() => {
+            window.scrollTo(0, bottomNavigation.offsetTop - window.innerHeight + BOTTOM_NAVIGATION_HEIGHT);
+        }, 20);
+    }
+
+    function stopFixingBottomNavigation() {
+        clearInterval(intervalForFixingBottomNavigation);
+        intervalForFixingBottomNavigation = null;
+    }
+
 }
 
 Book.propTypes = {

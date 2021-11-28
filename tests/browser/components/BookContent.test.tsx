@@ -1,14 +1,17 @@
 import React from 'react';
-import { create } from 'react-test-renderer';
+import { create, act } from 'react-test-renderer';
 import { BookContent } from '@components/BookContent';
 
 jest.mock('@components/Chapter', () => ({
-    Chapter: (props) => <div {...props} data-chapter />
+    Chapter: React.forwardRef((props, ref: any) => (
+        <div data-chapter {...props} ref={ref} />
+    ))
 }));
 
 describe('<BookContent />', () => {
     let props;
     let component;
+    let activeChapterRefElement;
 
     beforeEach(() => {
         props = {
@@ -27,16 +30,31 @@ describe('<BookContent />', () => {
             ],
             activeChapterNumber: 1,
             lastActiveChapterNumber: 1,
-            setLastActiveChapterNumber: jest.fn()
+            onTransitionEnd: jest.fn()
+        };
+
+        activeChapterRefElement = {
+            classList: {
+                add: jest.fn()
+            },
+            clientHeight: 850
         };
     });
 
+    function createNodeMock(element) {
+        if (element.props.number === props.activeChapterNumber) {
+            return activeChapterRefElement;
+        }
+    }
+
     function renderComponent() {
-        component = create(<BookContent {...props} />);
+        component = create(<BookContent {...props} />, { createNodeMock });
     }
 
     test('<BookContent /> is rendered correctly with the active chapter', () => {
-        renderComponent();
+        act(() => {
+            renderComponent();
+        });
 
         expect(component).toMatchInlineSnapshot(`
             <div
@@ -45,8 +63,8 @@ describe('<BookContent />', () => {
               <div
                 data-chapter={true}
                 heading="Chapter 1"
+                height={850}
                 number={1}
-                onTransitionEnd={[Function]}
                 paragraphs={Array []}
               >
                 <h1>
@@ -57,13 +75,23 @@ describe('<BookContent />', () => {
         `);
     });
 
+    test('the active chapter is faded in', () => {
+        act(() => {
+            renderComponent();
+        });
+
+        expect(activeChapterRefElement.classList.add).toHaveBeenCalledWith('opacity-fade-in');
+    });
+
     describe('If no title is given', () => {
         beforeEach(() => {
             props.title = '';
         });
 
         test('<BookContent /> is rendered correctly without title', () => {
-            renderComponent();
+            act(() => {
+                renderComponent();
+            });
 
             expect(component).toMatchInlineSnapshot(`
                 <div
@@ -72,8 +100,8 @@ describe('<BookContent />', () => {
                   <div
                     data-chapter={true}
                     heading="Chapter 1"
+                    height={850}
                     number={1}
-                    onTransitionEnd={[Function]}
                     paragraphs={Array []}
                   />
                 </div>
@@ -87,8 +115,10 @@ describe('<BookContent />', () => {
             props.lastActiveChapterNumber = 2;
         });
 
-        test('<BookContent /> is rendered correctly without title', () => {
-            renderComponent();
+        test('<BookContent /> is rendered correctly without book title', () => {
+            act(() => {
+                renderComponent();
+            });
 
             expect(component).toMatchInlineSnapshot(`
                 <div
@@ -97,8 +127,8 @@ describe('<BookContent />', () => {
                   <div
                     data-chapter={true}
                     heading="Chapter 2"
+                    height={850}
                     number={2}
-                    onTransitionEnd={[Function]}
                     paragraphs={Array []}
                   />
                 </div>
@@ -111,7 +141,9 @@ describe('<BookContent />', () => {
             props.lastActiveChapterNumber = 1;
             props.activeChapterNumber = 2;
 
-            renderComponent();
+            act(() => {
+                renderComponent();
+            });
         });
 
         test('<BookContent /> is rendered correctly with active and last active chapter', () => {
@@ -120,41 +152,43 @@ describe('<BookContent />', () => {
                   className="book-content"
                 >
                   <div
-                    data-chapter={true}
-                    heading="Chapter 2"
-                    number={2}
-                    onTransitionEnd={[Function]}
-                    paragraphs={Array []}
-                  />
-                  <div
                     classNameModifier="lastActive"
                     data-chapter={true}
                     heading="Chapter 1"
+                    height={850}
                     number={1}
-                    onTransitionEnd={[Function]}
                     paragraphs={Array []}
                   >
                     <h1>
                       Book Title
                     </h1>
                   </div>
+                  <div
+                    data-chapter={true}
+                    heading="Chapter 2"
+                    number={2}
+                    onTransitionEnd={[MockFunction]}
+                    paragraphs={Array []}
+                  />
                 </div>
             `);
         });
     });
 
-    describe('when the "transitionend" event of the last active chapter container is dispatched ', () => {
-        test('setLastActiveChapterNumber is called with the active chapter number', () => {
+    describe('when the "transitionend" event of the new active chapter container is dispatched', () => {
+        test('onTransitionEnd is called correctly', () => {
+            props.lastActiveChapterNumber = 1;
             props.activeChapterNumber = 2;
             renderComponent();
 
-            expect(props.setLastActiveChapterNumber).not.toHaveBeenCalled();
+            expect(props.onTransitionEnd).not.toHaveBeenCalled();
 
+            const eventMock = {};
             component.root
-                .findByProps({ number: props.lastActiveChapterNumber })
-                .props.onTransitionEnd();
+                .findByProps({ number: props.activeChapterNumber })
+                .props.onTransitionEnd(eventMock);
 
-            expect(props.setLastActiveChapterNumber).toHaveBeenCalledWith(2);
+            expect(props.onTransitionEnd).toHaveBeenCalledWith(eventMock);
         });
     });
 });

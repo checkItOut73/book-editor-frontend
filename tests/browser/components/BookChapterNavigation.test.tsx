@@ -26,10 +26,8 @@ describe('<BookChapterNavigation />', () => {
         };
     });
 
-    function renderComponent() {
-        component = create(<BookChapterNavigation
-          {...props}
-        />);
+    function renderComponent(options = {}) {
+        component = create(<BookChapterNavigation {...props} />, options);
     }
 
     test('<BookChapterNavigation /> is rendered correctly with the active chapter number', () => {
@@ -53,6 +51,18 @@ describe('<BookChapterNavigation />', () => {
               </div>
             </div>
         `);
+    });
+
+    test('ref is forwarded correctly', (done) => {
+        props.ref = React.createRef<HTMLDivElement>();
+
+        function createNodeMock(element) {
+            expect(element.type).toBe('div');
+            expect(element.props.className).toBe('book-chapter-navigation');
+            done();
+        }
+
+        renderComponent({ createNodeMock });
     });
 
     describe('when a navigation element is clicked', () => {

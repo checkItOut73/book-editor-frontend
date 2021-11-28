@@ -1,33 +1,66 @@
-import React from 'react';
+import React, { useState, useEffect, RefObject } from 'react';
 import PropTypes from 'prop-types';
 import { BookData } from '@src/server/UseCase/GetApp/BookData';
-import { Chapter } from './Chapter';
+import { Chapter, ChapterProps } from './Chapter';
 
 type Props = BookData & {
     activeChapterNumber: number;
     lastActiveChapterNumber: number;
-    setLastActiveChapterNumber: (chapterNumber: number) => void
+    onTransitionEnd: () => void
 };
 
-export const BookContent = ({ title, chapters, activeChapterNumber, lastActiveChapterNumber, setLastActiveChapterNumber }: Props) => {
+export const BookContent = ({ title, chapters, activeChapterNumber, lastActiveChapterNumber, onTransitionEnd }: Props) => {
+    const [chapterHeight, setChapterHeight] = useState(null);
+    const activeChapter = React.createRef<HTMLDivElement>();
+
+    useEffect(() => {
+        activeChapter.current.classList.add('opacity-fade-in');
+        setChapterHeight(activeChapter.current.clientHeight);
+    });
+
     return <div className="book-content">
-        { getActiveChapter() }
         { getLastActiveChapter() }
+        { getActiveChapter() }
     </div>;
 
-    function getActiveChapter() {
-        return getChapter(activeChapterNumber);
+    function getLastActiveChapter() {
+        if (!hasActiveChapterNumberChanged()) {
+            return null;
+        }
+
+        return getChapter(
+            lastActiveChapterNumber,
+            {
+                classNameModifier: 'lastActive',
+                height: chapterHeight
+            }
+        );
     }
 
-    function getChapter(chapterNumber, additionalProps = {}) {
+    function hasActiveChapterNumberChanged(): boolean {
+        return activeChapterNumber !== lastActiveChapterNumber;
+    }
+
+    function getActiveChapter() {
+        const additionalProps: { ref: RefObject<HTMLDivElement> } & Partial<ChapterProps> = {
+            ref: activeChapter
+        };
+
+        if (hasActiveChapterNumberChanged()) {
+            additionalProps.onTransitionEnd = onTransitionEnd;
+        } else {
+            additionalProps.height = chapterHeight;
+        }
+
+        return getChapter(activeChapterNumber, additionalProps);
+    }
+
+    function getChapter(chapterNumber, additionalProps: Partial<ChapterProps> & { ref?: RefObject<HTMLDivElement> }) {
         const chapterData = chapters.find((chapterData) => chapterNumber === chapterData.number);
 
         return (
             <Chapter
                 key={chapterData.number}
-                onTransitionEnd={() => {
-                    setLastActiveChapterNumber(activeChapterNumber);
-                }}
                 {...chapterData}
                 {...additionalProps}
             >
@@ -42,21 +75,6 @@ export const BookContent = ({ title, chapters, activeChapterNumber, lastActiveCh
         }
 
         return <h1 key="book-title">{ title }</h1>;
-    }
-
-    function getLastActiveChapter() {
-        if (!hasActiveChapterNumberChanged()) {
-            return null;
-        }
-
-        return getChapter(
-            lastActiveChapterNumber,
-            { classNameModifier: 'lastActive' }
-        );
-    }
-
-    function hasActiveChapterNumberChanged(): boolean {
-        return activeChapterNumber !== lastActiveChapterNumber;
     }
 }
 
@@ -75,5 +93,5 @@ BookContent.propTypes = {
     })).isRequired,
     activeChapterNumber: PropTypes.number.isRequired,
     lastActiveChapterNumber: PropTypes.number.isRequired,
-    setLastActiveChapterNumber: PropTypes.func.isRequired
+    onTransitionEnd: PropTypes.func.isRequired
 };

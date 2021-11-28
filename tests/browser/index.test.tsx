@@ -20,6 +20,11 @@ jest.doMock('polyfill-array-includes', () => {
     polyfillArrayIncludesSpy();
 });
 
+const classListPolyfillSpy = jest.fn();
+jest.doMock('classlist-polyfill', () => {
+    classListPolyfillSpy();
+});
+
 const ReactDOMMock = {
     hydrate: jest.fn()
 };
@@ -58,6 +63,12 @@ describe('index | ', () => {
         requireModule();
 
         expect(polyfillArrayIncludesSpy).toHaveBeenCalled();
+    });
+
+    test('the classlist-polyfill is loaded properly', () => {
+        requireModule();
+
+        expect(classListPolyfillSpy).toHaveBeenCalled();
     });
 
     test('the <App /> in hydrated in the root element', () => {

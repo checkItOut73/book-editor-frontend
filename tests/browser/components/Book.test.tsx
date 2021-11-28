@@ -1,18 +1,29 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { create, act } from 'react-test-renderer';
 import { Book } from '@components/Book';
-import { BookChapterNavigation } from '@components/BookChapterNavigation';
 import { BookContent } from '@components/BookContent';
+import { BookChapterNavigation } from '@components/BookChapterNavigation';
 
 jest.mock('@components/BookChapterNavigation', () => ({
-    BookChapterNavigation: (props) => (
-        <div {...props}>BookChapterNavigationMock</div>
-    )
+    BookChapterNavigation: forwardRef((props, ref: any) => (
+        <div {...props} ref={ref}>
+            BookChapterNavigationMock
+        </div>
+    ))
 }));
 
 jest.mock('@components/BookContent', () => ({
     BookContent: (props) => <div {...props}>BookContentMock</div>
 }));
+
+jest.useFakeTimers();
+
+// @ts-ignore
+global.window = {
+    scrollTo: jest.fn(),
+    innerHeight: 500
+};
+const BOTTOM_NAVIGATION_OFFSET_TOP = 700;
 
 describe('<Book />', () => {
     let props;
@@ -34,8 +45,14 @@ describe('<Book />', () => {
         };
     });
 
+    function createNodeMock() {
+        return {
+            offsetTop: BOTTOM_NAVIGATION_OFFSET_TOP
+        };
+    }
+
     function renderComponent() {
-        component = create(<Book {...props} />);
+        component = create(<Book {...props} />, { createNodeMock });
     }
 
     test('<Book /> is rendered correctly', () => {
@@ -78,7 +95,7 @@ describe('<Book />', () => {
                   ]
                 }
                 lastActiveChapterNumber={1}
-                setLastActiveChapterNumber={[Function]}
+                onTransitionEnd={[Function]}
                 title="Book Title"
               >
                 BookContentMock
@@ -117,68 +134,10 @@ describe('<Book />', () => {
         });
 
         test('<Book /> is rendered with correct activeChapterNumber and lastActiveChapterNumber', () => {
-            expect(component).toMatchInlineSnapshot(`
-                <div
-                  className="book"
-                >
-                  <div
-                    activeChapterNumber={2}
-                    chapters={
-                      Array [
-                        Object {
-                          "heading": "Chapter 1",
-                          "paragraphs": Array [],
-                        },
-                        Object {
-                          "heading": "Chapter 2",
-                          "paragraphs": Array [],
-                        },
-                      ]
-                    }
-                    setActiveChapterNumber={[Function]}
-                  >
-                    BookChapterNavigationMock
-                  </div>
-                  <div
-                    activeChapterNumber={2}
-                    chapters={
-                      Array [
-                        Object {
-                          "heading": "Chapter 1",
-                          "paragraphs": Array [],
-                        },
-                        Object {
-                          "heading": "Chapter 2",
-                          "paragraphs": Array [],
-                        },
-                      ]
-                    }
-                    lastActiveChapterNumber={1}
-                    setLastActiveChapterNumber={[Function]}
-                    title="Book Title"
-                  >
-                    BookContentMock
-                  </div>
-                  <div
-                    activeChapterNumber={2}
-                    chapters={
-                      Array [
-                        Object {
-                          "heading": "Chapter 1",
-                          "paragraphs": Array [],
-                        },
-                        Object {
-                          "heading": "Chapter 2",
-                          "paragraphs": Array [],
-                        },
-                      ]
-                    }
-                    setActiveChapterNumber={[Function]}
-                  >
-                    BookChapterNavigationMock
-                  </div>
-                </div>
-            `);
+            const bookContent = component.root.findByType(BookContent);
+
+            expect(bookContent.props.activeChapterNumber).toBe(2);
+            expect(bookContent.props.lastActiveChapterNumber).toBe(1);
         });
 
         describe('and when activeChapterNumber is changed back in the navigation', () => {
@@ -191,146 +150,72 @@ describe('<Book />', () => {
             });
 
             test('<Book /> is rendered with correct activeChapterNumber and lastActiveChapterNumber', () => {
-                expect(component).toMatchInlineSnapshot(`
-                    <div
-                      className="book"
-                    >
-                      <div
-                        activeChapterNumber={1}
-                        chapters={
-                          Array [
-                            Object {
-                              "heading": "Chapter 1",
-                              "paragraphs": Array [],
-                            },
-                            Object {
-                              "heading": "Chapter 2",
-                              "paragraphs": Array [],
-                            },
-                          ]
-                        }
-                        setActiveChapterNumber={[Function]}
-                      >
-                        BookChapterNavigationMock
-                      </div>
-                      <div
-                        activeChapterNumber={1}
-                        chapters={
-                          Array [
-                            Object {
-                              "heading": "Chapter 1",
-                              "paragraphs": Array [],
-                            },
-                            Object {
-                              "heading": "Chapter 2",
-                              "paragraphs": Array [],
-                            },
-                          ]
-                        }
-                        lastActiveChapterNumber={2}
-                        setLastActiveChapterNumber={[Function]}
-                        title="Book Title"
-                      >
-                        BookContentMock
-                      </div>
-                      <div
-                        activeChapterNumber={1}
-                        chapters={
-                          Array [
-                            Object {
-                              "heading": "Chapter 1",
-                              "paragraphs": Array [],
-                            },
-                            Object {
-                              "heading": "Chapter 2",
-                              "paragraphs": Array [],
-                            },
-                          ]
-                        }
-                        setActiveChapterNumber={[Function]}
-                      >
-                        BookChapterNavigationMock
-                      </div>
-                    </div>
-                `);
+                const bookContent = component.root.findByType(BookContent);
+
+                expect(bookContent.props.activeChapterNumber).toBe(1);
+                expect(bookContent.props.lastActiveChapterNumber).toBe(2);
+            });
+        });
+
+        describe('and when the "transitionend" event is dispatched', () => {
+            beforeEach(() => {
+                act(() => {
+                    component.root.findByType(BookContent).props.onTransitionEnd();
+                });
+            });
+
+            test('<Book /> is rendered with lastActiveChapterNumber set to activeChapterNumber', () => {
+                const bookContent = component.root.findByType(BookContent);
+
+                expect(bookContent.props.activeChapterNumber).toBe(2);
+                expect(bookContent.props.lastActiveChapterNumber).toBe(2);
             });
         });
     });
 
-    describe('when the setLastActiveChapterNumber callback is executed in <BookContent>', () => {
+    describe('when the bottom navigation is clicked (twice)', () => {
         beforeEach(() => {
             renderComponent();
 
             act(() => {
                 component.root
-                    .findByType(BookContent)
-                    .props.setLastActiveChapterNumber(2);
+                    .findAllByType(BookChapterNavigation)[1]
+                    .props.setActiveChapterNumber(2);
+
+                component.root
+                    .findAllByType(BookChapterNavigation)[1]
+                    .props.setActiveChapterNumber(2);
             });
         });
 
-        test('<Book /> is rendered correctly with updated lastActiveChapterNumber', () => {
-            expect(component).toMatchInlineSnapshot(`
-                <div
-                  className="book"
-                >
-                  <div
-                    activeChapterNumber={1}
-                    chapters={
-                      Array [
-                        Object {
-                          "heading": "Chapter 1",
-                          "paragraphs": Array [],
-                        },
-                        Object {
-                          "heading": "Chapter 2",
-                          "paragraphs": Array [],
-                        },
-                      ]
-                    }
-                    setActiveChapterNumber={[Function]}
-                  >
-                    BookChapterNavigationMock
-                  </div>
-                  <div
-                    activeChapterNumber={1}
-                    chapters={
-                      Array [
-                        Object {
-                          "heading": "Chapter 1",
-                          "paragraphs": Array [],
-                        },
-                        Object {
-                          "heading": "Chapter 2",
-                          "paragraphs": Array [],
-                        },
-                      ]
-                    }
-                    lastActiveChapterNumber={2}
-                    setLastActiveChapterNumber={[Function]}
-                    title="Book Title"
-                  >
-                    BookContentMock
-                  </div>
-                  <div
-                    activeChapterNumber={1}
-                    chapters={
-                      Array [
-                        Object {
-                          "heading": "Chapter 1",
-                          "paragraphs": Array [],
-                        },
-                        Object {
-                          "heading": "Chapter 2",
-                          "paragraphs": Array [],
-                        },
-                      ]
-                    }
-                    setActiveChapterNumber={[Function]}
-                  >
-                    BookChapterNavigationMock
-                  </div>
-                </div>
-            `);
+        test('<Book /> is rendered with correct activeChapterNumber and lastActiveChapterNumber', () => {
+            const bookContent = component.root.findByType(BookContent);
+
+            expect(bookContent.props.activeChapterNumber).toBe(2);
+            expect(bookContent.props.lastActiveChapterNumber).toBe(1);
+        });
+
+        test('the scrollbar is fixed to the bottom navigation until the "transitionend" event is dispatched', () => {
+            for (let i = 0; i < 3; i++) {
+                jest.advanceTimersByTime(19);
+                expect(window.scrollTo).not.toHaveBeenCalled();
+
+                jest.advanceTimersByTime(1);
+                expect(window.scrollTo).toHaveBeenCalledWith(
+                    0,
+                    BOTTOM_NAVIGATION_OFFSET_TOP - window.innerHeight + 50
+                );
+
+                // @ts-ignore
+                window.scrollTo.mockClear();
+            }
+
+            act(() => {
+                component.root.findByType(BookContent).props.onTransitionEnd();
+            });
+
+            jest.advanceTimersByTime(20);
+            expect(window.scrollTo).not.toHaveBeenCalled();
         });
     });
 });

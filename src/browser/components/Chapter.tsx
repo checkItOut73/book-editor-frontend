@@ -1,16 +1,17 @@
-import React, { TransitionEventHandler } from 'react';
+import React, { RefObject, TransitionEventHandler } from 'react';
 import PropTypes from 'prop-types';
 import { ChapterData } from '@src/server/UseCase/GetApp/BookData';
 import { Paragraph } from './Paragraph';
 
-type Props = ChapterData & {
+export type ChapterProps = ChapterData & {
     children;
     classNameModifier?: string;
+    height?: number;
     onTransitionEnd?: TransitionEventHandler;
 };
 
-export const Chapter = ({  heading, paragraphs, children, classNameModifier, onTransitionEnd }: Props) => {
-    return <div {...getDivContainerProps()}>
+export const Chapter = React.forwardRef(({ heading, paragraphs, children, classNameModifier, height, onTransitionEnd }: ChapterProps, ref: RefObject<HTMLDivElement>) => {
+    return <div {...getDivContainerProps()} ref={ref}>
         { children }
         { getHeading() }
         <>
@@ -21,10 +22,17 @@ export const Chapter = ({  heading, paragraphs, children, classNameModifier, onT
     function getDivContainerProps() {
         type DivContainerProps = {
             className: string;
+            style?: { height: string },
             onTransitionEnd?: TransitionEventHandler;
         };
 
         let props: DivContainerProps = { className: getClassName() };
+
+        if (height) {
+            props.style = {
+                height: height + 'px'
+            };
+        }
 
         if (onTransitionEnd) {
             props.onTransitionEnd = onTransitionEnd;
@@ -50,10 +58,11 @@ export const Chapter = ({  heading, paragraphs, children, classNameModifier, onT
 
         return <h2 key="chapter-heading">{ heading }</h2>;
     }
-};
+});
 
 Chapter.propTypes = {
     heading: PropTypes.string.isRequired,
+    // @ts-ignore
     paragraphs: PropTypes.arrayOf(PropTypes.shape({
         heading: PropTypes.string.isRequired,
         verses: PropTypes.arrayOf(PropTypes.shape({
@@ -63,5 +72,6 @@ Chapter.propTypes = {
     })).isRequired,
     children: PropTypes.node,
     classNameModifier: PropTypes.string,
+    height: PropTypes.number,
     onTransitionEnd: PropTypes.func
 };
