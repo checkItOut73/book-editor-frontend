@@ -8,6 +8,12 @@ jest.mock('@components/Chapter', () => ({
     ))
 }));
 
+const window: { onresize?: Function } = {};
+
+// @ts-ignore
+global.window = window;
+jest.useFakeTimers();
+
 describe('<BookContent />', () => {
     let props;
     let component;
@@ -75,12 +81,35 @@ describe('<BookContent />', () => {
         `);
     });
 
+    test('the height is updated in the component when the window is resized', () => {
+        act(() => {
+            renderComponent();
+        });
+
+        activeChapterRefElement.clientHeight = 777;
+
+        act(() => {
+            window.onresize();
+        });
+
+        jest.advanceTimersByTime(199);
+        expect(component.root.findByProps({ heading: 'Chapter 1'}).props.height).toBe(850);
+
+        act(() => {
+            jest.advanceTimersByTime(1);
+        });
+
+        expect(component.root.findByProps({ heading: 'Chapter 1'}).props.height).toBe(777);
+    });
+
     test('the active chapter is faded in', () => {
         act(() => {
             renderComponent();
         });
 
-        expect(activeChapterRefElement.classList.add).toHaveBeenCalledWith('opacity-fade-in');
+        expect(activeChapterRefElement.classList.add).toHaveBeenCalledWith(
+            'opacity-fade-in'
+        );
     });
 
     describe('If no title is given', () => {
@@ -179,7 +208,9 @@ describe('<BookContent />', () => {
         test('onTransitionEnd is called correctly', () => {
             props.lastActiveChapterNumber = 1;
             props.activeChapterNumber = 2;
-            renderComponent();
+            act(() => {
+                renderComponent();
+            });
 
             expect(props.onTransitionEnd).not.toHaveBeenCalled();
 

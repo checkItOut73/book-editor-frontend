@@ -2,6 +2,7 @@ import React, { useState, useEffect, RefObject } from 'react';
 import PropTypes from 'prop-types';
 import { BookData } from '@src/server/UseCase/GetApp/BookData';
 import { Chapter, ChapterProps } from './Chapter';
+import debounce from 'debounce';
 
 type Props = BookData & {
     activeChapterNumber: number;
@@ -12,6 +13,12 @@ type Props = BookData & {
 export const BookContent = ({ title, chapters, activeChapterNumber, lastActiveChapterNumber, onTransitionEnd }: Props) => {
     const [chapterHeight, setChapterHeight] = useState(null);
     const activeChapter = React.createRef<HTMLDivElement>();
+
+    useEffect(() => {
+        window.onresize = debounce(() => {
+            setChapterHeight(null);
+        }, 200);
+    }, []);
 
     useEffect(() => {
         activeChapter.current.classList.add('opacity-fade-in');

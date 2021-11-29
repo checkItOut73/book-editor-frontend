@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { BookData } from '@src/server/UseCase/GetApp/BookData';
-import { BookChapterNavigation } from '@components/BookChapterNavigation';
+import { BookChapterTopNavigation } from '@components/navigation/BookChapterTopNavigation';
+import { BookChapterBottomNavigation } from '@components/navigation/BookChapterBottomNavigation';
 import { BookContent } from '@components/BookContent';
 
 let intervalForFixingBottomNavigation;
@@ -13,7 +14,7 @@ export const Book = ({ title, chapters }: BookData) => {
     const bottomNavigationRef = React.createRef<HTMLDivElement>();
 
     return <div className="book">
-        <BookChapterNavigation
+        <BookChapterTopNavigation
             chapters={chapters}
             activeChapterNumber={activeChapterNumber}
             setActiveChapterNumber={setActiveChapterNumberMemorisingLastValue}
@@ -28,7 +29,7 @@ export const Book = ({ title, chapters }: BookData) => {
                 stopFixingBottomNavigation();
             }}
         />
-        <BookChapterNavigation
+        <BookChapterBottomNavigation
             ref={bottomNavigationRef}
             chapters={chapters}
             activeChapterNumber={activeChapterNumber}

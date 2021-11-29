@@ -2,18 +2,27 @@ import React, { forwardRef } from 'react';
 import { create, act } from 'react-test-renderer';
 import { Book } from '@components/Book';
 import { BookContent } from '@components/BookContent';
-import { BookChapterNavigation } from '@components/BookChapterNavigation';
+import { BookChapterTopNavigation } from '@components/navigation/BookChapterTopNavigation';
+import { BookChapterBottomNavigation } from '@components/navigation/BookChapterBottomNavigation';
 
-jest.mock('@components/BookChapterNavigation', () => ({
-    BookChapterNavigation: forwardRef((props, ref: any) => (
+jest.mock('@components/navigation/BookChapterTopNavigation', () => ({
+    BookChapterTopNavigation: forwardRef((props, ref: any) => (
         <div {...props} ref={ref}>
-            BookChapterNavigationMock
+            BookChapterTopNavigationMock
         </div>
     ))
 }));
 
 jest.mock('@components/BookContent', () => ({
     BookContent: (props) => <div {...props}>BookContentMock</div>
+}));
+
+jest.mock('@components/navigation/BookChapterBottomNavigation', () => ({
+  BookChapterBottomNavigation: forwardRef((props, ref: any) => (
+      <div {...props} ref={ref}>
+          BookChapterBottomNavigationMock
+      </div>
+  ))
 }));
 
 jest.useFakeTimers();
@@ -78,7 +87,7 @@ describe('<Book />', () => {
                 }
                 setActiveChapterNumber={[Function]}
               >
-                BookChapterNavigationMock
+                BookChapterTopNavigationMock
               </div>
               <div
                 activeChapterNumber={1}
@@ -116,19 +125,19 @@ describe('<Book />', () => {
                 }
                 setActiveChapterNumber={[Function]}
               >
-                BookChapterNavigationMock
+                BookChapterBottomNavigationMock
               </div>
             </div>
         `);
     });
 
-    describe('when activeChapterNumber is changed in the navigation', () => {
+    describe('when activeChapterNumber is changed in the top navigation', () => {
         beforeEach(() => {
             renderComponent();
 
             act(() => {
                 component.root
-                    .findAllByType(BookChapterNavigation)[0]
+                    .findByType(BookChapterTopNavigation)
                     .props.setActiveChapterNumber(2);
             });
         });
@@ -140,11 +149,11 @@ describe('<Book />', () => {
             expect(bookContent.props.lastActiveChapterNumber).toBe(1);
         });
 
-        describe('and when activeChapterNumber is changed back in the navigation', () => {
+        describe('and when activeChapterNumber is changed back in the top navigation', () => {
             beforeEach(() => {
                 act(() => {
                     component.root
-                        .findAllByType(BookChapterNavigation)[0]
+                        .findByType(BookChapterTopNavigation)
                         .props.setActiveChapterNumber(1);
                 });
             });
@@ -160,7 +169,9 @@ describe('<Book />', () => {
         describe('and when the "transitionend" event is dispatched', () => {
             beforeEach(() => {
                 act(() => {
-                    component.root.findByType(BookContent).props.onTransitionEnd();
+                    component.root
+                        .findByType(BookContent)
+                        .props.onTransitionEnd();
                 });
             });
 
@@ -179,11 +190,11 @@ describe('<Book />', () => {
 
             act(() => {
                 component.root
-                    .findAllByType(BookChapterNavigation)[1]
+                    .findByType(BookChapterBottomNavigation)
                     .props.setActiveChapterNumber(2);
 
                 component.root
-                    .findAllByType(BookChapterNavigation)[1]
+                    .findByType(BookChapterBottomNavigation)
                     .props.setActiveChapterNumber(2);
             });
         });

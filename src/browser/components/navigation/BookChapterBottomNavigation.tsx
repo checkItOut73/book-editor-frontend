@@ -1,32 +1,34 @@
-import React, { RefObject} from 'react';
+import React, { RefObject } from 'react';
 import PropTypes from 'prop-types';
 import { ChapterData } from '@src/server/UseCase/GetApp/BookData';
+import { ActiveBookChapterBottomNavigationElement } from '@src/browser/components/navigation/ActiveBookChapterBottomNavigationElement';
+import { BookChapterNavigationElement } from '@src/browser/components/navigation/BookChapterNavigationElement';
 
 interface Props {
     chapters: Array<ChapterData>;
     activeChapterNumber: number;
     setActiveChapterNumber: (chapterNumber: number) => void;
 }
-export const BookChapterNavigation = React.forwardRef(({ chapters, activeChapterNumber, setActiveChapterNumber }: Props, ref: RefObject<HTMLDivElement>) => {
+export const BookChapterBottomNavigation = React.forwardRef(({ chapters, activeChapterNumber, setActiveChapterNumber }: Props, ref: RefObject<HTMLDivElement>) => {
     return (
         <div className="book-chapter-navigation" ref={ref}>
             { chapters.map((chapterData) =>
-                <div
-                    onClick={() => setActiveChapterNumber(chapterData.number)}
-                    key={chapterData.number}
-                    className={
-                        'book-chapter-navigation__element' +
-                            (activeChapterNumber === chapterData.number ? ' book-chapter-navigation__element--active' : '')
-                    }
-                >
-                    {chapterData.number}
-                </div>
+                activeChapterNumber === chapterData.number ?
+                    <ActiveBookChapterBottomNavigationElement
+                        key={chapterData.number}
+                        chapterNumber={chapterData.number}
+                    /> :
+                    <BookChapterNavigationElement
+                        key={chapterData.number}
+                        chapterNumber={chapterData.number}
+                        setActiveChapterNumber={setActiveChapterNumber}
+                    />
             ) }
         </div>
     );
 });
 
-BookChapterNavigation.propTypes = {
+BookChapterBottomNavigation.propTypes = {
     // @ts-ignore
     chapters: PropTypes.arrayOf(PropTypes.shape({
         number: PropTypes.number.isRequired,

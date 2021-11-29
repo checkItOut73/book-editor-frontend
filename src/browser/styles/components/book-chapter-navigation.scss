@@ -1,0 +1,49 @@
+.book-chapter-navigation {
+    margin-bottom: 7px;
+
+    &-element {
+        width: 10px;
+        height: 18px;
+        text-align: center;
+        position: relative;
+        background-color: papayawhip;
+        border-radius: 10px;
+        display: inline-block;
+        padding: 10px 12px;
+        cursor: pointer;
+
+        + .book-chapter-navigation-element {
+            margin-left: 7px;
+        }
+
+        &--active {
+            font-weight: bold;
+        }
+
+        &__content {
+            transition: opacity 1s;
+        }
+
+        &__scroll-to-top {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            width: 100%;
+            height: 100%;
+            padding-top: 19px;
+            opacity: 0;
+            transition: opacity 1s;
+        }
+
+        &--hovered {
+            .book-chapter-navigation-element__content {
+                opacity: 0;
+            }
+
+            .book-chapter-navigation-element__scroll-to-top {
+                opacity: 1;
+            }
+        }
+    }
+}
