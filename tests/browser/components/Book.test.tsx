@@ -18,11 +18,11 @@ jest.mock('@components/BookContent', () => ({
 }));
 
 jest.mock('@components/navigation/BookChapterBottomNavigation', () => ({
-  BookChapterBottomNavigation: forwardRef((props, ref: any) => (
-      <div {...props} ref={ref}>
-          BookChapterBottomNavigationMock
-      </div>
-  ))
+    BookChapterBottomNavigation: forwardRef((props, ref: any) => (
+        <div {...props} ref={ref}>
+            BookChapterBottomNavigationMock
+        </div>
+    ))
 }));
 
 jest.useFakeTimers();
@@ -44,10 +44,12 @@ describe('<Book />', () => {
             chapters: [
                 {
                     heading: 'Chapter 1',
+                    number: 1,
                     paragraphs: []
                 },
                 {
                     heading: 'Chapter 2',
+                    number: 2,
                     paragraphs: []
                 }
             ]
@@ -77,10 +79,12 @@ describe('<Book />', () => {
                   Array [
                     Object {
                       "heading": "Chapter 1",
+                      "number": 1,
                       "paragraphs": Array [],
                     },
                     Object {
                       "heading": "Chapter 2",
+                      "number": 2,
                       "paragraphs": Array [],
                     },
                   ]
@@ -95,10 +99,12 @@ describe('<Book />', () => {
                   Array [
                     Object {
                       "heading": "Chapter 1",
+                      "number": 1,
                       "paragraphs": Array [],
                     },
                     Object {
                       "heading": "Chapter 2",
+                      "number": 2,
                       "paragraphs": Array [],
                     },
                   ]
@@ -115,10 +121,12 @@ describe('<Book />', () => {
                   Array [
                     Object {
                       "heading": "Chapter 1",
+                      "number": 1,
                       "paragraphs": Array [],
                     },
                     Object {
                       "heading": "Chapter 2",
+                      "number": 2,
                       "paragraphs": Array [],
                     },
                   ]

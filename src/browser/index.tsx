@@ -9,4 +9,9 @@ declare global {
     interface Window { bookData: any; }
 }
 
-ReactDOM.hydrate(<App bookData={JSON.parse(window.bookData)} />, document.getElementById('root'));
+const searchParams = new URLSearchParams(window.location.search);
+
+ReactDOM.hydrate(
+    <App bookData={JSON.parse(window.bookData)} action={searchParams.get('action')} />,
+    document.getElementById('root')
+);

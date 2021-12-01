@@ -4,8 +4,8 @@ export type BookData = {
 };
 
 export type ChapterData = {
-    number: number;
     heading: string;
+    number: number;
     paragraphs: Array<ParagraphData>;
 };
 

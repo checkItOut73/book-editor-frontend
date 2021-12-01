@@ -35,7 +35,7 @@ describe('<BookChapterTopNavigation />', () => {
         component = create(<BookChapterTopNavigation {...props} />);
     }
 
-    test('<BookChapterTopNavigation /> is rendered correctly with the active chapter number', () => {
+    test('<BookChapterTopNavigation /> is rendered correctly', () => {
         renderComponent();
 
         expect(component).toMatchInlineSnapshot(`

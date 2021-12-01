@@ -1,0 +1,102 @@
+.book--editor {
+    .book-chapter-heading-placeholder,
+    .book-title-placeholder {
+        height: 30px;
+    }
+
+    .book-paragraph-heading-placeholder {
+        height: 20px;
+    }
+
+    .paragraph-gap,
+    .verse-placeholder {
+        height: 15px;
+    }
+
+    .verse-placeholder {
+        display: block;
+    }
+
+    .chapter-placeholder,
+    .paragraph-gap,
+    .verse-placeholder,
+    .verse-gap {
+        cursor: cell;
+    }
+
+    .book-paragraph-heading-placeholder,
+    .book-chapter-heading-placeholder,
+    .book-title-placeholder,
+    .paragraph-heading,
+    .book-title,
+    .chapter-heading,
+    .verse {
+        cursor: pointer;
+    }
+
+    .book-title-placeholder + p,
+    .book-chapter-heading-placeholder + p,
+    .book-title-placeholder + h2,
+    .book-chapter-heading-placeholder + h2 {
+        margin-top: 0;
+    }
+
+    .paragraph {
+        padding: 0 10px;
+
+        &:hover {
+            background-color: rgb(255, 248, 190);
+            border-radius: 7px;
+        }
+    }
+
+    .paragraph-heading,
+    .book-paragraph-heading-placeholder {
+        border-radius: 5px 5px 0 0;
+    }
+
+    .paragraph-heading:hover + .paragraph,
+    .book-paragraph-heading-placeholder:hover + .paragraph {
+        background-color: rgb(255, 248, 190);
+        border-radius: 0 0 7px 7px;
+    }
+
+    .paragraph-gap:hover {
+        background-color: #ecc619;
+    }
+
+    .book-paragraph-heading-placeholder:hover,
+    .book-chapter-heading-placeholder:hover,
+    .book-title-placeholder:hover,
+    .verse-placeholder:hover,
+    .verse-gap:hover,
+    .paragraph-heading:hover,
+    .book-title:hover,
+    .chapter-heading:hover,
+    .verse:hover {
+       background-color: #fce376;
+    }
+
+    .chapter-placeholder:hover {
+        background-color: #f8c059;
+    }
+
+    .chapter-placeholder {
+        display: inline-block;
+        height: 40px;
+        width: 15px;
+        vertical-align: middle;
+        border-radius: 5px;
+    }
+
+    .verse-gap + span {
+        margin-left: 0px;
+    }
+
+    .verse-gap {
+        display: inline-block;
+        width: 15px;
+        height: 14px;
+        margin: 0;
+    }
+}

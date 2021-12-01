@@ -1,3 +1,9 @@
 span + span {
     margin-left: 5px;
 }
+
+sup {
+    vertical-align: top;
+    position: relative;
+    top: -2px;
+}

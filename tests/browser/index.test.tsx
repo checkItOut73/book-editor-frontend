@@ -1,14 +1,11 @@
-/**
- * @jest-environment jsdom
- */
-
 import React from 'react';
 
 declare global {
-    interface Window { bookData: any; }
+    interface Window {
+        bookData: any;
+        location: Location;
+    }
 }
-
-const AppMock = (props) => <div {...props}>App</div>;
 
 const mainScssRequireSpy = jest.fn();
 jest.doMock('./styles/main.scss', () => {
@@ -30,27 +27,35 @@ const ReactDOMMock = {
 };
 jest.doMock('react-dom', () => ReactDOMMock);
 
+const AppMock = (props) => <div {...props}>App</div>;
 jest.mock('@components/App', () => ({ App: AppMock }));
 
 describe('index | ', () => {
-    let rootElement;
+    const rootElement = 'html root element';
 
     function requireModule() {
-        require('@browser/index.tsx');
+        jest.isolateModules(() => {
+            require('@browser/index.tsx');
+        });
     }
 
     beforeAll(() => {
-        window.bookData = '{"title":"Book Title"}';
-    });
+        global.window = {
+            bookData: '{"title":"Book Title"}',
+            location: {
+                search: undefined
+            } as Location
+        } as Window & typeof globalThis;
 
-    beforeEach(() => {
-        rootElement = document.createElement('div');
-        rootElement.id = 'root';
-        document.body.appendChild(rootElement);
-    });
-
-    afterEach(() => {
-        jest.resetModules();
+        // @ts-ignore
+        global.document = {
+            // @ts-ignore
+            getElementById: (id) => {
+                if (id === 'root') {
+                    return rootElement;
+                }
+            }
+        };
     });
 
     test('the main.scss is loaded properly', () => {
@@ -71,9 +76,23 @@ describe('index | ', () => {
         expect(classListPolyfillSpy).toHaveBeenCalled();
     });
 
-    test('the <App /> in hydrated in the root element', () => {
+    test('the <App /> is hydrated in the root element', () => {
         requireModule();
 
-        expect(ReactDOMMock.hydrate).toHaveBeenCalledWith(<AppMock bookData={{ title: 'Book Title' }} />, rootElement);
+        expect(ReactDOMMock.hydrate).toHaveBeenCalledWith(
+            <AppMock bookData={{ title: 'Book Title' }} action={null} />,
+            rootElement
+        );
+    });
+
+    test('the <App /> is hydrated in the root element with action', () => {
+        window.location.search = '?action=edit';
+
+        requireModule();
+
+        expect(ReactDOMMock.hydrate).toHaveBeenCalledWith(
+            <AppMock bookData={{ title: 'Book Title' }} action="edit" />,
+            rootElement
+        );
     });
 });

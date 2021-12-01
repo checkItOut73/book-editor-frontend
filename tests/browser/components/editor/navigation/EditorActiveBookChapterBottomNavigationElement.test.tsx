@@ -1,14 +1,13 @@
 import React from 'react';
 import { create, act } from 'react-test-renderer';
-import { ActiveBookChapterBottomNavigationElement } from '@components/navigation/ActiveBookChapterBottomNavigationElement';
-import smoothScrollOperator from 'smooth-scroll-operator';
-
-jest.mock('smooth-scroll-operator');
+import { EditorActiveBookChapterBottomNavigationElement } from '@components/editor/navigation/EditorActiveBookChapterBottomNavigationElement';
 
 // @ts-ignore
-global.window = {};
+global.window = {
+    scrollTo: jest.fn()
+};
 
-describe('<ActiveBookChapterBottomNavigationElement />', () => {
+describe('<EditorActiveBookChapterBottomNavigationElement />', () => {
     let props;
     let component;
 
@@ -20,7 +19,7 @@ describe('<ActiveBookChapterBottomNavigationElement />', () => {
 
     function renderComponent() {
         component = create(
-            <ActiveBookChapterBottomNavigationElement {...props} />
+            <EditorActiveBookChapterBottomNavigationElement {...props} />
         );
     }
 
@@ -28,7 +27,7 @@ describe('<ActiveBookChapterBottomNavigationElement />', () => {
         return component.root.findAllByType('div')[0];
     }
 
-    test('<ActiveBookChapterBottomNavigationElement /> is rendered correctly', () => {
+    test('<EditorActiveBookChapterBottomNavigationElement /> is rendered correctly', () => {
         renderComponent();
 
         expect(component).toMatchInlineSnapshot(`
@@ -87,19 +86,14 @@ describe('<ActiveBookChapterBottomNavigationElement />', () => {
             renderComponent();
 
             component.root
-                .findByProps({ className: 'book-chapter-navigation-element__scroll-to-top' })
+                .findByProps({
+                    className: 'book-chapter-navigation-element__scroll-to-top'
+                })
                 .props.onClick();
         });
 
-        test('the page is scrolled to the top correctly', () => {
-            expect(smoothScrollOperator.scrollY).toHaveBeenCalledWith(
-                window,
-                0,
-                {
-                    duration: 2000,
-                    easing: [0.43, 0.16, 0.00, 1.00]
-                }
-            );
+        test('the page is scrolled to the top', () => {
+            expect(window.scrollTo).toHaveBeenCalledWith(0, 0);
         });
     });
 });

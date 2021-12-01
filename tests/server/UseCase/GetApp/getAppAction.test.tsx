@@ -27,7 +27,8 @@ describe('getAppAction | ', () => {
 
     beforeEach(() => {
         request = {
-            params: { bookId: '52' }
+            params: { bookId: '52' },
+            query: {}
         };
     });
 
@@ -67,5 +68,22 @@ describe('getAppAction | ', () => {
             '</script><div id=\"app\"><div data-app=\"true\" data-reactroot=\"\">' +
             '</div></div></body></html>'
         );
+    });
+
+    describe('if the action query parameter is given with "edit"', () => {
+        beforeEach(() => {
+            request.query.action = 'edit';
+        });
+
+        test('getAppAction sends the correct reply with action parameter "edit"', async () => {
+            await getAppAction(request, reply);
+
+            expect(reply.send).toHaveBeenCalledWith(
+                '<html><body><script type=\"text/javascript\">' +
+                'window.bookData = \"{\"title\":\"Book Title\",\"chapters\":[]}\";' +
+                '</script><div id=\"app\"><div data-app=\"true\" data-reactroot=\"\">' +
+                '</div></div></body></html>'
+            );
+        });
     });
 });

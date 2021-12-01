@@ -24,7 +24,10 @@ export async function getAppAction(request, reply) {
             template.toString(),
             {
                 bookData: JSON.stringify(bookData),
-                App: ReactDOMServer.renderToString(<App bookData={bookData} />)
+                App: ReactDOMServer.renderToString(<App
+                    bookData={bookData}
+                    action={request.query.action === 'edit' ? 'edit': null}
+                />)
             }
         ));
 }

@@ -47,3 +47,12 @@
         }
     }
 }
+
+.book--editor {
+    .book-chapter-navigation-element {
+        &__content,
+        &__scroll-to-top {
+            transition: none;
+        }
+    }
+}

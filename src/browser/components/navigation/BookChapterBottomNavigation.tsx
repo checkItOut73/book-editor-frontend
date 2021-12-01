@@ -31,8 +31,8 @@ export const BookChapterBottomNavigation = React.forwardRef(({ chapters, activeC
 BookChapterBottomNavigation.propTypes = {
     // @ts-ignore
     chapters: PropTypes.arrayOf(PropTypes.shape({
-        number: PropTypes.number.isRequired,
         heading: PropTypes.string.isRequired,
+        number: PropTypes.number.isRequired,
         paragraphs: PropTypes.arrayOf(PropTypes.shape({
             heading: PropTypes.string.isRequired,
             verses: PropTypes.arrayOf(PropTypes.shape({
