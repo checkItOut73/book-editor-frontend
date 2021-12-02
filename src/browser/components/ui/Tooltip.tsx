@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 let tooltipRef;
 
 function fixTooltipToMouse(event) {
-    tooltipRef.current.style.left = (event.clientX + window.scrollX + 8) + 'px';
-    tooltipRef.current.style.top = (event.clientY + window.scrollY - 12) + 'px';
+    tooltipRef.current.style.left = (event.clientX + window.scrollX + 7) + 'px';
+    tooltipRef.current.style.top = (event.clientY + window.scrollY + 3) + 'px';
 }
 
 export const Tooltip = ({ text }) => {

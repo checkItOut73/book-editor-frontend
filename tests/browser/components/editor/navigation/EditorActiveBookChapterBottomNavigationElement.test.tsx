@@ -86,9 +86,7 @@ describe('<EditorActiveBookChapterBottomNavigationElement />', () => {
             renderComponent();
 
             component.root
-                .findByProps({
-                    className: 'book-chapter-navigation-element__scroll-to-top'
-                })
+                .findByProps({ className: 'book-chapter-navigation-element__scroll-to-top' })
                 .props.onClick();
         });
 

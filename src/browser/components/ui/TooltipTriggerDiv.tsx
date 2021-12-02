@@ -5,9 +5,10 @@ type Props = {
     className: string;
     tooltipText: string;
     setTooltipText: (tooltipText: string) => void;
+    onClick: () => void;
     tagName: string;
 };
-export const TooltipTriggerDiv = ({ className, tooltipText, setTooltipText, tagName }: Props) => {
+export const TooltipTriggerDiv = ({ className, tooltipText, setTooltipText, onClick, tagName }: Props) => {
     return React.createElement(
         tagName,
         {
@@ -17,7 +18,8 @@ export const TooltipTriggerDiv = ({ className, tooltipText, setTooltipText, tagN
             },
             onMouseLeave: () => {
                 setTooltipText('');
-            }
+            },
+            onClick
         }
     );
 };
@@ -26,6 +28,7 @@ TooltipTriggerDiv.propTypes = {
     className: PropTypes.string.isRequired,
     tooltipText: PropTypes.string.isRequired,
     setTooltipText: PropTypes.func.isRequired,
+    onClick: PropTypes.func.isRequired,
     tagName: PropTypes.string.isRequired
 };
 

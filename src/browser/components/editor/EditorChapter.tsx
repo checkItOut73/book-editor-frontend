@@ -3,30 +3,40 @@ import PropTypes from 'prop-types';
 import { ChapterData } from '@src/server/UseCase/GetApp/BookData';
 import { EditorParagraph } from '@components/editor/EditorParagraph';
 import { TooltipTriggerDiv } from '@components/ui/TooltipTriggerDiv';
+import { EditChapterHeadingLayer } from '@components/editor/layers/EditChapterHeadingLayer';
+import { InsertParagraphLayer } from '@components/editor/layers/InsertParagraphLayer';
 
 export type ChapterProps = ChapterData & {
     setTooltipText: (tooltipText: string) => void;
+    setLayerContent: (layerContent: JSX.Element) => void;
     children;
 };
-export const EditorChapter = ({ heading, paragraphs, setTooltipText, children }: ChapterProps) => {
+export const EditorChapter = ({ heading, paragraphs, setTooltipText, setLayerContent, children }: ChapterProps) => {
     return (
         <div>
             { children }
             { getHeading() }
             <>
-                { <TooltipTriggerDiv
+                <TooltipTriggerDiv
                     key="before"
                     className="paragraph-gap"
-                    tooltipText="insert paragraph"
+                    tooltipText="Paragraph einfügen"
                     setTooltipText={setTooltipText}
-                /> }
+                    onClick={() => setLayerContent(<InsertParagraphLayer />)}
+                />
                 { paragraphs.map((paragraphData, index) => [
-                    <EditorParagraph key={index} {...paragraphData} setTooltipText={setTooltipText} />,
+                    <EditorParagraph
+                        key={index}
+                        {...paragraphData}
+                        setTooltipText={setTooltipText}
+                        setLayerContent={setLayerContent}
+                    />,
                     <TooltipTriggerDiv
                         key={index + 'after'}
                         className="paragraph-gap"
-                        tooltipText="insert paragraph"
+                        tooltipText="Paragraph einfügen"
                         setTooltipText={setTooltipText}
+                        onClick={() => setLayerContent(<InsertParagraphLayer />)}
                     />
                 ]) }
             </>
@@ -37,12 +47,21 @@ export const EditorChapter = ({ heading, paragraphs, setTooltipText, children }:
         if ('' === heading) {
             return <TooltipTriggerDiv
                 className="book-chapter-heading-placeholder"
-                tooltipText="set chapter heading"
+                tooltipText="Kapitelüberschrift festlegen"
                 setTooltipText={setTooltipText}
+                onClick={() => setLayerContent(<EditChapterHeadingLayer heading="" />)}
             />;
         }
 
-        return <h2 key="chapter-heading" className="chapter-heading">{ heading }</h2>;
+        return (
+            <h2
+                key="chapter-heading"
+                className="chapter-heading"
+                onClick={() => setLayerContent(<EditChapterHeadingLayer heading={ heading } />)}
+            >
+                { heading }
+            </h2>
+        );
     }
 };
 
@@ -56,5 +75,6 @@ EditorChapter.propTypes = {
         })).isRequired
     })).isRequired,
     setTooltipText: PropTypes.func.isRequired,
+    setLayerContent: PropTypes.func.isRequired,
     children: PropTypes.node
 };

@@ -1,0 +1,28 @@
+.delete-paragraph-layer {
+    &__paragraph {
+        text-align: left;
+        background-color: papayawhip;
+        border-radius: 5px;
+        padding: 15px;
+        margin: 15px 0 10px 0;
+
+        h1, h2, p {
+            &:first-child {
+                margin-top: 0;
+            }
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+    }
+
+    &__submit {
+        border-color: #f7a17f;
+        background-color: #ff999b;
+
+        &:hover {
+            background-color: #ff6466;
+        }
+    }
+}

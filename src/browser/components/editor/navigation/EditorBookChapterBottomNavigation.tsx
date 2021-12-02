@@ -4,24 +4,25 @@ import { ChapterData } from '@src/server/UseCase/GetApp/BookData';
 import { EditorActiveBookChapterBottomNavigationElement } from '@components/editor/navigation/EditorActiveBookChapterBottomNavigationElement';
 import { BookChapterNavigationElement } from '@components/navigation/BookChapterNavigationElement';
 import { TooltipTriggerDiv } from '@components/ui/TooltipTriggerDiv';
+import { InsertChapterLayer } from '@components/editor/layers/InsertChapterLayer';
 
 interface Props {
     chapters: Array<ChapterData>;
     activeChapterNumber: number;
     setActiveChapterNumber: (chapterNumber: number) => void;
     setTooltipText: (tooltipText: string) => void;
+    setLayerContent: (layerContent: JSX.Element) => void;
 }
-export const EditorBookChapterBottomNavigation = ({ chapters, activeChapterNumber, setActiveChapterNumber, setTooltipText }: Props) => {
+export const EditorBookChapterBottomNavigation = ({ chapters, activeChapterNumber, setActiveChapterNumber, setTooltipText, setLayerContent }: Props) => {
     return (
         <div className="book-chapter-navigation">
-            {
-                <TooltipTriggerDiv
-                    key="before"
-                    className="chapter-placeholder"
-                    tooltipText="insert chapter"
-                    setTooltipText={setTooltipText}
-                />
-            }
+            <TooltipTriggerDiv
+                key="before"
+                className="chapter-placeholder"
+                tooltipText="Kapitel hinzufügen"
+                setTooltipText={setTooltipText}
+                onClick={() => setLayerContent(<InsertChapterLayer />)}
+            />
             { chapters.map((chapterData) => [
                 activeChapterNumber === chapterData.number ?
                     <EditorActiveBookChapterBottomNavigationElement
@@ -36,8 +37,9 @@ export const EditorBookChapterBottomNavigation = ({ chapters, activeChapterNumbe
                     <TooltipTriggerDiv
                         key={chapterData.number + ':after'}
                         className="chapter-placeholder"
-                        tooltipText="insert chapter"
+                        tooltipText="Kapitel hinzufügen"
                         setTooltipText={setTooltipText}
+                        onClick={() => setLayerContent(<InsertChapterLayer />)}
                     />
             ]) }
         </div>
@@ -58,5 +60,6 @@ EditorBookChapterBottomNavigation.propTypes = {
     })).isRequired,
     activeChapterNumber: PropTypes.number.isRequired,
     setActiveChapterNumber: PropTypes.func.isRequired,
-    setTooltipText: PropTypes.func.isRequired
+    setTooltipText: PropTypes.func.isRequired,
+    setLayerContent: PropTypes.func.isRequired
 };

@@ -4,6 +4,7 @@ import { EditorBookContent } from '@components/editor/EditorBookContent';
 
 import { EditorChapter } from '@components/editor/EditorChapter';
 import { TooltipTriggerDiv } from '@components/ui/TooltipTriggerDiv';
+import { EditBookTitleLayer } from '@components/editor/layers/EditBookTitleLayer';
 
 jest.mock('@components/editor/EditorChapter', () => ({
     EditorChapter: (props) => <div {...props} data-editor-chapter />
@@ -11,6 +12,10 @@ jest.mock('@components/editor/EditorChapter', () => ({
 
 jest.mock('@components/ui/TooltipTriggerDiv', () => ({
     TooltipTriggerDiv: (props) => <div {...props}>TooltipTriggerDivMock</div>
+}));
+
+jest.mock('@components/editor/layers/EditBookTitleLayer', () => ({
+    EditBookTitleLayer: (props) => <div {...props}>EditBookTitleLayerMock</div>
 }));
 
 describe('<EditorBookContent />', () => {
@@ -33,7 +38,8 @@ describe('<EditorBookContent />', () => {
                 }
             ],
             activeChapterNumber: 1,
-            setTooltipText: jest.fn()
+            setTooltipText: jest.fn(),
+            setLayerContent: jest.fn()
         };
     });
 
@@ -53,10 +59,12 @@ describe('<EditorBookContent />', () => {
                 heading="Chapter 1"
                 number={1}
                 paragraphs={Array []}
+                setLayerContent={[MockFunction]}
                 setTooltipText={[MockFunction]}
               >
                 <h1
                   className="book-title"
+                  onClick={[Function]}
                 >
                   Book Title
                 </h1>
@@ -75,6 +83,33 @@ describe('<EditorBookContent />', () => {
         expect(props.setTooltipText).toHaveBeenCalledWith('click here!');
     });
 
+    test('setLayerContent is passed correctly to <EditorChapter />', () => {
+        renderComponent();
+
+        component.root
+            .findByType(EditorChapter)
+            .props.setLayerContent(<div>Chapter Layer</div>);
+
+        expect(props.setLayerContent).toHaveBeenCalledWith(
+            <div>Chapter Layer</div>
+        );
+    });
+
+    describe('when the title is clicked', () => {
+        beforeEach(() => {
+            renderComponent();
+
+            component.root
+                .findByProps({ className: 'book-title' })
+                .props.onClick();
+        });
+
+        test('setLayerContent is called with the correct layer content', () => {
+            expect(props.setLayerContent).toHaveBeenCalledWith(
+                <EditBookTitleLayer title="Book Title" />
+            );
+        });
+    });
     describe('if no title is given', () => {
         beforeEach(() => {
             props.title = '';
@@ -92,12 +127,14 @@ describe('<EditorBookContent />', () => {
                     heading="Chapter 1"
                     number={1}
                     paragraphs={Array []}
+                    setLayerContent={[MockFunction]}
                     setTooltipText={[MockFunction]}
                   >
                     <div
                       className="book-title-placeholder"
+                      onClick={[Function]}
                       setTooltipText={[MockFunction]}
-                      tooltipText="set book title"
+                      tooltipText="Buchtitel festlegen"
                     >
                       TooltipTriggerDivMock
                     </div>
@@ -116,6 +153,20 @@ describe('<EditorBookContent />', () => {
             expect(props.setTooltipText).toHaveBeenCalledWith(
                 'you have to check this!'
             );
+        });
+
+        describe('when the title placeholder is clicked', () => {
+            beforeEach(() => {
+                renderComponent();
+
+                component.root.findByType(TooltipTriggerDiv).props.onClick();
+            });
+
+            test('setLayerContent is called with the correct layer content', () => {
+                expect(props.setLayerContent).toHaveBeenCalledWith(
+                    <EditBookTitleLayer title="" />
+                );
+            });
         });
     });
 
@@ -136,6 +187,7 @@ describe('<EditorBookContent />', () => {
                     heading="Chapter 2"
                     number={2}
                     paragraphs={Array []}
+                    setLayerContent={[MockFunction]}
                     setTooltipText={[MockFunction]}
                   />
                 </div>

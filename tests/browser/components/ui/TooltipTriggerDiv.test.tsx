@@ -10,7 +10,8 @@ describe('<TooltipTriggerDiv />', () => {
         props = {
             className: 'some-class',
             tooltipText: 'some tooltip text',
-            setTooltipText: jest.fn()
+            setTooltipText: jest.fn(),
+            onClick: jest.fn()
         };
     });
 
@@ -19,13 +20,12 @@ describe('<TooltipTriggerDiv />', () => {
     }
 
     test('<TooltipTriggerDiv /> is rendered correctly', () => {
-        act(() => {
-            renderComponent();
-        });
+        renderComponent();
 
         expect(component).toMatchInlineSnapshot(`
             <div
               className="some-class"
+              onClick={[MockFunction]}
               onMouseEnter={[Function]}
               onMouseLeave={[Function]}
             />
@@ -34,9 +34,7 @@ describe('<TooltipTriggerDiv />', () => {
 
     describe('when the mouse enters the tooltip', () => {
         beforeEach(() => {
-            act(() => {
-                renderComponent();
-            });
+            renderComponent();
 
             component.root.findByType('div').props.onMouseEnter();
         });
@@ -50,9 +48,7 @@ describe('<TooltipTriggerDiv />', () => {
 
     describe('when the mouse leaves the tooltip', () => {
         beforeEach(() => {
-            act(() => {
-                renderComponent();
-            });
+            renderComponent();
 
             component.root.findByType('div').props.onMouseLeave();
         });
@@ -62,19 +58,30 @@ describe('<TooltipTriggerDiv />', () => {
         });
     });
 
+    describe('when the trigger div is clicked', () => {
+        beforeEach(() => {
+            renderComponent();
+
+            component.root.findByType('div').props.onClick();
+        });
+
+        test('the onClick callback is called correctly', () => {
+            expect(props.onClick).toHaveBeenCalled();
+        });
+    });
+
     describe('if a custom tagName is given', () => {
         beforeEach(() => {
             props.tagName = 'span';
         });
 
         test('<TooltipTriggerDiv /> is rendered correctly with the given tagName', () => {
-            act(() => {
-                renderComponent();
-            });
+            renderComponent();
 
             expect(component).toMatchInlineSnapshot(`
                 <span
                   className="some-class"
+                  onClick={[MockFunction]}
                   onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
                 />

@@ -3,13 +3,15 @@ import PropTypes from 'prop-types';
 import { BookData } from '@src/server/UseCase/GetApp/BookData';
 import { EditorChapter } from '@components/editor/EditorChapter';
 import { TooltipTriggerDiv } from '@components/ui/TooltipTriggerDiv';
+import { EditBookTitleLayer } from '@components/editor/layers/EditBookTitleLayer';
 
 type Props = BookData & {
     activeChapterNumber: number;
     setTooltipText: (tooltipText: string) => void;
+    setLayerContent: (layerContent: JSX.Element) => void;
 };
 
-export const EditorBookContent = ({ title, chapters, activeChapterNumber, setTooltipText }: Props) => {
+export const EditorBookContent = ({ title, chapters, activeChapterNumber, setTooltipText, setLayerContent }: Props) => {
     return (
         <div className="book-content">
             { chapters
@@ -19,6 +21,7 @@ export const EditorBookContent = ({ title, chapters, activeChapterNumber, setToo
                         key={chapterData.number}
                         {...chapterData}
                         setTooltipText={setTooltipText}
+                        setLayerContent={setLayerContent}
                     >
                         { chapterData.number === 1 ? getBookTitle() : null }
                     </EditorChapter>
@@ -31,12 +34,21 @@ export const EditorBookContent = ({ title, chapters, activeChapterNumber, setToo
         if ('' === title) {
             return <TooltipTriggerDiv
                 className="book-title-placeholder"
-                tooltipText="set book title"
+                tooltipText="Buchtitel festlegen"
                 setTooltipText={setTooltipText}
+                onClick={() => setLayerContent(<EditBookTitleLayer title="" />)}
             />;
         }
 
-        return <h1 key="book-title" className="book-title">{ title }</h1>;
+        return (
+            <h1
+                key="book-title"
+                className="book-title"
+                onClick={() => setLayerContent(<EditBookTitleLayer title={ title } />)}
+            >
+                { title }
+            </h1>
+        );
     }
 }
 
@@ -54,5 +66,6 @@ EditorBookContent.propTypes = {
         })).isRequired
     })).isRequired,
     activeChapterNumber: PropTypes.number.isRequired,
-    setTooltipText: PropTypes.func.isRequired
+    setTooltipText: PropTypes.func.isRequired,
+    setLayerContent: PropTypes.func.isRequired
 };

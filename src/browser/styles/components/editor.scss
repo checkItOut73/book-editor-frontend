@@ -44,21 +44,49 @@
     .paragraph {
         padding: 0 10px;
 
-        &:hover {
-            background-color: rgb(255, 248, 190);
-            border-radius: 7px;
+        &-container {
+            position: relative;
+
+            &:hover {
+                background-color: rgb(255, 248, 190);
+                border-radius: 7px;
+
+                .paragraph__closer {
+                    color: #7c7c7c;
+                    background-color: #ff999b;
+                }
+            }
+
+            .paragraph__closer:hover {
+                color: #000000;
+                background-color: #ff6466;
+            }
+        }
+    }
+
+    .paragraph__closer {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 22px;
+        height: 22px;
+        cursor: pointer;
+        border-radius: 5px;
+        font-family: Calibri, Arial;
+        color: papayawhip;
+        padding: 0;
+        line-height: 18px;
+        text-align: center;
+        font-size: 14px;
+
+        &::before {
+            content: 'x';
         }
     }
 
     .paragraph-heading,
     .book-paragraph-heading-placeholder {
         border-radius: 5px 5px 0 0;
-    }
-
-    .paragraph-heading:hover + .paragraph,
-    .book-paragraph-heading-placeholder:hover + .paragraph {
-        background-color: rgb(255, 248, 190);
-        border-radius: 0 0 7px 7px;
     }
 
     .paragraph-gap:hover {

@@ -1,0 +1,19 @@
+button {
+    display: block;
+    font-family: Georgia;
+    background-color: #fff984;
+    border-radius: 5px;
+    border-color: #ffd600;
+    padding: 3px 7px;
+    margin: 0 auto;
+    font-weight: bold;
+    color: #3b3b3b;
+    border-width: 1px;
+    cursor: pointer;
+    margin-top: 10px;
+
+    &:hover {
+        background-color: #fff757;
+        color: #000000;
+    }
+}

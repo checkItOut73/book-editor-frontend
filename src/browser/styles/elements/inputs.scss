@@ -1,0 +1,14 @@
+input {
+    font-family: Georgia;
+    font-size: 16px;
+    padding: 3px;
+    background-color: #ffecbb;
+    border-width: 1px;
+    border-color: #e7b622;
+    width: 100%;
+
+    &:focus {
+        outline:  none;
+        border-color: #d36d00;
+    }
+}

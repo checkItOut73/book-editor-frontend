@@ -41,7 +41,7 @@ describe('<Tooltip />', () => {
         component = create(<Tooltip {...props} />, { createNodeMock });
     }
 
-    test('<Tooltip /> is rendered correctly', () => {
+    test('<Tooltip /> is rendered correctly without a text', () => {
         act(() => {
             renderComponent();
         });
@@ -77,15 +77,15 @@ describe('<Tooltip />', () => {
                 clientX: 150,
                 clientY: 90
             });
-            expect(tooltipElement.style.left).toBe('208px');
-            expect(tooltipElement.style.top).toBe('1078px');
+            expect(tooltipElement.style.left).toBe('207px');
+            expect(tooltipElement.style.top).toBe('1093px');
 
             windowEventEmitter.emit('mousemove', {
                 clientX: 155,
                 clientY: 95
             });
-            expect(tooltipElement.style.left).toBe('213px');
-            expect(tooltipElement.style.top).toBe('1083px');
+            expect(tooltipElement.style.left).toBe('212px');
+            expect(tooltipElement.style.top).toBe('1098px');
         });
 
         describe('and when the tooltip is rendered without a text after that', () => {

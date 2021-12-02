@@ -2,6 +2,14 @@ import React from 'react';
 import { create } from 'react-test-renderer';
 import { EditorVerse } from '@components/editor/EditorVerse';
 
+import { EditVerseLayer } from '@components/editor/layers/EditVerseLayer';
+
+jest.mock('@components/editor/layers/EditVerseLayer', () => ({
+    EditVerseLayer: (props) => (
+        <div {...props}>EditVerseLayerMock</div>
+    )
+}));
+
 describe('<EditorVerse />', () => {
     let props;
     let component;
@@ -9,7 +17,8 @@ describe('<EditorVerse />', () => {
     beforeEach(() => {
         props = {
             text: 'In a gloriously imagined 1920s world inhabited by people who have gramophones for heads, young composer Hero Wasabi has left Japan to study musical composition in Venice, accompanied by his oboe-playing cat Jacuzzi.',
-            numberInChapter: 5
+            numberInChapter: 5,
+            setLayerContent: jest.fn()
         };
     });
 
@@ -23,6 +32,7 @@ describe('<EditorVerse />', () => {
         expect(component).toMatchInlineSnapshot(`
             <span
               className="verse"
+              onClick={[Function]}
             >
               <sup>
                 5
@@ -30,5 +40,22 @@ describe('<EditorVerse />', () => {
               In a gloriously imagined 1920s world inhabited by people who have gramophones for heads, young composer Hero Wasabi has left Japan to study musical composition in Venice, accompanied by his oboe-playing cat Jacuzzi.
             </span>
         `);
+    });
+
+    describe('when the verse is clicked', () => {
+        beforeEach(() => {
+            renderComponent();
+
+            component.root.findByProps({ className: 'verse' }).props.onClick();
+        });
+
+        test('setLayerContent is called with the correct content', () => {
+            expect(props.setLayerContent).toHaveBeenCalledWith(
+                <EditVerseLayer
+                    text="In a gloriously imagined 1920s world inhabited by people who have gramophones for heads, young composer Hero Wasabi has left Japan to study musical composition in Venice, accompanied by his oboe-playing cat Jacuzzi."
+                    numberInChapter={5}
+                />
+            );
+        });
     });
 });

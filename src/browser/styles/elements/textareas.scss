@@ -1,0 +1,36 @@
+textarea {
+    font-family: Georgia;
+    font-size: 16px;
+    background-color: #ffecbb;
+    border-width: 1px;
+    border-color: #e7b622;
+    width: 407px;
+    height: 155px;
+
+    +.textarea-flap {
+        border-top: 1px solid #f5bf65;
+        border-left: 1px solid #ffecbb;
+        border-bottom: 1px solid #ffecbb;
+    }
+
+    &:focus {
+        outline: none;
+        border-color: #d36d00;
+
+        + .textarea-flap {
+            border-color: #d36d00;
+        }
+    }
+}
+
+.textarea-flap {
+    position: absolute;
+    right: 100%;
+    font-size: 14px;
+    padding-bottom: 4px;
+    padding-left: 3px;
+    margin-right: -1px;
+    vertical-align: top;
+    background-color: #ffecbb;
+    border-radius: 5px 0 0 5px;
+}
