@@ -81,7 +81,7 @@ describe('<EditorParagraph />', () => {
                   className="verse-placeholder"
                   onClick={[Function]}
                   setTooltipText={[MockFunction]}
-                  tagName="span"
+                  tagName="strong"
                   tooltipText="Vers einfügen"
                 >
                   TooltipTriggerDivMock
@@ -113,7 +113,7 @@ describe('<EditorParagraph />', () => {
                   className="verse-placeholder"
                   onClick={[Function]}
                   setTooltipText={[MockFunction]}
-                  tagName="span"
+                  tagName="strong"
                   tooltipText="Vers einfügen"
                 >
                   TooltipTriggerDivMock
@@ -209,16 +209,14 @@ describe('<EditorParagraph />', () => {
     test('setLayerContent is passed correctly to the verses', () => {
         renderComponent();
 
-        component.root
-            .findAllByType(EditorVerse)
-            .forEach((verse) => {
-                props.setTooltipText.mockClear();
-                verse.props.setLayerContent(<div>Verse Layer</div>);
+        component.root.findAllByType(EditorVerse).forEach((verse) => {
+            props.setTooltipText.mockClear();
+            verse.props.setLayerContent(<div>Verse Layer</div>);
 
-                expect(props.setLayerContent).toHaveBeenCalledWith(
-                    <div>Verse Layer</div>
-                );
-            });
+            expect(props.setLayerContent).toHaveBeenCalledWith(
+                <div>Verse Layer</div>
+            );
+        });
     });
 
     describe('when the heading is clicked', () => {
@@ -268,7 +266,7 @@ describe('<EditorParagraph />', () => {
                       className="verse-placeholder"
                       onClick={[Function]}
                       setTooltipText={[MockFunction]}
-                      tagName="span"
+                      tagName="strong"
                       tooltipText="Vers einfügen"
                     >
                       TooltipTriggerDivMock
@@ -300,7 +298,7 @@ describe('<EditorParagraph />', () => {
                       className="verse-placeholder"
                       onClick={[Function]}
                       setTooltipText={[MockFunction]}
-                      tagName="span"
+                      tagName="strong"
                       tooltipText="Vers einfügen"
                     >
                       TooltipTriggerDivMock
@@ -314,7 +312,9 @@ describe('<EditorParagraph />', () => {
             renderComponent();
 
             component.root
-                .findByProps({ className: 'book-paragraph-heading-placeholder' })
+                .findByProps({
+                    className: 'book-paragraph-heading-placeholder'
+                })
                 .props.setTooltipText('set chapter heading');
 
             expect(props.setTooltipText).toHaveBeenCalledWith(
@@ -327,7 +327,9 @@ describe('<EditorParagraph />', () => {
                 renderComponent();
 
                 component.root
-                    .findByProps({ className: 'book-paragraph-heading-placeholder' })
+                    .findByProps({
+                        className: 'book-paragraph-heading-placeholder'
+                    })
                     .props.onClick();
             });
 

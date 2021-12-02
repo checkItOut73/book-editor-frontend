@@ -24,7 +24,7 @@ export const EditorParagraph = ({ heading, verses, setTooltipText, setLayerConte
             />
             <TooltipTriggerDiv
                 key="before"
-                tagName="span"
+                tagName="strong"
                 className="verse-placeholder"
                 tooltipText="Vers einfügen"
                 setTooltipText={setTooltipText}
@@ -51,7 +51,7 @@ export const EditorParagraph = ({ heading, verses, setTooltipText, setLayerConte
             }
             <TooltipTriggerDiv
                 key="after"
-                tagName="span"
+                tagName="strong"
                 className="verse-placeholder"
                 tooltipText="Vers einfügen"
                 setTooltipText={setTooltipText}

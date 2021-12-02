@@ -3,3 +3,7 @@ sup {
     position: relative;
     top: -2px;
 }
+
+span + span {
+    margin-left: 5px;
+}
