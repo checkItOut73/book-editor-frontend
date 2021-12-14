@@ -49,14 +49,16 @@ export const EditorParagraph = ({ heading, verses, setTooltipText, setLayerConte
                         null
                 ])
             }
-            <TooltipTriggerDiv
-                key="after"
-                tagName="strong"
-                className="verse-placeholder"
-                tooltipText="Vers einfügen"
-                setTooltipText={setTooltipText}
-                onClick={() => setLayerContent(<InsertVerseLayer />)}
-            />
+            { verses.length > 0 ?
+                <TooltipTriggerDiv
+                    key="after"
+                    tagName="strong"
+                    className="verse-placeholder"
+                    tooltipText="Vers einfügen"
+                    setTooltipText={setTooltipText}
+                    onClick={() => setLayerContent(<InsertVerseLayer />)}
+                /> : null
+            }
         </p>
     </div>;
 

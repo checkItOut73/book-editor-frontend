@@ -123,6 +123,46 @@ describe('<EditorParagraph />', () => {
         `);
     });
 
+    describe('if no verses are given', () => {
+        beforeEach(() => {
+            props.verses = [];
+        });
+
+        test('<EditorParagraph /> is rendered correctly with only one "insert verse" tooltip trigger div', () => {
+            renderComponent();
+
+            expect(component).toMatchInlineSnapshot(`
+                <div
+                  className="paragraph-container"
+                >
+                  <h2
+                    className="paragraph-heading"
+                    onClick={[Function]}
+                  >
+                    The missing key
+                  </h2>
+                  <p
+                    className="paragraph"
+                  >
+                    <span
+                      className="paragraph__closer"
+                      onClick={[Function]}
+                    />
+                    <div
+                      className="verse-placeholder"
+                      onClick={[Function]}
+                      setTooltipText={[MockFunction]}
+                      tagName="strong"
+                      tooltipText="Vers einfügen"
+                    >
+                      TooltipTriggerDivMock
+                    </div>
+                  </p>
+                </div>
+            `);
+        });
+    });
+
     describe('when the paragraph closer is clicked', () => {
         beforeEach(() => {
             renderComponent();
