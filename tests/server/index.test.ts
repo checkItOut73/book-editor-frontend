@@ -10,6 +10,7 @@ const fastifyServerMock: Mock<
 > = fastify();
 
 const fastifyStaticMock = {};
+const fastifyHttpProxyMock = {};
 const middieMock = {};
 const webpackCompiler = webpack({});
 const webpackDevMiddlewareMock = (webpackCompiler, options) => ({
@@ -30,6 +31,7 @@ const webpackDevConfig = {
 
 jest.mock('fastify');
 jest.mock('fastify-static', () => fastifyStaticMock);
+jest.mock('fastify-http-proxy', () => fastifyHttpProxyMock);
 jest.mock('middie', () => middieMock);
 jest.mock('webpack');
 jest.mock('webpack-dev-middleware', () => webpackDevMiddlewareMock);
@@ -62,6 +64,19 @@ describe('index | ', () => {
         expect(fastifyServerMock.register).toHaveBeenCalledWith(
             fastifyStaticMock,
             { root: path.resolve(process.cwd(), 'dist/browser') }
+        );
+    });
+
+    test('fastifyHttpProxy is registered on the server', () => {
+        requireModule();
+
+        expect(fastifyServerMock.register).toHaveBeenCalledWith(
+            fastifyHttpProxyMock,
+            {
+                upstream: 'http://docker-vm:8080/',
+                prefix: '/api/',
+                http2: false
+            }
         );
     });
 

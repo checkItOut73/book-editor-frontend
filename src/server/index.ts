@@ -3,6 +3,7 @@ import 'module-alias/register';
 import path from 'path';
 import fastify from 'fastify';
 import fastifyStatic from 'fastify-static';
+import fastifyHttpProxy from 'fastify-http-proxy';
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddlewareFlushProxy from '@server/webpackHotMiddlewareFlushProxy';
@@ -15,6 +16,12 @@ import { getAppAction } from '@server/UseCase/GetApp/getAppAction';
 
     server.register(fastifyStatic, {
         root: path.resolve(process.cwd(), 'dist/browser')
+    });
+
+    server.register(fastifyHttpProxy, {
+        upstream: 'http://docker-vm:8080/',
+        prefix: '/api/',
+        http2: false
     });
 
     server.get('/book/:bookId(^\\d+$)', getAppAction);
