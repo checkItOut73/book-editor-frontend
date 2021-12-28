@@ -1,5 +1,5 @@
 .idea/
 node_modules/
-dist
+dist/
 !dist/browser/loader.jpg
 tests/__coverage_report__/
