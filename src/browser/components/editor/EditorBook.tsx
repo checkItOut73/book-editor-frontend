@@ -1,4 +1,5 @@
 import React, { useReducer, useState } from 'react';
+import PropTypes from 'prop-types';
 import { EditorBookChapterTopNavigation } from '@components/editor/navigation/EditorBookChapterTopNavigation';
 import { EditorBookContent } from '@components/editor/EditorBookContent';
 import { EditorBookChapterBottomNavigation } from '@components/editor/navigation/EditorBookChapterBottomNavigation';
@@ -12,10 +13,8 @@ export const EditorBook = ({ id, title, chapters }) => {
     const getState = () => state;
     ({ book: { id, title, chapters }} = state);
 
-    // TODO test!! + refactor!!
     function dispatch(action) {
         if (typeof action === 'function') {
-            // TODO test dispatch2
             return action(dispatch, getState);
         }
 
@@ -58,3 +57,19 @@ export const EditorBook = ({ id, title, chapters }) => {
         />
     </Context.Provider>;
 }
+
+EditorBook.propTypes = {
+    id: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    chapters: PropTypes.arrayOf(PropTypes.shape({
+        heading: PropTypes.string.isRequired,
+        number: PropTypes.number.isRequired,
+        paragraphs: PropTypes.arrayOf(PropTypes.shape({
+            heading: PropTypes.string.isRequired,
+            verses: PropTypes.arrayOf(PropTypes.shape({
+                text: PropTypes.string.isRequired,
+                numberInChapter: PropTypes.number.isRequired
+            })).isRequired
+        })).isRequired
+    })).isRequired
+};
