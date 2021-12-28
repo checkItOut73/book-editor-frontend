@@ -24,6 +24,7 @@ describe('<EditorBookContent />', () => {
 
     beforeEach(() => {
         props = {
+            id: 23,
             title: 'Book Title',
             chapters: [
                 {
@@ -106,7 +107,7 @@ describe('<EditorBookContent />', () => {
 
         test('setLayerContent is called with the correct layer content', () => {
             expect(props.setLayerContent).toHaveBeenCalledWith(
-                <EditBookTitleLayer title="Book Title" />
+                <EditBookTitleLayer id={23} title="Book Title" />
             );
         });
     });
@@ -164,7 +165,7 @@ describe('<EditorBookContent />', () => {
 
             test('setLayerContent is called with the correct layer content', () => {
                 expect(props.setLayerContent).toHaveBeenCalledWith(
-                    <EditBookTitleLayer title="" />
+                    <EditBookTitleLayer id={23} title="" />
                 );
             });
         });

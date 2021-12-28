@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ParagraphData } from '@src/server/UseCase/GetApp/BookData';
+import { ParagraphData } from '@server/UseCase/GetApp/BookData';
 import { Paragraph } from '@components/Paragraph';
 
 export const DeleteParagraphLayer = ({ heading, verses }: ParagraphData) => (

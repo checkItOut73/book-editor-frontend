@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ParagraphData } from '@src/server/UseCase/GetApp/BookData';
+import { ParagraphData } from '@server/UseCase/GetApp/BookData';
 import { EditorVerse } from '@components/editor/EditorVerse';
 import { TooltipTriggerDiv } from '@components/ui/TooltipTriggerDiv';
 import { InsertVerseLayer } from '@components/editor/layers/InsertVerseLayer';

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Verse } from './Verse';
-import { ParagraphData } from '@src/server/UseCase/GetApp/BookData';
+import { Verse } from '@components/Verse';
+import { ParagraphData } from '@server/UseCase/GetApp/BookData';
 
 export const Paragraph = ({ heading, verses }: ParagraphData) => {
     return <>

@@ -1,7 +1,7 @@
 import React, { RefObject, TransitionEventHandler } from 'react';
 import PropTypes from 'prop-types';
-import { ChapterData } from '@src/server/UseCase/GetApp/BookData';
-import { Paragraph } from './Paragraph';
+import { ChapterData } from '@server/UseCase/GetApp/BookData';
+import { Paragraph } from '@components/Paragraph';
 
 export type ChapterProps = ChapterData & {
     children;

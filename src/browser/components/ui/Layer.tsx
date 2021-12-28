@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
+import { Context } from '@browser/context';
+import { RequestState } from '@actions/requesting/types/RequestState';
+import { clearRequest } from '@actions/requesting/clearRequest';
 
 type Props = {
     layerContent: JSX.Element;
@@ -7,8 +10,18 @@ type Props = {
 };
 
 export const Layer = ({ layerContent, setLayerContent }: Props) => {
+    const { dispatch, getState } = useContext(Context);
+    const { requesting: { requestState }} = getState();
+
     if (!layerContent) {
         return null;
+    }
+
+    function onClick() {
+        if (requestState !== RequestState.PENDING) {
+            dispatch(clearRequest());
+            setLayerContent(null);
+        }
     }
 
     return (
@@ -18,7 +31,7 @@ export const Layer = ({ layerContent, setLayerContent }: Props) => {
                 <div className="layer__content">
                     {layerContent}
                 </div>
-                <span className="layer__closer" onClick={() => setLayerContent(null)}>x</span>
+                <span className="layer__closer" onClick={onClick}>x</span>
             </div>
         </div>
     );

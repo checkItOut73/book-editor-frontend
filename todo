@@ -1,1 +1,4 @@
 - Frontend stürzt ab, wenn es keine Chapters gibt
+- autoprefixing prüfen
+- Rerenderings prüfen (Performance, Profiler)
+- Formular bei Enter-Druck abschicken

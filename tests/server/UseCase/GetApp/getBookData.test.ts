@@ -18,7 +18,7 @@ describe('getBookData | ', () => {
         getBookData(5);
 
         expect(axiosMock.get).toHaveBeenCalledWith(
-            'http://docker-vm:8080/book/5'
+            'http://gateway.docker.internal:8080/book/5'
         );
     });
 

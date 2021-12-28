@@ -19,7 +19,7 @@ import { getAppAction } from '@server/UseCase/GetApp/getAppAction';
     });
 
     server.register(fastifyHttpProxy, {
-        upstream: 'http://docker-vm:8080/',
+        upstream: 'http://gateway.docker.internal:8080/',
         prefix: '/api/',
         http2: false
     });

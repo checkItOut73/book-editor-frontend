@@ -18,7 +18,10 @@
     "@tests": "tests",
     "@browser": "dist/browser",
     "@server": "dist/server",
+    "@actions": "dist/browser/actions",
+    "@reducers": "dist/browser/reducers",
     "@components": "dist/browser/components",
+    "@layers": "dist/browser/components/editor/layers",
     "@configs": "build/configs"
   },
   "dependencies": {

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { BookData } from '@src/server/UseCase/GetApp/BookData';
+import { BookData } from '@server/UseCase/GetApp/BookData';
 import { EditorChapter } from '@components/editor/EditorChapter';
 import { TooltipTriggerDiv } from '@components/ui/TooltipTriggerDiv';
 import { EditBookTitleLayer } from '@components/editor/layers/EditBookTitleLayer';
@@ -11,7 +11,7 @@ type Props = BookData & {
     setLayerContent: (layerContent: JSX.Element) => void;
 };
 
-export const EditorBookContent = ({ title, chapters, activeChapterNumber, setTooltipText, setLayerContent }: Props) => {
+export const EditorBookContent = ({ id, title, chapters, activeChapterNumber, setTooltipText, setLayerContent }: Props) => {
     return (
         <div className="book-content">
             { chapters
@@ -36,7 +36,7 @@ export const EditorBookContent = ({ title, chapters, activeChapterNumber, setToo
                 className="book-title-placeholder"
                 tooltipText="Buchtitel festlegen"
                 setTooltipText={setTooltipText}
-                onClick={() => setLayerContent(<EditBookTitleLayer title="" />)}
+                onClick={() => setLayerContent(<EditBookTitleLayer id={id} title="" />)}
             />;
         }
 
@@ -44,7 +44,7 @@ export const EditorBookContent = ({ title, chapters, activeChapterNumber, setToo
             <h1
                 key="book-title"
                 className="book-title"
-                onClick={() => setLayerContent(<EditBookTitleLayer title={ title } />)}
+                onClick={() => setLayerContent(<EditBookTitleLayer id={id} title={ title } />)}
             >
                 { title }
             </h1>
@@ -53,6 +53,7 @@ export const EditorBookContent = ({ title, chapters, activeChapterNumber, setToo
 }
 
 EditorBookContent.propTypes = {
+    id: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
     chapters: PropTypes.arrayOf(PropTypes.shape({
         heading: PropTypes.string.isRequired,

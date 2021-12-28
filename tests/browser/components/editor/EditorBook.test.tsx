@@ -38,12 +38,72 @@ jest.mock('@components/ui/Layer', () => ({
     Layer: (props) => <div {...props}>LayerMock</div>
 }));
 
+jest.mock('@browser/context', () => ({
+    Context: {
+        Provider: (props) => <div data-context-mock {...props} />
+    }
+}));
+
+jest.mock('@reducers/rootReducer', () => ({
+    rootReducer: (
+        state,
+        action: { type?: string; bookTitle?: string } = {}
+    ) => {
+        if (action.type === 'TEST_ACTION') {
+            return {
+                book: {
+                    id: 8349,
+                    title: 'Updated Test Book Title',
+                    chapters: [
+                        {
+                            number: 1,
+                            heading: 'Updated Chapter 1',
+                            paragraphs: []
+                        },
+                        {
+                            number: 2,
+                            heading: 'Updated Chapter 2',
+                            paragraphs: []
+                        }
+                    ]
+                }
+            };
+        }
+
+        if (
+            action.type === 'TEST_ACTION_ASYNC' &&
+            action.bookTitle === 'Book Title'
+        ) {
+            return {
+                book: {
+                    id: 8349,
+                    title: 'Asynchronously Updated Test Book Title',
+                    chapters: [
+                        {
+                            number: 1,
+                            heading: 'Asynchronously Updated Chapter 1',
+                            paragraphs: []
+                        },
+                        {
+                            number: 2,
+                            heading: 'Asynchronously Updated Chapter 2',
+                            paragraphs: []
+                        }
+                    ]
+                }
+            };
+        }
+        return state;
+    }
+}));
+
 describe('<EditorBook />', () => {
     let props;
     let component;
 
     beforeEach(() => {
         props = {
+            id: 5,
             title: 'Book Title',
             chapters: [
                 {
@@ -68,7 +128,15 @@ describe('<EditorBook />', () => {
         renderComponent();
 
         expect(component).toMatchInlineSnapshot(`
-            Array [
+            <div
+              data-context-mock={true}
+              value={
+                Object {
+                  "dispatch": [Function],
+                  "getState": [Function],
+                }
+              }
+            >
               <div
                 className="book book--editor"
               >
@@ -110,6 +178,7 @@ describe('<EditorBook />', () => {
                       },
                     ]
                   }
+                  id={5}
                   setLayerContent={[Function]}
                   setTooltipText={[Function]}
                   title="Book Title"
@@ -138,19 +207,19 @@ describe('<EditorBook />', () => {
                 >
                   EditorBookChapterBottomNavigationMock
                 </div>
-              </div>,
+              </div>
               <div
                 text=""
               >
                 TooltipMock
-              </div>,
+              </div>
               <div
                 layerContent={null}
                 setLayerContent={[Function]}
               >
                 LayerMock
-              </div>,
-            ]
+              </div>
+            </div>
         `);
     });
 
@@ -342,6 +411,283 @@ describe('<EditorBook />', () => {
 
                 expect(layer.props.layerContent).toEqual(<div>Layer</div>);
             });
+        });
+    });
+
+    test('the getState method that is given to the context consumers returns the initial state correctly', () => {
+        expect(
+            component.root
+                .findByProps({ 'data-context-mock': true })
+                .props.value.getState()
+        ).toEqual({
+            book: {
+                id: 5,
+                title: 'Book Title',
+                chapters: [
+                    {
+                        heading: 'Chapter 1',
+                        number: 1,
+                        paragraphs: []
+                    },
+                    {
+                        heading: 'Chapter 2',
+                        number: 2,
+                        paragraphs: []
+                    }
+                ]
+            }
+        });
+    });
+
+    describe('when an action is dispatched by some context consumer', () => {
+        beforeEach(() => {
+            renderComponent();
+
+            act(() => {
+                component.root
+                    .findByProps({ 'data-context-mock': true })
+                    .props.value.dispatch({
+                        type: 'TEST_ACTION'
+                    });
+            });
+        });
+
+        test('<EditorBook /> is rendered correctly with updated state', () => {
+            expect(component).toMatchInlineSnapshot(`
+                <div
+                  data-context-mock={true}
+                  value={
+                    Object {
+                      "dispatch": [Function],
+                      "getState": [Function],
+                    }
+                  }
+                >
+                  <div
+                    className="book book--editor"
+                  >
+                    <div
+                      activeChapterNumber={1}
+                      chapters={
+                        Array [
+                          Object {
+                            "heading": "Updated Chapter 1",
+                            "number": 1,
+                            "paragraphs": Array [],
+                          },
+                          Object {
+                            "heading": "Updated Chapter 2",
+                            "number": 2,
+                            "paragraphs": Array [],
+                          },
+                        ]
+                      }
+                      setActiveChapterNumber={[Function]}
+                      setLayerContent={[Function]}
+                      setTooltipText={[Function]}
+                    >
+                      EditorBookChapterTopNavigationMock
+                    </div>
+                    <div
+                      activeChapterNumber={1}
+                      chapters={
+                        Array [
+                          Object {
+                            "heading": "Updated Chapter 1",
+                            "number": 1,
+                            "paragraphs": Array [],
+                          },
+                          Object {
+                            "heading": "Updated Chapter 2",
+                            "number": 2,
+                            "paragraphs": Array [],
+                          },
+                        ]
+                      }
+                      id={8349}
+                      setLayerContent={[Function]}
+                      setTooltipText={[Function]}
+                      title="Updated Test Book Title"
+                    >
+                      EditorBookContentMock
+                    </div>
+                    <div
+                      activeChapterNumber={1}
+                      chapters={
+                        Array [
+                          Object {
+                            "heading": "Updated Chapter 1",
+                            "number": 1,
+                            "paragraphs": Array [],
+                          },
+                          Object {
+                            "heading": "Updated Chapter 2",
+                            "number": 2,
+                            "paragraphs": Array [],
+                          },
+                        ]
+                      }
+                      setActiveChapterNumber={[Function]}
+                      setLayerContent={[Function]}
+                      setTooltipText={[Function]}
+                    >
+                      EditorBookChapterBottomNavigationMock
+                    </div>
+                  </div>
+                  <div
+                    text=""
+                  >
+                    TooltipMock
+                  </div>
+                  <div
+                    layerContent={null}
+                    setLayerContent={[Function]}
+                  >
+                    LayerMock
+                  </div>
+                </div>
+            `);
+        });
+
+        test('the getState method that is given to the context consumers returns the state correctly', () => {
+            expect(
+                component.root
+                    .findByProps({ 'data-context-mock': true })
+                    .props.value.getState()
+            ).toEqual({
+                book: {
+                    id: 8349,
+                    title: 'Updated Test Book Title',
+                    chapters: [
+                        {
+                            number: 1,
+                            heading: 'Updated Chapter 1',
+                            paragraphs: []
+                        },
+                        {
+                            number: 2,
+                            heading: 'Updated Chapter 2',
+                            paragraphs: []
+                        }
+                    ]
+                }
+            });
+        });
+    });
+
+    describe('when an async action is dispatched by some context consumer', () => {
+        beforeEach(() => {
+            renderComponent();
+
+            act(() => {
+                component.root
+                    .findByProps({ 'data-context-mock': true })
+                    .props.value.dispatch(async (dispatch) => {
+                        dispatch(async (dispatch, getState) => {
+                            dispatch({
+                                type: 'TEST_ACTION_ASYNC',
+                                bookTitle: getState().book.title
+                            });
+                        });
+                    });
+            });
+        });
+
+        test('<EditorBook /> is rendered correctly with updated state', () => {
+            expect(component).toMatchInlineSnapshot(`
+                <div
+                  data-context-mock={true}
+                  value={
+                    Object {
+                      "dispatch": [Function],
+                      "getState": [Function],
+                    }
+                  }
+                >
+                  <div
+                    className="book book--editor"
+                  >
+                    <div
+                      activeChapterNumber={1}
+                      chapters={
+                        Array [
+                          Object {
+                            "heading": "Asynchronously Updated Chapter 1",
+                            "number": 1,
+                            "paragraphs": Array [],
+                          },
+                          Object {
+                            "heading": "Asynchronously Updated Chapter 2",
+                            "number": 2,
+                            "paragraphs": Array [],
+                          },
+                        ]
+                      }
+                      setActiveChapterNumber={[Function]}
+                      setLayerContent={[Function]}
+                      setTooltipText={[Function]}
+                    >
+                      EditorBookChapterTopNavigationMock
+                    </div>
+                    <div
+                      activeChapterNumber={1}
+                      chapters={
+                        Array [
+                          Object {
+                            "heading": "Asynchronously Updated Chapter 1",
+                            "number": 1,
+                            "paragraphs": Array [],
+                          },
+                          Object {
+                            "heading": "Asynchronously Updated Chapter 2",
+                            "number": 2,
+                            "paragraphs": Array [],
+                          },
+                        ]
+                      }
+                      id={8349}
+                      setLayerContent={[Function]}
+                      setTooltipText={[Function]}
+                      title="Asynchronously Updated Test Book Title"
+                    >
+                      EditorBookContentMock
+                    </div>
+                    <div
+                      activeChapterNumber={1}
+                      chapters={
+                        Array [
+                          Object {
+                            "heading": "Asynchronously Updated Chapter 1",
+                            "number": 1,
+                            "paragraphs": Array [],
+                          },
+                          Object {
+                            "heading": "Asynchronously Updated Chapter 2",
+                            "number": 2,
+                            "paragraphs": Array [],
+                          },
+                        ]
+                      }
+                      setActiveChapterNumber={[Function]}
+                      setLayerContent={[Function]}
+                      setTooltipText={[Function]}
+                    >
+                      EditorBookChapterBottomNavigationMock
+                    </div>
+                  </div>
+                  <div
+                    text=""
+                  >
+                    TooltipMock
+                  </div>
+                  <div
+                    layerContent={null}
+                    setLayerContent={[Function]}
+                  >
+                    LayerMock
+                  </div>
+                </div>
+            `);
         });
     });
 });

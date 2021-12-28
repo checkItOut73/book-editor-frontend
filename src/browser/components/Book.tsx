@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { BookData } from '@src/server/UseCase/GetApp/BookData';
+import { BookData } from '@server/UseCase/GetApp/BookData';
 import { BookChapterTopNavigation } from '@components/navigation/BookChapterTopNavigation';
 import { BookChapterBottomNavigation } from '@components/navigation/BookChapterBottomNavigation';
 import { BookContent } from '@components/BookContent';

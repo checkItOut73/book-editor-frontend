@@ -1,18 +1,32 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { BookData } from '@src/server/UseCase/GetApp/BookData';
+import React, { useReducer, useState } from 'react';
 import { EditorBookChapterTopNavigation } from '@components/editor/navigation/EditorBookChapterTopNavigation';
 import { EditorBookContent } from '@components/editor/EditorBookContent';
 import { EditorBookChapterBottomNavigation } from '@components/editor/navigation/EditorBookChapterBottomNavigation';
 import { Tooltip } from '@components/ui/Tooltip';
 import { Layer } from '@components/ui/Layer';
+import { Context } from '@browser/context';
+import { rootReducer } from '@reducers/rootReducer';
 
-export const EditorBook = ({ title, chapters }: BookData) => {
+export const EditorBook = ({ id, title, chapters }) => {
+    const [state, dispatchForPlainActions] = useReducer(rootReducer, rootReducer({ book: { id, title, chapters }},{}));
+    const getState = () => state;
+    ({ book: { id, title, chapters }} = state);
+
+    // TODO test!! + refactor!!
+    function dispatch(action) {
+        if (typeof action === 'function') {
+            // TODO test dispatch2
+            return action(dispatch, getState);
+        }
+
+        return dispatchForPlainActions(action);
+    }
+
     const [activeChapterNumber, setActiveChapterNumber] = useState(1);
     const [tooltipText, setTooltipText] = useState('');
     const [layerContent, setLayerContent] = useState(null);
 
-    return <>
+    return <Context.Provider value={{ dispatch, getState }}>
         <div className="book book--editor">
             <EditorBookChapterTopNavigation
                 chapters={chapters}
@@ -22,6 +36,7 @@ export const EditorBook = ({ title, chapters }: BookData) => {
                 setLayerContent={setLayerContent}
             />
             <EditorBookContent
+                id={id}
                 title={title}
                 chapters={chapters}
                 activeChapterNumber={activeChapterNumber}
@@ -41,20 +56,5 @@ export const EditorBook = ({ title, chapters }: BookData) => {
             layerContent={layerContent}
             setLayerContent={setLayerContent}
         />
-    </>;
+    </Context.Provider>;
 }
-
-EditorBook.propTypes = {
-    title: PropTypes.string.isRequired,
-    chapters: PropTypes.arrayOf(PropTypes.shape({
-        heading: PropTypes.string.isRequired,
-        number: PropTypes.number.isRequired,
-        paragraphs: PropTypes.arrayOf(PropTypes.shape({
-            heading: PropTypes.string.isRequired,
-            verses: PropTypes.arrayOf(PropTypes.shape({
-                text: PropTypes.string.isRequired,
-                numberInChapter: PropTypes.number.isRequired
-            })).isRequired
-        })).isRequired
-    })).isRequired
-};

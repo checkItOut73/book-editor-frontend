@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ChapterData } from '@src/server/UseCase/GetApp/BookData';
-import { BookChapterNavigationElement } from '@src/browser/components/navigation/BookChapterNavigationElement';
+import { ChapterData } from '@server/UseCase/GetApp/BookData';
+import { BookChapterNavigationElement } from '@components/navigation/BookChapterNavigationElement';
 
 interface Props {
     chapters: Array<ChapterData>;

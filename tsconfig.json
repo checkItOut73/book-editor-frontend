@@ -12,7 +12,10 @@
       "@tests/*": ["tests/*"],
       "@browser/*": ["src/browser/*"],
       "@server/*": ["src/server/*"],
+      "@actions/*": ["src/browser/actions/*"],
+      "@reducers/*": ["src/browser/reducers/*"],
       "@components/*": ["src/browser/components/*"],
+      "@layers/*": ["src/browser/components/editor/layers/*"],
       "@configs/*": ["build/configs/*"]
     }
   }

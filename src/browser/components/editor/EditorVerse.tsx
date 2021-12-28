@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { VerseData } from '@src/server/UseCase/GetApp/BookData';
+import { VerseData } from '@server/UseCase/GetApp/BookData';
 import { EditVerseLayer } from '@components/editor/layers/EditVerseLayer';
 
 type Props = VerseData & { setLayerContent: (layerContent:JSX.Element) => void };

@@ -12,5 +12,8 @@
 @import './components/book-chapter';
 @import './components/book-chapter-navigation';
 @import './components/editor';
-@import './components/layer';
-@import './components/delete-paragraph-layer';
+@import './components/layers/layer';
+@import './components/layers/edit-book-title-layer';
+@import './components/layers/delete-paragraph-layer';
+@import './components/requesting/message';
+@import './components/requesting/loader';

@@ -1,8 +1,8 @@
 import React, { RefObject } from 'react';
 import PropTypes from 'prop-types';
-import { ChapterData } from '@src/server/UseCase/GetApp/BookData';
-import { ActiveBookChapterBottomNavigationElement } from '@src/browser/components/navigation/ActiveBookChapterBottomNavigationElement';
-import { BookChapterNavigationElement } from '@src/browser/components/navigation/BookChapterNavigationElement';
+import { ChapterData } from '@server/UseCase/GetApp/BookData';
+import { ActiveBookChapterBottomNavigationElement } from '@components/navigation/ActiveBookChapterBottomNavigationElement';
+import { BookChapterNavigationElement } from '@components/navigation/BookChapterNavigationElement';
 
 interface Props {
     chapters: Array<ChapterData>;

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ChapterData } from '@src/server/UseCase/GetApp/BookData';
+import { ChapterData } from '@server/UseCase/GetApp/BookData';
 import { BookChapterNavigationElement } from '@components/navigation/BookChapterNavigationElement';
 import { TooltipTriggerDiv } from '@components/ui/TooltipTriggerDiv';
 import { InsertChapterLayer } from '@components/editor/layers/InsertChapterLayer';

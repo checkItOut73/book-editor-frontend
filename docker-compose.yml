@@ -8,8 +8,6 @@ services:
             - .:/var/www/html
         ports:
             - '3000:3000'
-        extra_hosts:
-            - "docker-vm:192.168.99.100"
 
     # server_watcher:
     #     image: node:12.13.0

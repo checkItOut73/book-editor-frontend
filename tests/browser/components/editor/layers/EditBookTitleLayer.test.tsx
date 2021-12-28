@@ -1,19 +1,52 @@
 import React from 'react';
 import { create, act } from 'react-test-renderer';
+import { Context } from '@browser/context';
 import { EditBookTitleLayer } from '@components/editor/layers/EditBookTitleLayer';
+import { RequestButton } from '@components/requesting/RequestButton';
+
+jest.mock('@components/requesting/RequestButton', () => ({
+    RequestButton: (props) => <div {...props}>RequestButtonMock</div>
+}));
+
+jest.mock('@components/requesting/RequestReponseMessage', () => ({
+    RequestReponseMessage: (props) => (
+        <div {...props}>RequestReponseMessageMock</div>
+    )
+}));
+
+jest.mock('@actions/requesting/fetchApi', () => ({
+    fetchApi: (url, options, onSuccessCallback) => ({
+        type: 'FETCH_API_MOCK',
+        url,
+        options,
+        onSuccessCallback
+    })
+}));
 
 describe('<EditBookTitleLayer />', () => {
+    let dispatch;
     let props;
+    let state;
     let component;
+    const getState = () => state;
 
     beforeEach(() => {
+        dispatch = jest.fn();
+
         props = {
+            id: 5,
             title: 'Book Title'
         };
+
+        state = {};
     });
 
     function renderComponent() {
-        component = create(<EditBookTitleLayer {...props} />);
+        component = create(
+            <Context.Provider value={{ dispatch, getState }}>
+                <EditBookTitleLayer {...props} />
+            </Context.Provider>
+        );
     }
 
     test('<EditBookTitleLayer /> is rendered correctly', () => {
@@ -35,16 +68,24 @@ describe('<EditBookTitleLayer />', () => {
                   onChange={[Function]}
                   value="Book Title"
                 />
-                <button>
-                  Speichern
-                </button>
+                <div
+                  label="Speichern"
+                  onClick={[Function]}
+                >
+                  RequestButtonMock
+                </div>
               </p>
+              <div>
+                RequestReponseMessageMock
+              </div>
             </div>
         `);
     });
 
     describe('when the input is changed', () => {
         beforeEach(() => {
+            renderComponent();
+
             const event = {
                 target: {
                     value: 'The most wanted book'
@@ -57,9 +98,44 @@ describe('<EditBookTitleLayer />', () => {
         });
 
         test('the input value is updated correctly', () => {
-            expect(
-                component.root.findByType('input').props.value
-            ).toBe('The most wanted book');
+            expect(component.root.findByType('input').props.value).toBe(
+                'The most wanted book'
+            );
+        });
+    });
+
+    describe('when the request button is clicked', () => {
+        beforeEach(() => {
+            renderComponent();
+
+            component.root.findByType(RequestButton).props.onClick();
+        });
+
+        test('fetchApi is dispatched correctly', () => {
+            expect(dispatch).toHaveBeenCalledWith({
+                type: 'FETCH_API_MOCK',
+                url: '/api/book/5',
+                options: {
+                    method: 'PATCH',
+                    body: JSON.stringify({
+                        title: 'Book Title'
+                    })
+                },
+                onSuccessCallback: expect.any(Function)
+            });
+        });
+
+        describe('when the fetch is complete', () => {
+            beforeEach(() => {
+                dispatch.mock.calls[0][0].onSuccessCallback();
+            });
+
+            test('the book title is updated', () => {
+                expect(dispatch).toHaveBeenCalledWith({
+                    type: 'SET_BOOK_TITLE',
+                    title: 'Book Title'
+                });
+            });
         });
     });
 });

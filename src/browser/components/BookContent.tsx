@@ -1,7 +1,7 @@
 import React, { useState, useEffect, RefObject } from 'react';
 import PropTypes from 'prop-types';
-import { BookData } from '@src/server/UseCase/GetApp/BookData';
-import { Chapter, ChapterProps } from './Chapter';
+import { BookData } from '@server/UseCase/GetApp/BookData';
+import { Chapter, ChapterProps } from '@components/Chapter';
 import debounce from 'debounce';
 
 type Props = BookData & {
