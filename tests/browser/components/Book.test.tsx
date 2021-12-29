@@ -237,4 +237,28 @@ describe('<Book />', () => {
             expect(window.scrollTo).not.toHaveBeenCalled();
         });
     });
+
+    describe('if no chapters are given', () => {
+        beforeEach(() => {
+            props.chapters = [];
+
+            renderComponent();
+        });
+
+        test('<Book /> is rendered correctly with hint', () => {
+            expect(component).toMatchInlineSnapshot(`
+                <div
+                  className="book"
+                >
+                  <div
+                    className="book-content"
+                  >
+                    <p>
+                      Dieses Buch hat bisher noch keine Kapitel!
+                    </p>
+                  </div>
+                </div>
+            `);
+        });
+    });
 });

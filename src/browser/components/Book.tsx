@@ -13,6 +13,16 @@ export const Book = ({ title, chapters }: BookData) => {
     const [lastActiveChapterNumber, setLastActiveChapterNumber] = useState(1);
     const bottomNavigationRef = React.createRef<HTMLDivElement>();
 
+    if (chapters.length === 0) {
+        return (
+            <div className="book">
+                <div className="book-content">
+                    <p>Dieses Buch hat bisher noch keine Kapitel!</p>
+                </div>
+            </div>
+        );
+    }
+
     return <div className="book">
         <BookChapterTopNavigation
             chapters={chapters}
