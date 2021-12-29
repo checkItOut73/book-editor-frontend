@@ -37,13 +37,16 @@ describe('<EditorParagraph />', () => {
 
     beforeEach(() => {
         props = {
+            id: 33,
             heading: 'The missing key',
             verses: [
                 {
+                    id: 192,
                     text: 'In a gloriously imagined 1920s world inhabited by people who have gramophones for heads, young composer Hero Wasabi has left Japan to study musical composition in Venice, accompanied by his oboe-playing cat Jacuzzi.',
                     numberInChapter: 5
                 },
                 {
+                    id: 193,
                     text: "Hero is a student of the terrifying Madame Zero at the Scuola di Musica, where his fellow students include the aristocratic Count Telefino, an unscrupulous telephone-head who is planning a campaign of dirty tricks to help him win the school's graduation prize, the Abacus Scroll.",
                     numberInChapter: 6
                 }
@@ -87,6 +90,7 @@ describe('<EditorParagraph />', () => {
                   TooltipTriggerDivMock
                 </div>
                 <div
+                  id={192}
                   numberInChapter={5}
                   setLayerContent={[MockFunction]}
                   text="In a gloriously imagined 1920s world inhabited by people who have gramophones for heads, young composer Hero Wasabi has left Japan to study musical composition in Venice, accompanied by his oboe-playing cat Jacuzzi."
@@ -103,6 +107,7 @@ describe('<EditorParagraph />', () => {
                   TooltipTriggerDivMock
                 </div>
                 <div
+                  id={193}
                   numberInChapter={6}
                   setLayerContent={[MockFunction]}
                   text="Hero is a student of the terrifying Madame Zero at the Scuola di Musica, where his fellow students include the aristocratic Count Telefino, an unscrupulous telephone-head who is planning a campaign of dirty tricks to help him win the school's graduation prize, the Abacus Scroll."
@@ -175,6 +180,7 @@ describe('<EditorParagraph />', () => {
         test('setLayerContent is called with the correct layer content', () => {
             expect(props.setLayerContent).toHaveBeenCalledWith(
                 <DeleteParagraphLayer
+                    id={props.id}
                     heading={props.heading}
                     verses={props.verses}
                 />
@@ -270,7 +276,7 @@ describe('<EditorParagraph />', () => {
 
         test('setLayerContent is called with the correct content', () => {
             expect(props.setLayerContent).toHaveBeenCalledWith(
-                <EditParagraphHeadingLayer heading="The missing key" />
+                <EditParagraphHeadingLayer id={33} heading="The missing key" />
             );
         });
     });
@@ -312,6 +318,7 @@ describe('<EditorParagraph />', () => {
                       TooltipTriggerDivMock
                     </div>
                     <div
+                      id={192}
                       numberInChapter={5}
                       setLayerContent={[MockFunction]}
                       text="In a gloriously imagined 1920s world inhabited by people who have gramophones for heads, young composer Hero Wasabi has left Japan to study musical composition in Venice, accompanied by his oboe-playing cat Jacuzzi."
@@ -328,6 +335,7 @@ describe('<EditorParagraph />', () => {
                       TooltipTriggerDivMock
                     </div>
                     <div
+                      id={193}
                       numberInChapter={6}
                       setLayerContent={[MockFunction]}
                       text="Hero is a student of the terrifying Madame Zero at the Scuola di Musica, where his fellow students include the aristocratic Count Telefino, an unscrupulous telephone-head who is planning a campaign of dirty tricks to help him win the school's graduation prize, the Abacus Scroll."
@@ -375,7 +383,7 @@ describe('<EditorParagraph />', () => {
 
             test('setLayerContent is called with the correct content', () => {
                 expect(props.setLayerContent).toHaveBeenCalledWith(
-                    <EditParagraphHeadingLayer heading="" />
+                    <EditParagraphHeadingLayer id={33} heading="" />
                 );
             });
         });

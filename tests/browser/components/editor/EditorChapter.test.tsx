@@ -15,11 +15,15 @@ jest.mock('@components/ui/TooltipTriggerDiv', () => ({
 }));
 
 jest.mock('@components/editor/layers/EditChapterHeadingLayer', () => ({
-    EditChapterHeadingLayer: (props) => <div {...props}>EditChapterHeadingLayerMock</div>
+    EditChapterHeadingLayer: (props) => (
+        <div {...props}>EditChapterHeadingLayerMock</div>
+    )
 }));
 
 jest.mock('@components/editor/layers/InsertParagraphLayer', () => ({
-  InsertParagraphLayer: (props) => <div {...props}>InsertParagraphLayerMock</div>
+    InsertParagraphLayer: (props) => (
+        <div {...props}>InsertParagraphLayerMock</div>
+    )
 }));
 
 describe('<EditorChapter />', () => {
@@ -28,13 +32,16 @@ describe('<EditorChapter />', () => {
 
     beforeEach(() => {
         props = {
+            id: 5,
             heading: 'Chapter 1',
             paragraphs: [
                 {
+                    id: 33,
                     heading: 'The missing key',
                     verses: []
                 },
                 {
+                    id: 34,
                     heading: 'A secret space',
                     verses: []
                 }
@@ -73,6 +80,7 @@ describe('<EditorChapter />', () => {
               </div>
               <div
                 heading="The missing key"
+                id={33}
                 setLayerContent={[MockFunction]}
                 setTooltipText={[MockFunction]}
                 verses={Array []}
@@ -89,6 +97,7 @@ describe('<EditorChapter />', () => {
               </div>
               <div
                 heading="A secret space"
+                id={34}
                 setLayerContent={[MockFunction]}
                 setTooltipText={[MockFunction]}
                 verses={Array []}
@@ -180,7 +189,7 @@ describe('<EditorChapter />', () => {
 
         test('setLayerContent is called with the correct content', () => {
             expect(props.setLayerContent).toHaveBeenCalledWith(
-                <EditChapterHeadingLayer heading="Chapter 1" />
+                <EditChapterHeadingLayer id={5} heading="Chapter 1" />
             );
         });
     });
@@ -216,6 +225,7 @@ describe('<EditorChapter />', () => {
                   </div>
                   <div
                     heading="The missing key"
+                    id={33}
                     setLayerContent={[MockFunction]}
                     setTooltipText={[MockFunction]}
                     verses={Array []}
@@ -232,6 +242,7 @@ describe('<EditorChapter />', () => {
                   </div>
                   <div
                     heading="A secret space"
+                    id={34}
                     setLayerContent={[MockFunction]}
                     setTooltipText={[MockFunction]}
                     verses={Array []}
@@ -267,13 +278,15 @@ describe('<EditorChapter />', () => {
                 renderComponent();
 
                 component.root
-                    .findByProps({ className: 'book-chapter-heading-placeholder' })
+                    .findByProps({
+                        className: 'book-chapter-heading-placeholder'
+                    })
                     .props.onClick();
             });
 
             test('setLayerContent is called with the correct content', () => {
                 expect(props.setLayerContent).toHaveBeenCalledWith(
-                    <EditChapterHeadingLayer heading="" />
+                    <EditChapterHeadingLayer id={5} heading="" />
                 );
             });
         });

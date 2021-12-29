@@ -28,11 +28,13 @@ describe('<EditorBookContent />', () => {
             title: 'Book Title',
             chapters: [
                 {
+                    id: 56,
                     number: 1,
                     heading: 'Chapter 1',
                     paragraphs: []
                 },
                 {
+                    id: 57,
                     number: 2,
                     heading: 'Chapter 2',
                     paragraphs: []
@@ -58,6 +60,7 @@ describe('<EditorBookContent />', () => {
               <div
                 data-editor-chapter={true}
                 heading="Chapter 1"
+                id={56}
                 number={1}
                 paragraphs={Array []}
                 setLayerContent={[MockFunction]}
@@ -126,6 +129,7 @@ describe('<EditorBookContent />', () => {
                   <div
                     data-editor-chapter={true}
                     heading="Chapter 1"
+                    id={56}
                     number={1}
                     paragraphs={Array []}
                     setLayerContent={[MockFunction]}
@@ -186,6 +190,7 @@ describe('<EditorBookContent />', () => {
                   <div
                     data-editor-chapter={true}
                     heading="Chapter 2"
+                    id={57}
                     number={2}
                     paragraphs={Array []}
                     setLayerContent={[MockFunction]}

@@ -12,14 +12,14 @@ type Props = ParagraphData & {
     setLayerContent: (layerContent: JSX.Element) => void;
 }
 
-export const EditorParagraph = ({ heading, verses, setTooltipText, setLayerContent }: Props) => {
+export const EditorParagraph = ({ id, heading, verses, setTooltipText, setLayerContent }: Props) => {
     return <div className="paragraph-container">
         { getHeading() }
         <p className="paragraph">
             <span
                 className="paragraph__closer"
                 onClick={() => setLayerContent(
-                    <DeleteParagraphLayer heading={heading} verses={verses} />
+                    <DeleteParagraphLayer id={id} heading={heading} verses={verses} />
                 )}
             />
             <TooltipTriggerDiv
@@ -69,14 +69,14 @@ export const EditorParagraph = ({ heading, verses, setTooltipText, setLayerConte
                 className="book-paragraph-heading-placeholder"
                 tooltipText="Paragraphüberschrift festlegen"
                 setTooltipText={setTooltipText}
-                onClick={() => setLayerContent(<EditParagraphHeadingLayer heading="" />)}
+                onClick={() => setLayerContent(<EditParagraphHeadingLayer id={id} heading="" />)}
             />;
         }
 
         return (
             <h2
                 className="paragraph-heading"
-                onClick={() => setLayerContent(<EditParagraphHeadingLayer heading={ heading } />)}
+                onClick={() => setLayerContent(<EditParagraphHeadingLayer id={id} heading={ heading } />)}
             >
                 { heading }
             </h2>
@@ -85,8 +85,10 @@ export const EditorParagraph = ({ heading, verses, setTooltipText, setLayerConte
 };
 
 EditorParagraph.propTypes = {
+    id: PropTypes.number.isRequired,
     heading: PropTypes.string.isRequired,
     verses: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.number.isRequired,
         text: PropTypes.string.isRequired,
         numberInChapter: PropTypes.number.isRequired
     })).isRequired,

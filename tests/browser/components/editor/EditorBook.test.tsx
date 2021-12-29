@@ -56,11 +56,13 @@ jest.mock('@reducers/rootReducer', () => ({
                     title: 'Updated Test Book Title',
                     chapters: [
                         {
+                            id: 94032,
                             number: 1,
                             heading: 'Updated Chapter 1',
                             paragraphs: []
                         },
                         {
+                            id: 94033,
                             number: 2,
                             heading: 'Updated Chapter 2',
                             paragraphs: []
@@ -80,11 +82,13 @@ jest.mock('@reducers/rootReducer', () => ({
                     title: 'Asynchronously Updated Test Book Title',
                     chapters: [
                         {
+                            id: 94032,
                             number: 1,
                             heading: 'Asynchronously Updated Chapter 1',
                             paragraphs: []
                         },
                         {
+                            id: 94033,
                             number: 2,
                             heading: 'Asynchronously Updated Chapter 2',
                             paragraphs: []
@@ -107,11 +111,13 @@ describe('<EditorBook />', () => {
             title: 'Book Title',
             chapters: [
                 {
+                    id: 43,
                     heading: 'Chapter 1',
                     number: 1,
                     paragraphs: []
                 },
                 {
+                    id: 44,
                     heading: 'Chapter 2',
                     number: 2,
                     paragraphs: []
@@ -146,11 +152,13 @@ describe('<EditorBook />', () => {
                     Array [
                       Object {
                         "heading": "Chapter 1",
+                        "id": 43,
                         "number": 1,
                         "paragraphs": Array [],
                       },
                       Object {
                         "heading": "Chapter 2",
+                        "id": 44,
                         "number": 2,
                         "paragraphs": Array [],
                       },
@@ -168,11 +176,13 @@ describe('<EditorBook />', () => {
                     Array [
                       Object {
                         "heading": "Chapter 1",
+                        "id": 43,
                         "number": 1,
                         "paragraphs": Array [],
                       },
                       Object {
                         "heading": "Chapter 2",
+                        "id": 44,
                         "number": 2,
                         "paragraphs": Array [],
                       },
@@ -191,11 +201,13 @@ describe('<EditorBook />', () => {
                     Array [
                       Object {
                         "heading": "Chapter 1",
+                        "id": 43,
                         "number": 1,
                         "paragraphs": Array [],
                       },
                       Object {
                         "heading": "Chapter 2",
+                        "id": 44,
                         "number": 2,
                         "paragraphs": Array [],
                       },
@@ -425,11 +437,13 @@ describe('<EditorBook />', () => {
                 title: 'Book Title',
                 chapters: [
                     {
+                        id: 43,
                         heading: 'Chapter 1',
                         number: 1,
                         paragraphs: []
                     },
                     {
+                        id: 44,
                         heading: 'Chapter 2',
                         number: 2,
                         paragraphs: []
@@ -472,11 +486,13 @@ describe('<EditorBook />', () => {
                         Array [
                           Object {
                             "heading": "Updated Chapter 1",
+                            "id": 94032,
                             "number": 1,
                             "paragraphs": Array [],
                           },
                           Object {
                             "heading": "Updated Chapter 2",
+                            "id": 94033,
                             "number": 2,
                             "paragraphs": Array [],
                           },
@@ -494,11 +510,13 @@ describe('<EditorBook />', () => {
                         Array [
                           Object {
                             "heading": "Updated Chapter 1",
+                            "id": 94032,
                             "number": 1,
                             "paragraphs": Array [],
                           },
                           Object {
                             "heading": "Updated Chapter 2",
+                            "id": 94033,
                             "number": 2,
                             "paragraphs": Array [],
                           },
@@ -517,11 +535,13 @@ describe('<EditorBook />', () => {
                         Array [
                           Object {
                             "heading": "Updated Chapter 1",
+                            "id": 94032,
                             "number": 1,
                             "paragraphs": Array [],
                           },
                           Object {
                             "heading": "Updated Chapter 2",
+                            "id": 94033,
                             "number": 2,
                             "paragraphs": Array [],
                           },
@@ -560,11 +580,13 @@ describe('<EditorBook />', () => {
                     title: 'Updated Test Book Title',
                     chapters: [
                         {
+                            id: 94032,
                             number: 1,
                             heading: 'Updated Chapter 1',
                             paragraphs: []
                         },
                         {
+                            id: 94033,
                             number: 2,
                             heading: 'Updated Chapter 2',
                             paragraphs: []
@@ -613,11 +635,13 @@ describe('<EditorBook />', () => {
                         Array [
                           Object {
                             "heading": "Asynchronously Updated Chapter 1",
+                            "id": 94032,
                             "number": 1,
                             "paragraphs": Array [],
                           },
                           Object {
                             "heading": "Asynchronously Updated Chapter 2",
+                            "id": 94033,
                             "number": 2,
                             "paragraphs": Array [],
                           },
@@ -635,11 +659,13 @@ describe('<EditorBook />', () => {
                         Array [
                           Object {
                             "heading": "Asynchronously Updated Chapter 1",
+                            "id": 94032,
                             "number": 1,
                             "paragraphs": Array [],
                           },
                           Object {
                             "heading": "Asynchronously Updated Chapter 2",
+                            "id": 94033,
                             "number": 2,
                             "paragraphs": Array [],
                           },
@@ -658,11 +684,13 @@ describe('<EditorBook />', () => {
                         Array [
                           Object {
                             "heading": "Asynchronously Updated Chapter 1",
+                            "id": 94032,
                             "number": 1,
                             "paragraphs": Array [],
                           },
                           Object {
                             "heading": "Asynchronously Updated Chapter 2",
+                            "id": 94033,
                             "number": 2,
                             "paragraphs": Array [],
                           },

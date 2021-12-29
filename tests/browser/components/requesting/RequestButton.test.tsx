@@ -44,6 +44,25 @@ describe('<RequestButton />', () => {
         `);
     });
 
+    describe('if an additional className prop is given', () => {
+        beforeEach(() => {
+            props.className = 'request-button';
+        });
+
+        test('<RequestButton /> is rendered correctly with this additional className', () => {
+            renderComponent();
+
+            expect(component).toMatchInlineSnapshot(`
+                <button
+                  className="request-button"
+                  onClick={[MockFunction]}
+                >
+                  Abschicken
+                </button>
+            `);
+        });
+    });
+
     describe('when the request state is PENDING', () => {
         beforeEach(() => {
             state.requesting.requestState = RequestState.PENDING;

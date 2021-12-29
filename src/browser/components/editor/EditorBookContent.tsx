@@ -56,11 +56,14 @@ EditorBookContent.propTypes = {
     id: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
     chapters: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.number.isRequired,
         heading: PropTypes.string.isRequired,
         number: PropTypes.number.isRequired,
         paragraphs: PropTypes.arrayOf(PropTypes.shape({
+            id: PropTypes.number.isRequired,
             heading: PropTypes.string.isRequired,
             verses: PropTypes.arrayOf(PropTypes.shape({
+                id: PropTypes.number.isRequired,
                 text: PropTypes.string.isRequired,
                 numberInChapter: PropTypes.number.isRequired
             })).isRequired

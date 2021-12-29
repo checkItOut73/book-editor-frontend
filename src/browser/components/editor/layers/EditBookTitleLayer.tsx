@@ -4,6 +4,7 @@ import { Context } from '@browser/context';
 import { fetchApi } from '@actions/requesting/fetchApi';
 import { RequestReponseMessage } from '@components/requesting/RequestReponseMessage';
 import { RequestButton } from '@components/requesting/RequestButton';
+import { setBookTitle } from '@actions/editor/setBookTitle';
 
 type Props = {
     id: number;
@@ -14,7 +15,7 @@ export const EditBookTitleLayer = ({ id, title }: Props) => {
     const { dispatch } = useContext(Context);
     const [titleInputValue, setTitleInputValue] = useState(title);
 
-    async function setBookTitle() {
+    async function fetchToSetBookTitle() {
         dispatch(fetchApi(
             '/api/book/' + id,
             {
@@ -24,10 +25,7 @@ export const EditBookTitleLayer = ({ id, title }: Props) => {
                 })
             },
             () => {
-                dispatch({
-                    type: 'SET_BOOK_TITLE',
-                    title: titleInputValue
-                });
+                dispatch(setBookTitle(titleInputValue));
             }
         ));
     }
@@ -42,7 +40,7 @@ export const EditBookTitleLayer = ({ id, title }: Props) => {
                     onChange={(event) => setTitleInputValue(event.target.value)}
                     autoFocus={true}
                 />
-                <RequestButton label="Speichern" onClick={setBookTitle} />
+                <RequestButton label="Speichern" onClick={fetchToSetBookTitle} />
             </p>
             <RequestReponseMessage />
         </div>

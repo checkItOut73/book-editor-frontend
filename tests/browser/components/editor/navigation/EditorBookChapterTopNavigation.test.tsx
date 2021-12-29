@@ -27,11 +27,13 @@ describe('<EditorBookChapterTopNavigation />', () => {
         props = {
             chapters: [
                 {
+                    id: 943,
                     heading: 'Chapter 1',
                     number: 1,
                     paragraphs: []
                 },
                 {
+                    id: 944,
                     heading: 'Chapter 2',
                     number: 2,
                     paragraphs: []

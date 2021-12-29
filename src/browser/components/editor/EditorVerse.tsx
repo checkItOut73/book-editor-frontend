@@ -5,11 +5,11 @@ import { EditVerseLayer } from '@components/editor/layers/EditVerseLayer';
 
 type Props = VerseData & { setLayerContent: (layerContent:JSX.Element) => void };
 
-export const EditorVerse = ({ text, numberInChapter, setLayerContent }: Props) => {
+export const EditorVerse = ({ id, text, numberInChapter, setLayerContent }: Props) => {
     return (
         <span
             className="verse"
-            onClick={() => setLayerContent(<EditVerseLayer text={text} numberInChapter={numberInChapter} />)}
+            onClick={() => setLayerContent(<EditVerseLayer id={id} text={text} numberInChapter={numberInChapter} />)}
         >
             <sup>{ numberInChapter }</sup>
             { text }
@@ -18,6 +18,7 @@ export const EditorVerse = ({ text, numberInChapter, setLayerContent }: Props) =
 };
 
 EditorVerse.propTypes = {
+    id: PropTypes.number.isRequired,
     text: PropTypes.string.isRequired,
     numberInChapter: PropTypes.number.isRequired,
     setLayerContent: PropTypes.func.isRequired

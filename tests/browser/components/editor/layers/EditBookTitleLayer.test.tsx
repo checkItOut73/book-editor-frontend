@@ -23,21 +23,27 @@ jest.mock('@actions/requesting/fetchApi', () => ({
     })
 }));
 
+jest.mock('@actions/editor/setBookTitle', () => ({
+    setBookTitle: (title) => ({
+        type: 'SET_BOOK_TITLE_MOCK',
+        title
+    })
+}));
+
 describe('<EditBookTitleLayer />', () => {
-    let dispatch;
     let props;
-    let state;
     let component;
+    let dispatch;
+    let state;
     const getState = () => state;
 
     beforeEach(() => {
-        dispatch = jest.fn();
-
         props = {
             id: 5,
             title: 'Book Title'
         };
 
+        dispatch = jest.fn();
         state = {};
     });
 
@@ -102,38 +108,36 @@ describe('<EditBookTitleLayer />', () => {
                 'The most wanted book'
             );
         });
-    });
 
-    describe('when the request button is clicked', () => {
-        beforeEach(() => {
-            renderComponent();
-
-            component.root.findByType(RequestButton).props.onClick();
-        });
-
-        test('fetchApi is dispatched correctly', () => {
-            expect(dispatch).toHaveBeenCalledWith({
-                type: 'FETCH_API_MOCK',
-                url: '/api/book/5',
-                options: {
-                    method: 'PATCH',
-                    body: JSON.stringify({
-                        title: 'Book Title'
-                    })
-                },
-                onSuccessCallback: expect.any(Function)
-            });
-        });
-
-        describe('when the fetch is complete', () => {
+        describe('and when the request button is clicked', () => {
             beforeEach(() => {
-                dispatch.mock.calls[0][0].onSuccessCallback();
+                component.root.findByType(RequestButton).props.onClick();
             });
 
-            test('the book title is updated', () => {
+            test('fetchApi is dispatched correctly', () => {
                 expect(dispatch).toHaveBeenCalledWith({
-                    type: 'SET_BOOK_TITLE',
-                    title: 'Book Title'
+                    type: 'FETCH_API_MOCK',
+                    url: '/api/book/5',
+                    options: {
+                        method: 'PATCH',
+                        body: JSON.stringify({
+                            title: 'The most wanted book'
+                        })
+                    },
+                    onSuccessCallback: expect.any(Function)
+                });
+            });
+
+            describe('and when the fetch is complete', () => {
+                beforeEach(() => {
+                    dispatch.mock.calls[0][0].onSuccessCallback();
+                });
+
+                test('the book title is updated', () => {
+                    expect(dispatch).toHaveBeenCalledWith({
+                        type: 'SET_BOOK_TITLE_MOCK',
+                        title: 'The most wanted book'
+                    });
                 });
             });
         });

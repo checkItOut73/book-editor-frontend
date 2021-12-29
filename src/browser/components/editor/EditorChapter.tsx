@@ -11,7 +11,7 @@ export type ChapterProps = ChapterData & {
     setLayerContent: (layerContent: JSX.Element) => void;
     children;
 };
-export const EditorChapter = ({ heading, paragraphs, setTooltipText, setLayerContent, children }: ChapterProps) => {
+export const EditorChapter = ({ id, heading, paragraphs, setTooltipText, setLayerContent, children }: ChapterProps) => {
     return (
         <div>
             { children }
@@ -49,7 +49,7 @@ export const EditorChapter = ({ heading, paragraphs, setTooltipText, setLayerCon
                 className="book-chapter-heading-placeholder"
                 tooltipText="Kapitelüberschrift festlegen"
                 setTooltipText={setTooltipText}
-                onClick={() => setLayerContent(<EditChapterHeadingLayer heading="" />)}
+                onClick={() => setLayerContent(<EditChapterHeadingLayer id={id} heading="" />)}
             />;
         }
 
@@ -57,7 +57,7 @@ export const EditorChapter = ({ heading, paragraphs, setTooltipText, setLayerCon
             <h2
                 key="chapter-heading"
                 className="chapter-heading"
-                onClick={() => setLayerContent(<EditChapterHeadingLayer heading={ heading } />)}
+                onClick={() => setLayerContent(<EditChapterHeadingLayer id={id} heading={ heading } />)}
             >
                 { heading }
             </h2>
@@ -66,10 +66,13 @@ export const EditorChapter = ({ heading, paragraphs, setTooltipText, setLayerCon
 };
 
 EditorChapter.propTypes = {
+    id: PropTypes.number.isRequired,
     heading: PropTypes.string.isRequired,
     paragraphs: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.number.isRequired,
         heading: PropTypes.string.isRequired,
         verses: PropTypes.arrayOf(PropTypes.shape({
+            id: PropTypes.number.isRequired,
             text: PropTypes.string.isRequired,
             numberInChapter: PropTypes.number.isRequired
         })).isRequired
