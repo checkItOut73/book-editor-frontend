@@ -1,7 +1,7 @@
 import React from 'react';
 import { create } from 'react-test-renderer';
+import { Context } from '@browser/context';
 import { EditorBookContent } from '@components/editor/EditorBookContent';
-
 import { EditorChapter } from '@components/editor/EditorChapter';
 import { TooltipTriggerDiv } from '@components/ui/TooltipTriggerDiv';
 import { EditBookTitleLayer } from '@components/editor/layers/EditBookTitleLayer';
@@ -21,6 +21,9 @@ jest.mock('@components/editor/layers/EditBookTitleLayer', () => ({
 describe('<EditorBookContent />', () => {
     let props;
     let component;
+    let dispatch;
+    let state;
+    const getState = () => state;
 
     beforeEach(() => {
         props = {
@@ -40,14 +43,24 @@ describe('<EditorBookContent />', () => {
                     paragraphs: []
                 }
             ],
-            activeChapterNumber: 1,
             setTooltipText: jest.fn(),
             setLayerContent: jest.fn()
+        };
+
+        dispatch = jest.fn();
+        state = {
+            navigation: {
+                activeChapterNumber: 1
+            }
         };
     });
 
     function renderComponent() {
-        component = create(<EditorBookContent {...props} />);
+        component = create(
+            <Context.Provider value={{ dispatch, getState }}>
+                <EditorBookContent {...props} />
+            </Context.Provider>
+        );
     }
 
     test('<EditorBookContent /> renders the active chapter', () => {
@@ -177,7 +190,7 @@ describe('<EditorBookContent />', () => {
 
     describe('if the active chapter is not 1', () => {
         beforeEach(() => {
-            props.activeChapterNumber = 2;
+            state.navigation.activeChapterNumber = 2;
         });
 
         test('<EditorBookContent /> renders the active chapter without title', () => {

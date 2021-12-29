@@ -64,24 +64,41 @@
         }
     }
 
+    .chapter__closer,
     .paragraph__closer {
         position: absolute;
         right: 0;
         top: 0;
-        width: 22px;
-        height: 22px;
         cursor: pointer;
-        border-radius: 5px;
         font-family: Calibri, Arial;
-        color: papayawhip;
+        color: #7c7c7c;
         padding: 0;
-        line-height: 18px;
         text-align: center;
         font-size: 14px;
 
         &::before {
             content: 'x';
         }
+    }
+
+    .chapter__closer {
+        width: 25px;
+        height: 25px;
+        line-height: 25px;
+        border-radius: 4px;
+        background-color: #ff999b;
+    }
+    .chapter__closer:hover {
+        color: #000000;
+        background-color: #ff6466;
+    }
+
+    .paragraph__closer {
+        width: 22px;
+        height: 22px;
+        line-height: 18px;
+        border-radius: 5px;
+        color: papayawhip;
     }
 
     .paragraph-heading,

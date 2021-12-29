@@ -4,16 +4,17 @@ import { RequestState } from '@actions/requesting/types/RequestState';
 import { Context } from '@browser/context';
 
 type Props = {
-    className?: string;
     label: string;
     onClick: MouseEventHandler<HTMLButtonElement>;
+    className?: string;
+    disabled?: boolean;
 }
 
-export const RequestButton = ({ className, label, onClick }: Props) => {
+export const RequestButton = ({ label, onClick, className, disabled }: Props) => {
     const { getState } = useContext(Context);
     const { requesting: { requestState }} = getState();
 
-    const buttonProps = { onClick, ...(className ? { className } : {}) };
+    const buttonProps = { onClick, ...(className ? { className } : {}), ...(disabled ? { disabled } : {}) };
 
     return (
         <button {...buttonProps}>
@@ -26,7 +27,8 @@ export const RequestButton = ({ className, label, onClick }: Props) => {
 };
 
 RequestButton.propTypes = {
-    className: PropTypes.string,
     label: PropTypes.string.isRequired,
-    onClick: PropTypes.func.isRequired
+    onClick: PropTypes.func.isRequired,
+    className: PropTypes.string,
+    disabled: PropTypes.bool
 };

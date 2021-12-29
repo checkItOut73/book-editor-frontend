@@ -1,17 +1,20 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { BookData } from '@server/UseCase/GetApp/BookData';
 import { EditorChapter } from '@components/editor/EditorChapter';
 import { TooltipTriggerDiv } from '@components/ui/TooltipTriggerDiv';
 import { EditBookTitleLayer } from '@components/editor/layers/EditBookTitleLayer';
+import { Context } from '@browser/context';
 
 type Props = BookData & {
-    activeChapterNumber: number;
     setTooltipText: (tooltipText: string) => void;
     setLayerContent: (layerContent: JSX.Element) => void;
 };
 
-export const EditorBookContent = ({ id, title, chapters, activeChapterNumber, setTooltipText, setLayerContent }: Props) => {
+export const EditorBookContent = ({ id, title, chapters, setTooltipText, setLayerContent }: Props) => {
+    const { getState } = useContext(Context);
+    const { navigation: { activeChapterNumber }} = getState();
+
     return (
         <div className="book-content">
             { chapters
@@ -69,7 +72,6 @@ EditorBookContent.propTypes = {
             })).isRequired
         })).isRequired
     })).isRequired,
-    activeChapterNumber: PropTypes.number.isRequired,
     setTooltipText: PropTypes.func.isRequired,
     setLayerContent: PropTypes.func.isRequired
 };

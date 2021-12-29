@@ -21,6 +21,7 @@ describe('<Layer />', () => {
             layerContent: <h1>Overview</h1>,
             setLayerContent: jest.fn()
         };
+
         dispatch = jest.fn();
         state = {
             requesting: {

@@ -5,15 +5,22 @@ import { EditorParagraph } from '@components/editor/EditorParagraph';
 import { TooltipTriggerDiv } from '@components/ui/TooltipTriggerDiv';
 import { EditChapterHeadingLayer } from '@components/editor/layers/EditChapterHeadingLayer';
 import { InsertParagraphLayer } from '@components/editor/layers/InsertParagraphLayer';
+import { DeleteChapterLayer } from '@components/editor/layers/DeleteChapterLayer';
 
 export type ChapterProps = ChapterData & {
     setTooltipText: (tooltipText: string) => void;
     setLayerContent: (layerContent: JSX.Element) => void;
     children;
 };
-export const EditorChapter = ({ id, heading, paragraphs, setTooltipText, setLayerContent, children }: ChapterProps) => {
+export const EditorChapter = ({ id, heading, number, paragraphs, setTooltipText, setLayerContent, children }: ChapterProps) => {
     return (
-        <div>
+        <div className="chapter">
+            <span
+                className="chapter__closer"
+                onClick={() => setLayerContent(
+                    <DeleteChapterLayer id={id} heading={heading} number={number} paragraphs={paragraphs} />
+                )}
+            />
             { children }
             { getHeading() }
             <>
@@ -68,6 +75,7 @@ export const EditorChapter = ({ id, heading, paragraphs, setTooltipText, setLaye
 EditorChapter.propTypes = {
     id: PropTypes.number.isRequired,
     heading: PropTypes.string.isRequired,
+    number: PropTypes.number.isRequired,
     paragraphs: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.number.isRequired,
         heading: PropTypes.string.isRequired,

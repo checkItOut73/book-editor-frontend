@@ -1,7 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export const BookChapterNavigationElement = ({ chapterNumber, setActiveChapterNumber }) => {
+interface Props {
+    chapterNumber: number;
+    setActiveChapterNumber: (chapterNumber: number) => void;
+}
+export const BookChapterNavigationElement = ({ chapterNumber, setActiveChapterNumber }: Props) => {
     return (
         <div
             onClick={() => setActiveChapterNumber(chapterNumber)}

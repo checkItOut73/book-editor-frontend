@@ -1,7 +1,9 @@
-.delete-paragraph-layer {
-    width: 565px;
+.delete-chapter-layer {
+    width: 765px;
 
-    &__paragraph {
+    &__chapter {
+        height: 500px;
+        overflow: scroll;
         text-align: left;
         background-color: papayawhip;
         border-radius: 5px;

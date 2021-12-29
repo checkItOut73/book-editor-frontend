@@ -5,6 +5,7 @@ import { EditorChapter } from '@components/editor/EditorChapter';
 import { EditorParagraph } from '@components/editor/EditorParagraph';
 import { EditChapterHeadingLayer } from '@components/editor/layers/EditChapterHeadingLayer';
 import { InsertParagraphLayer } from '@components/editor/layers/InsertParagraphLayer';
+import { DeleteChapterLayer } from '@components/editor/layers/DeleteChapterLayer';
 
 jest.mock('@components/editor/EditorParagraph', () => ({
     EditorParagraph: (props) => <div {...props}>EditorParagraphMock</div>
@@ -26,6 +27,12 @@ jest.mock('@components/editor/layers/InsertParagraphLayer', () => ({
     )
 }));
 
+jest.mock('@components/editor/layers/DeleteChapterLayer', () => ({
+    DeleteChapterLayer: (props) => (
+        <div {...props}>DeleteChapterLayerMock</div>
+    )
+}));
+
 describe('<EditorChapter />', () => {
     let props;
     let component;
@@ -34,6 +41,7 @@ describe('<EditorChapter />', () => {
         props = {
             id: 5,
             heading: 'Chapter 1',
+            number: 3,
             paragraphs: [
                 {
                     id: 33,
@@ -60,7 +68,13 @@ describe('<EditorChapter />', () => {
         renderComponent();
 
         expect(component).toMatchInlineSnapshot(`
-            <div>
+            <div
+              className="chapter"
+            >
+              <span
+                className="chapter__closer"
+                onClick={[Function]}
+              />
               <h1>
                 Book Title
               </h1>
@@ -203,7 +217,13 @@ describe('<EditorChapter />', () => {
             renderComponent();
 
             expect(component).toMatchInlineSnapshot(`
-                <div>
+                <div
+                  className="chapter"
+                >
+                  <span
+                    className="chapter__closer"
+                    onClick={[Function]}
+                  />
                   <h1>
                     Book Title
                   </h1>
@@ -289,6 +309,38 @@ describe('<EditorChapter />', () => {
                     <EditChapterHeadingLayer id={5} heading="" />
                 );
             });
+        });
+    });
+
+    describe('when the chapter closer is clicked', () => {
+        beforeEach(() => {
+            renderComponent();
+
+            component.root
+                .findByProps({ className: 'chapter__closer' })
+                .props.onClick();
+        });
+
+        test('setLayerContent is called with the correct content', () => {
+            expect(props.setLayerContent).toHaveBeenCalledWith(
+                <DeleteChapterLayer
+                    id={5}
+                    heading="Chapter 1"
+                    number={3}
+                    paragraphs={[
+                        {
+                            id: 33,
+                            heading: 'The missing key',
+                            verses: []
+                        },
+                        {
+                            id: 34,
+                            heading: 'A secret space',
+                            verses: []
+                        }
+                    ]}
+                />
+            );
         });
     });
 });

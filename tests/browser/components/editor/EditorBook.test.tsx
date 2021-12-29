@@ -147,7 +147,6 @@ describe('<EditorBook />', () => {
                 className="book book--editor"
               >
                 <div
-                  activeChapterNumber={1}
                   chapters={
                     Array [
                       Object {
@@ -164,14 +163,12 @@ describe('<EditorBook />', () => {
                       },
                     ]
                   }
-                  setActiveChapterNumber={[Function]}
                   setLayerContent={[Function]}
                   setTooltipText={[Function]}
                 >
                   EditorBookChapterTopNavigationMock
                 </div>
                 <div
-                  activeChapterNumber={1}
                   chapters={
                     Array [
                       Object {
@@ -196,7 +193,6 @@ describe('<EditorBook />', () => {
                   EditorBookContentMock
                 </div>
                 <div
-                  activeChapterNumber={1}
                   chapters={
                     Array [
                       Object {
@@ -213,7 +209,6 @@ describe('<EditorBook />', () => {
                       },
                     ]
                   }
-                  setActiveChapterNumber={[Function]}
                   setLayerContent={[Function]}
                   setTooltipText={[Function]}
                 >
@@ -233,59 +228,6 @@ describe('<EditorBook />', () => {
               </div>
             </div>
         `);
-    });
-
-    describe('when activeChapterNumber is changed in the top navigation', () => {
-        beforeEach(() => {
-            renderComponent();
-
-            act(() => {
-                component.root
-                    .findByType(EditorBookChapterTopNavigation)
-                    .props.setActiveChapterNumber(2);
-            });
-        });
-
-        test('<EditorBook /> is rendered with correct activeChapterNumber', () => {
-            const bookContent = component.root.findByType(EditorBookContent);
-
-            expect(bookContent.props.activeChapterNumber).toBe(2);
-        });
-
-        describe('and when activeChapterNumber is changed back in the top navigation', () => {
-            beforeEach(() => {
-                act(() => {
-                    component.root
-                        .findByType(EditorBookChapterTopNavigation)
-                        .props.setActiveChapterNumber(1);
-                });
-            });
-
-            test('<EditorBook /> is rendered with correct activeChapterNumber', () => {
-                const bookContent =
-                    component.root.findByType(EditorBookContent);
-
-                expect(bookContent.props.activeChapterNumber).toBe(1);
-            });
-        });
-    });
-
-    describe('when the bottom navigation is clicked', () => {
-        beforeEach(() => {
-            renderComponent();
-
-            act(() => {
-                component.root
-                    .findByType(EditorBookChapterBottomNavigation)
-                    .props.setActiveChapterNumber(2);
-            });
-        });
-
-        test('<EditorBook /> is rendered with correct activeChapterNumber', () => {
-            const bookContent = component.root.findByType(EditorBookContent);
-
-            expect(bookContent.props.activeChapterNumber).toBe(2);
-        });
     });
 
     describe('setTooltipText | ', () => {
@@ -481,7 +423,6 @@ describe('<EditorBook />', () => {
                     className="book book--editor"
                   >
                     <div
-                      activeChapterNumber={1}
                       chapters={
                         Array [
                           Object {
@@ -498,14 +439,12 @@ describe('<EditorBook />', () => {
                           },
                         ]
                       }
-                      setActiveChapterNumber={[Function]}
                       setLayerContent={[Function]}
                       setTooltipText={[Function]}
                     >
                       EditorBookChapterTopNavigationMock
                     </div>
                     <div
-                      activeChapterNumber={1}
                       chapters={
                         Array [
                           Object {
@@ -530,7 +469,6 @@ describe('<EditorBook />', () => {
                       EditorBookContentMock
                     </div>
                     <div
-                      activeChapterNumber={1}
                       chapters={
                         Array [
                           Object {
@@ -547,7 +485,6 @@ describe('<EditorBook />', () => {
                           },
                         ]
                       }
-                      setActiveChapterNumber={[Function]}
                       setLayerContent={[Function]}
                       setTooltipText={[Function]}
                     >
@@ -630,7 +567,6 @@ describe('<EditorBook />', () => {
                     className="book book--editor"
                   >
                     <div
-                      activeChapterNumber={1}
                       chapters={
                         Array [
                           Object {
@@ -647,14 +583,12 @@ describe('<EditorBook />', () => {
                           },
                         ]
                       }
-                      setActiveChapterNumber={[Function]}
                       setLayerContent={[Function]}
                       setTooltipText={[Function]}
                     >
                       EditorBookChapterTopNavigationMock
                     </div>
                     <div
-                      activeChapterNumber={1}
                       chapters={
                         Array [
                           Object {
@@ -679,7 +613,6 @@ describe('<EditorBook />', () => {
                       EditorBookContentMock
                     </div>
                     <div
-                      activeChapterNumber={1}
                       chapters={
                         Array [
                           Object {
@@ -696,7 +629,6 @@ describe('<EditorBook />', () => {
                           },
                         ]
                       }
-                      setActiveChapterNumber={[Function]}
                       setLayerContent={[Function]}
                       setTooltipText={[Function]}
                     >

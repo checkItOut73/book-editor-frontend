@@ -63,6 +63,25 @@ describe('<RequestButton />', () => {
         });
     });
 
+    describe('if the disabled prop is given', () => {
+        beforeEach(() => {
+            props.disabled = true;
+        });
+
+        test('<RequestButton /> is rendered correctly with disabled attribute', () => {
+            renderComponent();
+
+            expect(component).toMatchInlineSnapshot(`
+                <button
+                  disabled={true}
+                  onClick={[MockFunction]}
+                >
+                  Abschicken
+                </button>
+            `);
+        });
+    });
+
     describe('when the request state is PENDING', () => {
         beforeEach(() => {
             state.requesting.requestState = RequestState.PENDING;

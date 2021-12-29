@@ -71,6 +71,110 @@ describe('book | ', () => {
         });
     });
 
+    test('book reducer deletes chapter correctly', () => {
+        const state = {
+            id: 43,
+            title: 'book title',
+            chapters: [
+                {
+                    id: 943,
+                    heading: 'Chapter 943',
+                    number: 4,
+                    paragraphs: []
+                },
+                {
+                    id: 944,
+                    heading: 'Chapter 944',
+                    number: 5,
+                    paragraphs: []
+                },
+                {
+                    id: 945,
+                    heading: 'Chapter 945',
+                    number: 6,
+                    paragraphs: []
+                },
+                {
+                    id: 946,
+                    heading: 'Chapter 946',
+                    number: 7,
+                    paragraphs: []
+                }
+            ]
+        };
+
+        const action = {
+            type: ActionType.DELETE_CHAPTER,
+            id: 944
+        };
+
+        expect(book(state, action)).toEqual({
+            id: 43,
+            title: 'book title',
+            chapters: [
+                {
+                    id: 943,
+                    heading: 'Chapter 943',
+                    number: 4,
+                    paragraphs: []
+                },
+                {
+                    id: 945,
+                    heading: 'Chapter 945',
+                    number: 5,
+                    paragraphs: []
+                },
+                {
+                    id: 946,
+                    heading: 'Chapter 946',
+                    number: 6,
+                    paragraphs: []
+                }
+            ]
+        });
+    });
+
+    test('book reducer does not cause an error on attempt of deletion of a non existent chapter', () => {
+        const state = {
+            id: 43,
+            title: 'book title',
+            chapters: [
+                {
+                    id: 943,
+                    heading: 'Chapter 943',
+                    paragraphs: []
+                },
+                {
+                    id: 944,
+                    heading: 'Chapter 944',
+                    paragraphs: []
+                }
+            ]
+        };
+
+        const action = {
+            type: ActionType.DELETE_CHAPTER,
+            id: 5345345
+        };
+
+        expect(book(state, action)).toEqual({
+            id: 43,
+            title: 'book title',
+            chapters: [
+                {
+                    id: 943,
+                    heading: 'Chapter 943',
+                    paragraphs: []
+                },
+                {
+                    id: 944,
+                    heading: 'Chapter 944',
+                    paragraphs: []
+                }
+            ]
+        });
+    });
+
     test('book reducer updates paragraph heading correctly', () => {
         const state = {
             id: 43,
@@ -139,6 +243,76 @@ describe('book | ', () => {
                         {
                             id: 2906,
                             heading: 'Updated Paragraph 2906',
+                            verses: []
+                        }
+                    ]
+                }
+            ]
+        });
+    });
+
+    test('book reducer deletes paragraph correctly', () => {
+        const state = {
+            id: 43,
+            title: 'book title',
+            chapters: [
+                {
+                    id: 943,
+                    heading: 'Chapter 943',
+                    paragraphs: [
+                        {
+                            id: 2904,
+                            heading: 'Paragraph 2904',
+                            verses: []
+                        }
+                    ]
+                },
+                {
+                    id: 944,
+                    heading: 'Chapter 944',
+                    paragraphs: [
+                        {
+                            id: 2905,
+                            heading: 'Paragraph 2905',
+                            verses: []
+                        },
+                        {
+                            id: 2906,
+                            heading: 'Paragraph 2906',
+                            verses: []
+                        }
+                    ]
+                }
+            ]
+        };
+
+        const action = {
+            type: ActionType.DELETE_PARAGRAPH,
+            id: 2906
+        };
+
+        expect(book(state, action)).toEqual({
+            id: 43,
+            title: 'book title',
+            chapters: [
+                {
+                    id: 943,
+                    heading: 'Chapter 943',
+                    paragraphs: [
+                        {
+                            id: 2904,
+                            heading: 'Paragraph 2904',
+                            verses: []
+                        }
+                    ]
+                },
+                {
+                    id: 944,
+                    heading: 'Chapter 944',
+                    paragraphs: [
+                        {
+                            id: 2905,
+                            heading: 'Paragraph 2905',
                             verses: []
                         }
                     ]

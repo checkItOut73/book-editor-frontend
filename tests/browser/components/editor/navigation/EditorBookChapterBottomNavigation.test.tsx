@@ -1,5 +1,6 @@
 import React from 'react';
 import { create } from 'react-test-renderer';
+import { Context } from '@browser/context';
 import { EditorBookChapterBottomNavigation } from '@components/editor/navigation/EditorBookChapterBottomNavigation';
 
 import { BookChapterNavigationElement } from '@components/navigation/BookChapterNavigationElement';
@@ -31,9 +32,19 @@ jest.mock('@components/editor/layers/InsertChapterLayer', () => ({
     InsertChapterLayer: (props) => <div data-insert-chapter-layer {...props} />
 }));
 
+jest.mock('@actions/navigation/setActiveChapterNumber', () => ({
+    setActiveChapterNumber: (chapterNumber) => ({
+        type: 'SET_ACTIVE_CHAPTER_NUMBER_MOCK',
+        chapterNumber
+    })
+}));
+
 describe('<EditorBookChapterBottomNavigation />', () => {
     let props;
     let component;
+    let dispatch;
+    let state;
+    const getState = () => state;
 
     beforeEach(() => {
         props = {
@@ -51,17 +62,23 @@ describe('<EditorBookChapterBottomNavigation />', () => {
                     paragraphs: []
                 }
             ],
-            activeChapterNumber: 2,
-            setActiveChapterNumber: jest.fn(),
             setTooltipText: jest.fn(),
             setLayerContent: jest.fn()
         };
+
+        dispatch = jest.fn();
+        state = {
+            navigation: {
+                activeChapterNumber: 2
+            }
+        };
     });
 
-    function renderComponent(options = {}) {
+    function renderComponent() {
         component = create(
-            <EditorBookChapterBottomNavigation {...props} />,
-            options
+            <Context.Provider value={{ dispatch, getState }}>
+                <EditorBookChapterBottomNavigation {...props} />
+            </Context.Provider>
         );
     }
 
@@ -82,7 +99,7 @@ describe('<EditorBookChapterBottomNavigation />', () => {
               <div
                 chapterNumber={1}
                 data-book-chapter-navigation-element={true}
-                setActiveChapterNumber={[MockFunction]}
+                setActiveChapterNumber={[Function]}
               />
               <div
                 className="chapter-placeholder"
@@ -112,10 +129,13 @@ describe('<EditorBookChapterBottomNavigation />', () => {
         component.root
             .findAllByType(BookChapterNavigationElement)
             .forEach((navigationElement) => {
-                props.setActiveChapterNumber.mockClear();
+                dispatch.mockClear();
                 navigationElement.props.setActiveChapterNumber(3);
 
-                expect(props.setActiveChapterNumber).toHaveBeenCalledWith(3);
+                expect(dispatch).toHaveBeenCalledWith({
+                    type: 'SET_ACTIVE_CHAPTER_NUMBER_MOCK',
+                    chapterNumber: 3
+                });
             });
     });
 

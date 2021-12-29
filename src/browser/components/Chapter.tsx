@@ -4,7 +4,7 @@ import { ChapterData } from '@server/UseCase/GetApp/BookData';
 import { Paragraph } from '@components/Paragraph';
 
 export type ChapterProps = ChapterData & {
-    children;
+    children?;
     classNameModifier?: string;
     height?: number;
     onTransitionEnd?: TransitionEventHandler;

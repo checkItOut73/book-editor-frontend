@@ -1,8 +1,12 @@
 import { rootReducer } from '@browser/reducers/rootReducer';
+import * as navigationReducer from '@reducers/navigation';
 import * as bookReducer from '@reducers/book';
 import * as requestingReducer from '@reducers/requesting';
 import { RequestState } from '@actions/requesting/types/RequestState';
 import { ActionType } from '@actions/ActionType';
+
+const navigationSpy = jest.spyOn(navigationReducer, 'navigation');
+navigationSpy.mockImplementation((state = navigationReducer.NAVIGATION_DEFAULT_STATE) => state);
 
 const bookSpy = jest.spyOn(bookReducer, 'book');
 bookSpy.mockImplementation((state = bookReducer.BOOK_DEFAULT_STATE) => state);
@@ -15,6 +19,9 @@ requestingSpy.mockImplementation(
 describe('rootReducer | ', () => {
     test('rootReducer returns correct default state', () => {
         expect(rootReducer({}, {})).toEqual({
+            navigation: {
+                activeChapterNumber: 1
+            },
             book: {
                 chapters: [],
                 id: undefined,
@@ -25,6 +32,30 @@ describe('rootReducer | ', () => {
                 message: ''
             }
         });
+    });
+
+    test('rootReducer calls the navigation reducer correctly', () => {
+        expect(
+            rootReducer(
+                {
+                    navigation: {
+                        activeChapterNumber: 5
+                    }
+                },
+                {
+                    type: ActionType.DECREMENT_ACTIVE_CHAPTER_NUMBER
+                }
+            )
+        );
+
+        expect(navigationSpy).toHaveBeenCalledWith(
+            {
+                activeChapterNumber: 5
+            },
+            {
+                type: ActionType.DECREMENT_ACTIVE_CHAPTER_NUMBER
+            }
+        );
     });
 
     test('rootReducer calls the book reducer correctly', () => {

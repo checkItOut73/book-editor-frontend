@@ -1,18 +1,21 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { ChapterData } from '@server/UseCase/GetApp/BookData';
 import { BookChapterNavigationElement } from '@components/navigation/BookChapterNavigationElement';
 import { TooltipTriggerDiv } from '@components/ui/TooltipTriggerDiv';
 import { InsertChapterLayer } from '@components/editor/layers/InsertChapterLayer';
+import { Context } from '@browser/context';
+import { setActiveChapterNumber } from '@actions/navigation/setActiveChapterNumber';
 
 interface Props {
     chapters: Array<ChapterData>;
-    activeChapterNumber: number;
-    setActiveChapterNumber: (chapterNumber: number) => void;
     setTooltipText: (tooltipText: string) => void;
     setLayerContent: (layerContent: JSX.Element) => void;
 }
-export const EditorBookChapterTopNavigation = ({ chapters, activeChapterNumber, setActiveChapterNumber, setTooltipText, setLayerContent }: Props) => {
+export const EditorBookChapterTopNavigation = ({ chapters, setTooltipText, setLayerContent }: Props) => {
+    const { dispatch, getState } = useContext(Context);
+    const { navigation: { activeChapterNumber }} = getState();
+
     return (
         <div className="book-chapter-navigation">
             <TooltipTriggerDiv
@@ -28,7 +31,7 @@ export const EditorBookChapterTopNavigation = ({ chapters, activeChapterNumber, 
                     <BookChapterNavigationElement
                         key={chapterData.number}
                         chapterNumber={chapterData.number}
-                        setActiveChapterNumber={setActiveChapterNumber}
+                        setActiveChapterNumber={(chapterNumber) => dispatch(setActiveChapterNumber(chapterNumber))}
                     />,
                     <TooltipTriggerDiv
                         key={chapterData.number + ':after'}
@@ -68,8 +71,6 @@ EditorBookChapterTopNavigation.propTypes = {
             })).isRequired
         })).isRequired
     })).isRequired,
-    activeChapterNumber: PropTypes.number.isRequired,
-    setActiveChapterNumber: PropTypes.func.isRequired,
     setTooltipText: PropTypes.func.isRequired,
     setLayerContent: PropTypes.func.isRequired
 };

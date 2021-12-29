@@ -27,6 +27,26 @@ export const book = (state = BOOK_DEFAULT_STATE, action: Action = {}) => {
                     };
                 })
             };
+        case ActionType.DELETE_CHAPTER:
+            const chapterToBeDeleted = state.chapters.find((chapter) => chapter.id === action.id);
+
+            if (!chapterToBeDeleted) {
+                return state;
+            }
+
+            return {
+                ...state,
+                chapters: state.chapters
+                    .filter((chapter) => {
+                        return chapter.id !== action.id;
+                    })
+                    .map((chapter) => {
+                        return {
+                            ...chapter,
+                            number: chapter.number > chapterToBeDeleted.number ? chapter.number - 1 : chapter.number
+                        };
+                    })
+            };
         case ActionType.SET_PARAGRAPH_HEADING:
             return {
                 ...state,
@@ -42,6 +62,18 @@ export const book = (state = BOOK_DEFAULT_STATE, action: Action = {}) => {
                                 ...paragraph,
                                 heading: action.heading
                             };
+                        })
+                    };
+                })
+            };
+        case ActionType.DELETE_PARAGRAPH:
+            return {
+                ...state,
+                chapters: state.chapters.map((chapter) => {
+                    return {
+                        ...chapter,
+                        paragraphs: chapter.paragraphs.filter((paragraph) => {
+                            return paragraph.id !== action.id;
                         })
                     };
                 })

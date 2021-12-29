@@ -21,7 +21,6 @@ export const EditorBook = ({ id, title, chapters }) => {
         return dispatchForPlainActions(action);
     }
 
-    const [activeChapterNumber, setActiveChapterNumber] = useState(1);
     const [tooltipText, setTooltipText] = useState('');
     const [layerContent, setLayerContent] = useState(null);
 
@@ -29,8 +28,6 @@ export const EditorBook = ({ id, title, chapters }) => {
         <div className="book book--editor">
             <EditorBookChapterTopNavigation
                 chapters={chapters}
-                activeChapterNumber={activeChapterNumber}
-                setActiveChapterNumber={setActiveChapterNumber}
                 setTooltipText={setTooltipText}
                 setLayerContent={setLayerContent}
             />
@@ -38,14 +35,11 @@ export const EditorBook = ({ id, title, chapters }) => {
                 id={id}
                 title={title}
                 chapters={chapters}
-                activeChapterNumber={activeChapterNumber}
                 setTooltipText={setTooltipText}
                 setLayerContent={setLayerContent}
             />
             <EditorBookChapterBottomNavigation
                 chapters={chapters}
-                activeChapterNumber={activeChapterNumber}
-                setActiveChapterNumber={setActiveChapterNumber}
                 setTooltipText={setTooltipText}
                 setLayerContent={setLayerContent}
             />
