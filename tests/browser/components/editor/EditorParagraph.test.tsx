@@ -42,13 +42,15 @@ describe('<EditorParagraph />', () => {
             verses: [
                 {
                     id: 192,
-                    text: 'In a gloriously imagined 1920s world inhabited by people who have gramophones for heads, young composer Hero Wasabi has left Japan to study musical composition in Venice, accompanied by his oboe-playing cat Jacuzzi.',
-                    numberInChapter: 5
+                    numberInParagraph: 1,
+                    numberInChapter: 5,
+                    text: 'In a gloriously imagined 1920s world inhabited by people who have gramophones for heads, young composer Hero Wasabi has left Japan to study musical composition in Venice, accompanied by his oboe-playing cat Jacuzzi.'
                 },
                 {
                     id: 193,
-                    text: "Hero is a student of the terrifying Madame Zero at the Scuola di Musica, where his fellow students include the aristocratic Count Telefino, an unscrupulous telephone-head who is planning a campaign of dirty tricks to help him win the school's graduation prize, the Abacus Scroll.",
-                    numberInChapter: 6
+                    numberInParagraph: 2,
+                    numberInChapter: 6,
+                    text: "Hero is a student of the terrifying Madame Zero at the Scuola di Musica, where his fellow students include the aristocratic Count Telefino, an unscrupulous telephone-head who is planning a campaign of dirty tricks to help him win the school's graduation prize, the Abacus Scroll."
                 }
             ],
             setTooltipText: jest.fn(),
@@ -92,6 +94,7 @@ describe('<EditorParagraph />', () => {
                 <div
                   id={192}
                   numberInChapter={5}
+                  numberInParagraph={1}
                   setLayerContent={[MockFunction]}
                   text="In a gloriously imagined 1920s world inhabited by people who have gramophones for heads, young composer Hero Wasabi has left Japan to study musical composition in Venice, accompanied by his oboe-playing cat Jacuzzi."
                 >
@@ -109,6 +112,7 @@ describe('<EditorParagraph />', () => {
                 <div
                   id={193}
                   numberInChapter={6}
+                  numberInParagraph={2}
                   setLayerContent={[MockFunction]}
                   text="Hero is a student of the terrifying Madame Zero at the Scuola di Musica, where his fellow students include the aristocratic Count Telefino, an unscrupulous telephone-head who is planning a campaign of dirty tricks to help him win the school's graduation prize, the Abacus Scroll."
                 >
@@ -320,6 +324,7 @@ describe('<EditorParagraph />', () => {
                     <div
                       id={192}
                       numberInChapter={5}
+                      numberInParagraph={1}
                       setLayerContent={[MockFunction]}
                       text="In a gloriously imagined 1920s world inhabited by people who have gramophones for heads, young composer Hero Wasabi has left Japan to study musical composition in Venice, accompanied by his oboe-playing cat Jacuzzi."
                     >
@@ -337,6 +342,7 @@ describe('<EditorParagraph />', () => {
                     <div
                       id={193}
                       numberInChapter={6}
+                      numberInParagraph={2}
                       setLayerContent={[MockFunction]}
                       text="Hero is a student of the terrifying Madame Zero at the Scuola di Musica, where his fellow students include the aristocratic Count Telefino, an unscrupulous telephone-head who is planning a campaign of dirty tricks to help him win the school's graduation prize, the Abacus Scroll."
                     >

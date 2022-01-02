@@ -100,8 +100,12 @@ describe('fetchApi | ', () => {
             });
         });
 
-        test('fetchApi calls the onSuccessCallback', () => {
-            expect(onSuccessCallback).toHaveBeenCalled();
+        test('fetchApi calls the onSuccessCallback with the response', () => {
+            expect(onSuccessCallback).toHaveBeenCalledWith({
+                success: {
+                    message: 'Success!'
+                }
+            });
         });
     });
 

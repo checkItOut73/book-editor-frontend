@@ -45,12 +45,16 @@ describe('<DeleteParagraphLayer />', () => {
             heading: 'The missing key',
             verses: [
                 {
-                    text: 'In a gloriously imagined 1920s world inhabited by people who have gramophones for heads, young composer Hero Wasabi has left Japan to study musical composition in Venice, accompanied by his oboe-playing cat Jacuzzi.',
-                    numberInChapter: 5
+                    id: 2930,
+                    numberInParagraph: 1,
+                    numberInChapter: 5,
+                    text: 'In a gloriously imagined 1920s world inhabited by people who have gramophones for heads, young composer Hero Wasabi has left Japan to study musical composition in Venice, accompanied by his oboe-playing cat Jacuzzi.'
                 },
                 {
-                    text: "Hero is a student of the terrifying Madame Zero at the Scuola di Musica, where his fellow students include the aristocratic Count Telefino, an unscrupulous telephone-head who is planning a campaign of dirty tricks to help him win the school's graduation prize, the Abacus Scroll.",
-                    numberInChapter: 6
+                    id: 2931,
+                    numberInParagraph: 2,
+                    numberInChapter: 6,
+                    text: "Hero is a student of the terrifying Madame Zero at the Scuola di Musica, where his fellow students include the aristocratic Count Telefino, an unscrupulous telephone-head who is planning a campaign of dirty tricks to help him win the school's graduation prize, the Abacus Scroll."
                 }
             ]
         };
@@ -84,11 +88,15 @@ describe('<DeleteParagraphLayer />', () => {
                   verses={
                     Array [
                       Object {
+                        "id": 2930,
                         "numberInChapter": 5,
+                        "numberInParagraph": 1,
                         "text": "In a gloriously imagined 1920s world inhabited by people who have gramophones for heads, young composer Hero Wasabi has left Japan to study musical composition in Venice, accompanied by his oboe-playing cat Jacuzzi.",
                       },
                       Object {
+                        "id": 2931,
                         "numberInChapter": 6,
+                        "numberInParagraph": 2,
                         "text": "Hero is a student of the terrifying Madame Zero at the Scuola di Musica, where his fellow students include the aristocratic Count Telefino, an unscrupulous telephone-head who is planning a campaign of dirty tricks to help him win the school's graduation prize, the Abacus Scroll.",
                       },
                     ]
@@ -146,7 +154,7 @@ describe('<DeleteParagraphLayer />', () => {
                 });
             });
 
-            test('the submit button is disabled', () => {
+            test('the submit button is disabled and the label is changed', () => {
                 expect(component).toMatchInlineSnapshot(`
                     <div
                       className="delete-paragraph-layer"
@@ -162,11 +170,15 @@ describe('<DeleteParagraphLayer />', () => {
                           verses={
                             Array [
                               Object {
+                                "id": 2930,
                                 "numberInChapter": 5,
+                                "numberInParagraph": 1,
                                 "text": "In a gloriously imagined 1920s world inhabited by people who have gramophones for heads, young composer Hero Wasabi has left Japan to study musical composition in Venice, accompanied by his oboe-playing cat Jacuzzi.",
                               },
                               Object {
+                                "id": 2931,
                                 "numberInChapter": 6,
+                                "numberInParagraph": 2,
                                 "text": "Hero is a student of the terrifying Madame Zero at the Scuola di Musica, where his fellow students include the aristocratic Count Telefino, an unscrupulous telephone-head who is planning a campaign of dirty tricks to help him win the school's graduation prize, the Abacus Scroll.",
                               },
                             ]
@@ -179,7 +191,7 @@ describe('<DeleteParagraphLayer />', () => {
                         <div
                           className="delete-paragraph-layer__submit"
                           disabled={true}
-                          label="Bestätigen"
+                          label="Gelöscht"
                           onClick={[Function]}
                         >
                           RequestButtonMock

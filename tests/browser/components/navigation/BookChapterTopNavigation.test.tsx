@@ -16,13 +16,15 @@ describe('<BookChapterTopNavigation />', () => {
         props = {
             chapters: [
                 {
-                    heading: 'Chapter 1',
+                    id: 1,
                     number: 1,
+                    heading: 'Chapter 1',
                     paragraphs: []
                 },
                 {
-                    heading: 'Chapter 2',
+                    id: 2,
                     number: 2,
+                    heading: 'Chapter 2',
                     paragraphs: []
                 }
             ],

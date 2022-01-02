@@ -15,10 +15,14 @@ describe('<Chapter />', () => {
             heading: 'Chapter 1',
             paragraphs: [
                 {
+                    id: 4234,
+                    numberInChapter: 1,
                     heading: 'The missing key',
                     verses: []
                 },
                 {
+                    id: 4235,
+                    numberInChapter: 2,
                     heading: 'A secret space',
                     verses: []
                 }
@@ -46,12 +50,16 @@ describe('<Chapter />', () => {
               </h2>
               <div
                 heading="The missing key"
+                id={4234}
+                numberInChapter={1}
                 verses={Array []}
               >
                 ParagraphMock
               </div>
               <div
                 heading="A secret space"
+                id={4235}
+                numberInChapter={2}
                 verses={Array []}
               >
                 ParagraphMock
@@ -89,12 +97,16 @@ describe('<Chapter />', () => {
                   </h1>
                   <div
                     heading="The missing key"
+                    id={4234}
+                    numberInChapter={1}
                     verses={Array []}
                   >
                     ParagraphMock
                   </div>
                   <div
                     heading="A secret space"
+                    id={4235}
+                    numberInChapter={2}
                     verses={Array []}
                   >
                     ParagraphMock
@@ -124,12 +136,16 @@ describe('<Chapter />', () => {
                   </h2>
                   <div
                     heading="The missing key"
+                    id={4234}
+                    numberInChapter={1}
                     verses={Array []}
                   >
                     ParagraphMock
                   </div>
                   <div
                     heading="A secret space"
+                    id={4235}
+                    numberInChapter={2}
                     verses={Array []}
                   >
                     ParagraphMock
@@ -164,12 +180,16 @@ describe('<Chapter />', () => {
                   </h2>
                   <div
                     heading="The missing key"
+                    id={4234}
+                    numberInChapter={1}
                     verses={Array []}
                   >
                     ParagraphMock
                   </div>
                   <div
                     heading="A secret space"
+                    id={4235}
+                    numberInChapter={2}
                     verses={Array []}
                   >
                     ParagraphMock

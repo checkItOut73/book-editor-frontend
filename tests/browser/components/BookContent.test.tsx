@@ -24,13 +24,15 @@ describe('<BookContent />', () => {
             title: 'Book Title',
             chapters: [
                 {
-                    heading: 'Chapter 1',
+                    id: 1,
                     number: 1,
+                    heading: 'Chapter 1',
                     paragraphs: []
                 },
                 {
-                    heading: 'Chapter 2',
+                    id: 2,
                     number: 2,
+                    heading: 'Chapter 2',
                     paragraphs: []
                 }
             ],
@@ -70,6 +72,7 @@ describe('<BookContent />', () => {
                 data-chapter={true}
                 heading="Chapter 1"
                 height={850}
+                id={1}
                 number={1}
                 paragraphs={Array []}
               >
@@ -93,13 +96,17 @@ describe('<BookContent />', () => {
         });
 
         jest.advanceTimersByTime(199);
-        expect(component.root.findByProps({ heading: 'Chapter 1'}).props.height).toBe(850);
+        expect(
+            component.root.findByProps({ heading: 'Chapter 1' }).props.height
+        ).toBe(850);
 
         act(() => {
             jest.advanceTimersByTime(1);
         });
 
-        expect(component.root.findByProps({ heading: 'Chapter 1'}).props.height).toBe(777);
+        expect(
+            component.root.findByProps({ heading: 'Chapter 1' }).props.height
+        ).toBe(777);
     });
 
     test('the active chapter is faded in', () => {
@@ -130,6 +137,7 @@ describe('<BookContent />', () => {
                     data-chapter={true}
                     heading="Chapter 1"
                     height={850}
+                    id={1}
                     number={1}
                     paragraphs={Array []}
                   />
@@ -157,6 +165,7 @@ describe('<BookContent />', () => {
                     data-chapter={true}
                     heading="Chapter 2"
                     height={850}
+                    id={2}
                     number={2}
                     paragraphs={Array []}
                   />
@@ -185,6 +194,7 @@ describe('<BookContent />', () => {
                     data-chapter={true}
                     heading="Chapter 1"
                     height={850}
+                    id={1}
                     number={1}
                     paragraphs={Array []}
                   >
@@ -195,6 +205,7 @@ describe('<BookContent />', () => {
                   <div
                     data-chapter={true}
                     heading="Chapter 2"
+                    id={2}
                     number={2}
                     onTransitionEnd={[MockFunction]}
                     paragraphs={Array []}

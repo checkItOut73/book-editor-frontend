@@ -13,17 +13,17 @@ export const book = (state = BOOK_DEFAULT_STATE, action: Action = {}) => {
                 ...state,
                 title: action.title
             };
-        case ActionType.SET_CHAPTER_HEADING:
+        case ActionType.SET_CHAPTERS:
             return {
                 ...state,
-                chapters: state.chapters.map((chapter) => {
-                    if (chapter.id !== action.id) {
-                        return chapter;
-                    }
+                chapters: action.chapters.map((chapter, index) => {
+                    const chapterInState = state.chapters.find((chapterInStore) => chapterInStore.id === chapter.id) || {};
 
                     return {
+                        paragraphs: [],
+                        ...chapterInState,
                         ...chapter,
-                        heading: action.heading
+                        number: index + 1
                     };
                 })
             };
@@ -47,6 +47,55 @@ export const book = (state = BOOK_DEFAULT_STATE, action: Action = {}) => {
                         };
                     })
             };
+        case ActionType.SET_CHAPTER_HEADING:
+            return {
+                ...state,
+                chapters: state.chapters.map((chapter) => {
+                    if (chapter.id !== action.id) {
+                        return chapter;
+                    }
+
+                    return {
+                        ...chapter,
+                        heading: action.heading
+                    };
+                })
+            };
+        case ActionType.DELETE_PARAGRAPH:
+            const paragraphToBeDeleted = state.chapters.map((chapter) => chapter.paragraphs).flat().find((paragraph) => paragraph.id === action.id);
+
+            if (!paragraphToBeDeleted) {
+                return state;
+            }
+
+            return {
+                ...state,
+                chapters: state.chapters.map((chapter) => {
+                    return {
+                        ...chapter,
+                        paragraphs: chapter.paragraphs
+                            .filter((paragraph) => {
+                                return paragraph.id !== action.id;
+                            })
+                            .map((paragraph) => {
+                                if (paragraph.numberInChapter <= paragraphToBeDeleted.numberInChapter) {
+                                    return paragraph;
+                                }
+
+                                return {
+                                    ...paragraph,
+                                    numberInChapter: paragraph.numberInChapter - 1,
+                                    verses: paragraph.verses.map((verse) => {
+                                        return {
+                                            ...verse,
+                                            numberInChapter: verse.numberInChapter - paragraphToBeDeleted.verses.length
+                                        }
+                                    })
+                                }
+                            })
+                    };
+                })
+            };
         case ActionType.SET_PARAGRAPH_HEADING:
             return {
                 ...state,
@@ -66,14 +115,19 @@ export const book = (state = BOOK_DEFAULT_STATE, action: Action = {}) => {
                     };
                 })
             };
-        case ActionType.DELETE_PARAGRAPH:
+        case ActionType.DELETE_VERSE:
             return {
                 ...state,
                 chapters: state.chapters.map((chapter) => {
                     return {
                         ...chapter,
-                        paragraphs: chapter.paragraphs.filter((paragraph) => {
-                            return paragraph.id !== action.id;
+                        paragraphs: chapter.paragraphs.map((paragraph) => {
+                            return {
+                                ...paragraph,
+                                verses: paragraph.verses.filter((verse) => {
+                                    return verse.id !== action.id;
+                                })
+                            };
                         })
                     };
                 })
@@ -96,23 +150,6 @@ export const book = (state = BOOK_DEFAULT_STATE, action: Action = {}) => {
                                         ...verse,
                                         text: action.text
                                     }
-                                })
-                            };
-                        })
-                    };
-                })
-            };
-        case ActionType.DELETE_VERSE:
-            return {
-                ...state,
-                chapters: state.chapters.map((chapter) => {
-                    return {
-                        ...chapter,
-                        paragraphs: chapter.paragraphs.map((paragraph) => {
-                            return {
-                                ...paragraph,
-                                verses: paragraph.verses.filter((verse) => {
-                                    return verse.id !== action.id;
                                 })
                             };
                         })

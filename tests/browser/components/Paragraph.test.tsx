@@ -15,12 +15,16 @@ describe('<Paragraph />', () => {
             heading: 'The missing key',
             verses: [
                 {
-                    text: 'In a gloriously imagined 1920s world inhabited by people who have gramophones for heads, young composer Hero Wasabi has left Japan to study musical composition in Venice, accompanied by his oboe-playing cat Jacuzzi.',
-                    numberInChapter: 5
+                    id: 934,
+                    numberInParagraph: 5,
+                    numberInChapter: 12,
+                    text: 'In a gloriously imagined 1920s world inhabited by people who have gramophones for heads, young composer Hero Wasabi has left Japan to study musical composition in Venice, accompanied by his oboe-playing cat Jacuzzi.'
                 },
                 {
-                    text: "Hero is a student of the terrifying Madame Zero at the Scuola di Musica, where his fellow students include the aristocratic Count Telefino, an unscrupulous telephone-head who is planning a campaign of dirty tricks to help him win the school's graduation prize, the Abacus Scroll.",
-                    numberInChapter: 6
+                    id: 935,
+                    numberInParagraph: 6,
+                    numberInChapter: 13,
+                    text: "Hero is a student of the terrifying Madame Zero at the Scuola di Musica, where his fellow students include the aristocratic Count Telefino, an unscrupulous telephone-head who is planning a campaign of dirty tricks to help him win the school's graduation prize, the Abacus Scroll."
                 }
             ]
         };
@@ -40,13 +44,17 @@ describe('<Paragraph />', () => {
               </h2>,
               <p>
                 <div
-                  numberInChapter={5}
+                  id={934}
+                  numberInChapter={12}
+                  numberInParagraph={5}
                   text="In a gloriously imagined 1920s world inhabited by people who have gramophones for heads, young composer Hero Wasabi has left Japan to study musical composition in Venice, accompanied by his oboe-playing cat Jacuzzi."
                 >
                   VerseMock
                 </div>
                 <div
-                  numberInChapter={6}
+                  id={935}
+                  numberInChapter={13}
+                  numberInParagraph={6}
                   text="Hero is a student of the terrifying Madame Zero at the Scuola di Musica, where his fellow students include the aristocratic Count Telefino, an unscrupulous telephone-head who is planning a campaign of dirty tricks to help him win the school's graduation prize, the Abacus Scroll."
                 >
                   VerseMock
@@ -67,13 +75,17 @@ describe('<Paragraph />', () => {
             expect(component).toMatchInlineSnapshot(`
                 <p>
                   <div
-                    numberInChapter={5}
+                    id={934}
+                    numberInChapter={12}
+                    numberInParagraph={5}
                     text="In a gloriously imagined 1920s world inhabited by people who have gramophones for heads, young composer Hero Wasabi has left Japan to study musical composition in Venice, accompanied by his oboe-playing cat Jacuzzi."
                   >
                     VerseMock
                   </div>
                   <div
-                    numberInChapter={6}
+                    id={935}
+                    numberInChapter={13}
+                    numberInParagraph={6}
                     text="Hero is a student of the terrifying Madame Zero at the Scuola di Musica, where his fellow students include the aristocratic Count Telefino, an unscrupulous telephone-head who is planning a campaign of dirty tricks to help him win the school's graduation prize, the Abacus Scroll."
                   >
                     VerseMock

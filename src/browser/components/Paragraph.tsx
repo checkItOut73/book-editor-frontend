@@ -23,7 +23,9 @@ export const Paragraph = ({ heading, verses }: ParagraphData) => {
 Paragraph.propTypes = {
     heading: PropTypes.string.isRequired,
     verses: PropTypes.arrayOf(PropTypes.shape({
-        text: PropTypes.string.isRequired,
-        numberInChapter: PropTypes.number.isRequired
+        id: PropTypes.number.isRequired,
+        numberInParagraph: PropTypes.number.isRequired,
+        numberInChapter: PropTypes.number.isRequired,
+        text: PropTypes.string.isRequired
     })).isRequired
 };

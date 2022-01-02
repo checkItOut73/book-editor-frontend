@@ -64,10 +64,14 @@ Chapter.propTypes = {
     heading: PropTypes.string.isRequired,
     // @ts-ignore
     paragraphs: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        numberInChapter: PropTypes.number.isRequired,
         heading: PropTypes.string.isRequired,
         verses: PropTypes.arrayOf(PropTypes.shape({
-            text: PropTypes.string.isRequired,
-            numberInChapter: PropTypes.number.isRequired
+            id: PropTypes.number.isRequired,
+            numberInParagraph: PropTypes.number.isRequired,
+            numberInChapter: PropTypes.number.isRequired,
+            text: PropTypes.string.isRequired
         })).isRequired
     })).isRequired,
     children: PropTypes.node,

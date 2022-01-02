@@ -5,6 +5,7 @@ import { EditorBookChapterTopNavigation } from '@components/editor/navigation/Ed
 
 import { BookChapterNavigationElement } from '@components/navigation/BookChapterNavigationElement';
 import { InsertChapterLayer } from '@components/editor/layers/InsertChapterLayer';
+import { TooltipTriggerDiv } from '@components/ui/TooltipTriggerDiv';
 
 jest.mock('@components/navigation/BookChapterNavigationElement', () => ({
     BookChapterNavigationElement: (props) => (
@@ -39,14 +40,14 @@ describe('<EditorBookChapterTopNavigation />', () => {
             chapters: [
                 {
                     id: 943,
-                    heading: 'Chapter 1',
                     number: 1,
+                    heading: 'Chapter 1',
                     paragraphs: []
                 },
                 {
                     id: 944,
-                    heading: 'Chapter 2',
                     number: 2,
+                    heading: 'Chapter 2',
                     paragraphs: []
                 }
             ],
@@ -58,6 +59,9 @@ describe('<EditorBookChapterTopNavigation />', () => {
         state = {
             navigation: {
                 activeChapterNumber: 2
+            },
+            book: {
+                id: 5
             }
         };
     });
@@ -132,7 +136,7 @@ describe('<EditorBookChapterTopNavigation />', () => {
         renderComponent();
 
         component.root
-            .findAllByProps({ className: 'chapter-placeholder' })
+            .findAllByType(TooltipTriggerDiv)
             .forEach((tooltipTriggerDiv) => {
                 props.setTooltipText.mockClear();
                 tooltipTriggerDiv.props.setTooltipText('insert chapter');
@@ -147,13 +151,16 @@ describe('<EditorBookChapterTopNavigation />', () => {
         renderComponent();
 
         component.root
-            .findAllByProps({ className: 'chapter-placeholder' })
-            .forEach((tooltipTriggerDiv) => {
+            .findAllByType(TooltipTriggerDiv)
+            .forEach((tooltipTriggerDiv, index) => {
                 props.setLayerContent.mockClear();
                 tooltipTriggerDiv.props.onClick();
 
                 expect(props.setLayerContent).toHaveBeenCalledWith(
-                    <InsertChapterLayer />
+                    <InsertChapterLayer
+                        bookId={5}
+                        previousChapterNumber={index}
+                    />
                 );
             });
     });

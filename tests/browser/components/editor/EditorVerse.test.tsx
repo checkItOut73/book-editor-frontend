@@ -17,8 +17,8 @@ describe('<EditorVerse />', () => {
     beforeEach(() => {
         props = {
             id: 192,
-            text: 'In a gloriously imagined 1920s world inhabited by people who have gramophones for heads, young composer Hero Wasabi has left Japan to study musical composition in Venice, accompanied by his oboe-playing cat Jacuzzi.',
             numberInChapter: 5,
+            text: 'In a gloriously imagined 1920s world inhabited by people who have gramophones for heads, young composer Hero Wasabi has left Japan to study musical composition in Venice, accompanied by his oboe-playing cat Jacuzzi.',
             setLayerContent: jest.fn()
         };
     });

@@ -28,9 +28,7 @@ jest.mock('@components/editor/layers/InsertParagraphLayer', () => ({
 }));
 
 jest.mock('@components/editor/layers/DeleteChapterLayer', () => ({
-    DeleteChapterLayer: (props) => (
-        <div {...props}>DeleteChapterLayerMock</div>
-    )
+    DeleteChapterLayer: (props) => <div {...props}>DeleteChapterLayerMock</div>
 }));
 
 describe('<EditorChapter />', () => {
@@ -40,16 +38,18 @@ describe('<EditorChapter />', () => {
     beforeEach(() => {
         props = {
             id: 5,
-            heading: 'Chapter 1',
             number: 3,
+            heading: 'Chapter 1',
             paragraphs: [
                 {
                     id: 33,
+                    numberInChapter: 1,
                     heading: 'The missing key',
                     verses: []
                 },
                 {
                     id: 34,
+                    numberInChapter: 2,
                     heading: 'A secret space',
                     verses: []
                 }
@@ -95,6 +95,7 @@ describe('<EditorChapter />', () => {
               <div
                 heading="The missing key"
                 id={33}
+                numberInChapter={1}
                 setLayerContent={[MockFunction]}
                 setTooltipText={[MockFunction]}
                 verses={Array []}
@@ -112,6 +113,7 @@ describe('<EditorChapter />', () => {
               <div
                 heading="A secret space"
                 id={34}
+                numberInChapter={2}
                 setLayerContent={[MockFunction]}
                 setTooltipText={[MockFunction]}
                 verses={Array []}
@@ -246,6 +248,7 @@ describe('<EditorChapter />', () => {
                   <div
                     heading="The missing key"
                     id={33}
+                    numberInChapter={1}
                     setLayerContent={[MockFunction]}
                     setTooltipText={[MockFunction]}
                     verses={Array []}
@@ -263,6 +266,7 @@ describe('<EditorChapter />', () => {
                   <div
                     heading="A secret space"
                     id={34}
+                    numberInChapter={2}
                     setLayerContent={[MockFunction]}
                     setTooltipText={[MockFunction]}
                     verses={Array []}
@@ -325,16 +329,18 @@ describe('<EditorChapter />', () => {
             expect(props.setLayerContent).toHaveBeenCalledWith(
                 <DeleteChapterLayer
                     id={5}
-                    heading="Chapter 1"
                     number={3}
+                    heading="Chapter 1"
                     paragraphs={[
                         {
                             id: 33,
+                            numberInChapter: 1,
                             heading: 'The missing key',
                             verses: []
                         },
                         {
                             id: 34,
+                            numberInChapter: 2,
                             heading: 'A secret space',
                             verses: []
                         }

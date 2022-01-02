@@ -112,14 +112,14 @@ describe('<EditorBook />', () => {
             chapters: [
                 {
                     id: 43,
-                    heading: 'Chapter 1',
                     number: 1,
+                    heading: 'Chapter 1',
                     paragraphs: []
                 },
                 {
                     id: 44,
-                    heading: 'Chapter 2',
                     number: 2,
+                    heading: 'Chapter 2',
                     paragraphs: []
                 }
             ]
@@ -380,14 +380,14 @@ describe('<EditorBook />', () => {
                 chapters: [
                     {
                         id: 43,
-                        heading: 'Chapter 1',
                         number: 1,
+                        heading: 'Chapter 1',
                         paragraphs: []
                     },
                     {
                         id: 44,
-                        heading: 'Chapter 2',
                         number: 2,
+                        heading: 'Chapter 2',
                         paragraphs: []
                     }
                 ]

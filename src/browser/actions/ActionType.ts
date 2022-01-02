@@ -1,8 +1,10 @@
 import { RequestState } from '@actions/requesting/types/RequestState';
+import { ChapterData } from '@server/UseCase/GetApp/BookData';
 
 export type Action = {
     type?: ActionType;
     title?: string;
+    chapters?: Array<{ id: number } & Partial<ChapterData>>;
     requestState?: RequestState;
     message?: string;
     heading?: string;
@@ -20,6 +22,7 @@ export enum ActionType {
     DECREMENT_ACTIVE_CHAPTER_NUMBER = 'DECREMENT_ACTIVE_CHAPTER_NUMBER',
 
     SET_BOOK_TITLE = 'SET_BOOK_TITLE',
+    SET_CHAPTERS = 'SET_CHAPTERS',
 
     SET_CHAPTER_HEADING = 'SET_CHAPTER_HEADING',
     DELETE_CHAPTER = 'DELETE_CHAPTER',

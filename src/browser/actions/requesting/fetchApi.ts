@@ -15,19 +15,19 @@ export const fetchApi =
 
         dispatch(setRequestState(RequestState.PENDING));
 
-        let result;
+        let response;
 
         try {
-            result = await (await fetch(url, options)).json();
+            response = await (await fetch(url, options)).json();
         } catch (error) {
             dispatch(setErrorMessage(error.message));
             return;
         }
 
-        if (result.success) {
-            dispatch(setSuccessMessage(result.success.message));
-            onSuccessCallback();
-        } else if (result.error) {
-            dispatch(setErrorMessage(result.error.message));
+        if (response.success) {
+            dispatch(setSuccessMessage(response.success.message));
+            onSuccessCallback(response);
+        } else if (response.error) {
+            dispatch(setErrorMessage(response.error.message));
         }
     };

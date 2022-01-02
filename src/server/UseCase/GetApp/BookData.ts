@@ -6,19 +6,21 @@ export type BookData = {
 
 export type ChapterData = {
     id?: number;
-    heading: string;
     number: number;
+    heading: string;
     paragraphs: Array<ParagraphData>;
 };
 
 export type ParagraphData = {
     id?: number;
+    numberInChapter?: number;
     heading: string;
     verses: Array<VerseData>;
 };
 
 export type VerseData = {
     id?: number;
-    text: string;
+    numberInParagraph: number;
     numberInChapter: number;
+    text: string;
 };

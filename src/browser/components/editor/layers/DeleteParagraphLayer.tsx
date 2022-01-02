@@ -32,7 +32,12 @@ export const DeleteParagraphLayer = ({ id, heading, verses }: ParagraphData) => 
                 <Paragraph heading={heading} verses={verses} />
             </div>
             <p>
-                <RequestButton disabled={buttonDisabled} className="delete-paragraph-layer__submit" label="Bestätigen" onClick={fetchToDeleteParagraph} />
+                <RequestButton
+                    disabled={buttonDisabled}
+                    className="delete-paragraph-layer__submit"
+                    label={ buttonDisabled ? 'Gelöscht' : 'Bestätigen' }
+                    onClick={fetchToDeleteParagraph}
+                />
             </p>
             <RequestReponseMessage />
         </div>
@@ -43,7 +48,9 @@ DeleteParagraphLayer.propTypes = {
     id: PropTypes.number.isRequired,
     heading: PropTypes.string.isRequired,
     verses: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        numberInParagraph: PropTypes.number.isRequired,
+        numberInChapter: PropTypes.number.isRequired,
         text: PropTypes.string.isRequired,
-        numberInChapter: PropTypes.number.isRequired
     })).isRequired
 };

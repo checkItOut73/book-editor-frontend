@@ -43,13 +43,15 @@ describe('<Book />', () => {
             title: 'Book Title',
             chapters: [
                 {
-                    heading: 'Chapter 1',
+                    id: 1,
                     number: 1,
+                    heading: 'Chapter 1',
                     paragraphs: []
                 },
                 {
-                    heading: 'Chapter 2',
+                    id: 2,
                     number: 2,
+                    heading: 'Chapter 2',
                     paragraphs: []
                 }
             ]
@@ -79,11 +81,13 @@ describe('<Book />', () => {
                   Array [
                     Object {
                       "heading": "Chapter 1",
+                      "id": 1,
                       "number": 1,
                       "paragraphs": Array [],
                     },
                     Object {
                       "heading": "Chapter 2",
+                      "id": 2,
                       "number": 2,
                       "paragraphs": Array [],
                     },
@@ -99,11 +103,13 @@ describe('<Book />', () => {
                   Array [
                     Object {
                       "heading": "Chapter 1",
+                      "id": 1,
                       "number": 1,
                       "paragraphs": Array [],
                     },
                     Object {
                       "heading": "Chapter 2",
+                      "id": 2,
                       "number": 2,
                       "paragraphs": Array [],
                     },
@@ -121,11 +127,13 @@ describe('<Book />', () => {
                   Array [
                     Object {
                       "heading": "Chapter 1",
+                      "id": 1,
                       "number": 1,
                       "paragraphs": Array [],
                     },
                     Object {
                       "heading": "Chapter 2",
+                      "id": 2,
                       "number": 2,
                       "paragraphs": Array [],
                     },

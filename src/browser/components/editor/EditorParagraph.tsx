@@ -89,8 +89,9 @@ EditorParagraph.propTypes = {
     heading: PropTypes.string.isRequired,
     verses: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.number.isRequired,
-        text: PropTypes.string.isRequired,
-        numberInChapter: PropTypes.number.isRequired
+        numberInParagraph: PropTypes.number.isRequired,
+        numberInChapter: PropTypes.number.isRequired,
+        text: PropTypes.string.isRequired
     })).isRequired,
     setTooltipText: PropTypes.func.isRequired,
     setLayerContent: PropTypes.func.isRequired

@@ -46,13 +46,7 @@ describe('<DeleteChapterLayer />', () => {
             activeChapterNumber: 3
         },
         book: {
-            chapters: [
-                {},
-                {},
-                {},
-                {},
-                {},
-            ]
+            chapters: [{}, {}, {}, {}, {}]
         }
     };
 
@@ -65,8 +59,8 @@ describe('<DeleteChapterLayer />', () => {
     beforeEach(() => {
         props = {
             id: 34,
-            heading: 'The missing key',
             number: 8,
+            heading: 'The missing key',
             paragraphs: []
         };
 
@@ -155,7 +149,7 @@ describe('<DeleteChapterLayer />', () => {
                 });
             });
 
-            test('the submit button is disabled', () => {
+            test('the submit button is disabled and the label is changed', () => {
                 expect(component).toMatchInlineSnapshot(`
                     <div
                       className="delete-chapter-layer"
@@ -178,7 +172,7 @@ describe('<DeleteChapterLayer />', () => {
                         <div
                           className="delete-chapter-layer__submit"
                           disabled={true}
-                          label="Bestätigen"
+                          label="Gelöscht"
                           onClick={[Function]}
                         >
                           RequestButtonMock
@@ -193,7 +187,7 @@ describe('<DeleteChapterLayer />', () => {
 
             test('the active chapter number is not decremented', () => {
                 expect(dispatch).not.toHaveBeenCalledWith({
-                    type: 'DECREMENT_ACTIVE_CHAPTER_MOCK',
+                    type: 'DECREMENT_ACTIVE_CHAPTER_MOCK'
                 });
             });
 
@@ -204,7 +198,7 @@ describe('<DeleteChapterLayer />', () => {
 
                 test('the active chapter number is decremented', () => {
                     expect(dispatch).toHaveBeenCalledWith({
-                        type: 'DECREMENT_ACTIVE_CHAPTER_MOCK',
+                        type: 'DECREMENT_ACTIVE_CHAPTER_MOCK'
                     });
                 });
             });

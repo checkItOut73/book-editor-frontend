@@ -5,7 +5,7 @@ import { EditVerseLayer } from '@components/editor/layers/EditVerseLayer';
 
 type Props = VerseData & { setLayerContent: (layerContent:JSX.Element) => void };
 
-export const EditorVerse = ({ id, text, numberInChapter, setLayerContent }: Props) => {
+export const EditorVerse = ({ id, numberInChapter, text, setLayerContent }: Props) => {
     return (
         <span
             className="verse"
@@ -19,7 +19,7 @@ export const EditorVerse = ({ id, text, numberInChapter, setLayerContent }: Prop
 
 EditorVerse.propTypes = {
     id: PropTypes.number.isRequired,
-    text: PropTypes.string.isRequired,
     numberInChapter: PropTypes.number.isRequired,
+    text: PropTypes.string.isRequired,
     setLayerContent: PropTypes.func.isRequired
 };

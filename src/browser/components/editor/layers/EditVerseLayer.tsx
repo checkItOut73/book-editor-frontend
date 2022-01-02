@@ -8,11 +8,11 @@ import { setVerseText } from '@actions/editor/setVerseText';
 
 type Props = {
     id: number;
-    text: string;
     numberInChapter: number;
+    text: string;
 };
 
-export const EditVerseLayer = ({ id, text, numberInChapter }: Props) => {
+export const EditVerseLayer = ({ id, numberInChapter, text }: Props) => {
     const { dispatch } = useContext(Context);
     const textareaRef = React.createRef<HTMLTextAreaElement>();
 
@@ -50,6 +50,6 @@ export const EditVerseLayer = ({ id, text, numberInChapter }: Props) => {
 
 EditVerseLayer.propTypes = {
     id: PropTypes.number.isRequired,
+    numberInChapter: PropTypes.number.isRequired,
     text: PropTypes.string.isRequired,
-    numberInChapter: PropTypes.number.isRequired
 };

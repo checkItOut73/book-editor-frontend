@@ -14,7 +14,7 @@ interface Props {
 }
 export const EditorBookChapterTopNavigation = ({ chapters, setTooltipText, setLayerContent }: Props) => {
     const { dispatch, getState } = useContext(Context);
-    const { navigation: { activeChapterNumber }} = getState();
+    const { navigation: { activeChapterNumber }, book: { id: bookId }} = getState();
 
     return (
         <div className="book-chapter-navigation">
@@ -23,7 +23,7 @@ export const EditorBookChapterTopNavigation = ({ chapters, setTooltipText, setLa
                 className="chapter-placeholder"
                 tooltipText="Kapitel hinzufügen"
                 setTooltipText={setTooltipText}
-                onClick={() => setLayerContent(<InsertChapterLayer />)}
+                onClick={() => setLayerContent(<InsertChapterLayer bookId={bookId} previousChapterNumber={0} />)}
             />
             { chapters.map((chapterData) => [
                 activeChapterNumber === chapterData.number ?
@@ -38,7 +38,7 @@ export const EditorBookChapterTopNavigation = ({ chapters, setTooltipText, setLa
                         className="chapter-placeholder"
                         tooltipText="Kapitel hinzufügen"
                         setTooltipText={(setTooltipText)}
-                        onClick={() => setLayerContent(<InsertChapterLayer />)}
+                        onClick={() => setLayerContent(<InsertChapterLayer bookId={bookId} previousChapterNumber={chapterData.number} />)}
                     />
             ]) }
         </div>
@@ -59,15 +59,17 @@ export const EditorBookChapterTopNavigation = ({ chapters, setTooltipText, setLa
 EditorBookChapterTopNavigation.propTypes = {
     chapters: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.number.isRequired,
-        heading: PropTypes.string.isRequired,
         number: PropTypes.number.isRequired,
+        heading: PropTypes.string.isRequired,
         paragraphs: PropTypes.arrayOf(PropTypes.shape({
             id: PropTypes.number.isRequired,
+            numberInChapter: PropTypes.number.isRequired,
             heading: PropTypes.string.isRequired,
             verses: PropTypes.arrayOf(PropTypes.shape({
                 id: PropTypes.number.isRequired,
-                text: PropTypes.string.isRequired,
-                numberInChapter: PropTypes.number.isRequired
+                numberInParagraph: PropTypes.number.isRequired,
+                numberInChapter: PropTypes.number.isRequired,
+                text: PropTypes.string.isRequired
             })).isRequired
         })).isRequired
     })).isRequired,
