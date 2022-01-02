@@ -158,7 +158,6 @@ describe('<EditorBookChapterTopNavigation />', () => {
 
                 expect(props.setLayerContent).toHaveBeenCalledWith(
                     <InsertChapterLayer
-                        bookId={5}
                         previousChapterNumber={index}
                     />
                 );

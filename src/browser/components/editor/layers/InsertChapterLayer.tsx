@@ -8,15 +8,14 @@ import { setActiveChapterNumber } from '@actions/navigation/setActiveChapterNumb
 import PropTypes from 'prop-types';
 
 type Props = {
-    bookId: number;
     previousChapterNumber: number;
 };
 
-export const InsertChapterLayer = ({ bookId, previousChapterNumber }: Props) => {
+export const InsertChapterLayer = ({ previousChapterNumber }: Props) => {
     const { dispatch, getState } = useContext(Context);
     const [headingInputValue, setHeadingInputValue] = useState('');
 
-    async function fetchToInsertVerse() {
+    async function fetchToInsertChapter() {
         const { book } = getState();
         const chapters = [];
 
@@ -33,14 +32,14 @@ export const InsertChapterLayer = ({ bookId, previousChapterNumber }: Props) => 
         });
 
         dispatch(fetchApi(
-            '/api/book/' + bookId + '?resultChaptersInResponse=1',
+            '/api/book/' + book.id + '?resultChaptersInResponse=1',
             {
                 method: 'PATCH',
                 body: JSON.stringify({ chapters })
             },
             (response) => {
                 dispatch(setChapters(response.result.chapters));
-                dispatch(setActiveChapterNumber(previousChapterNumber + 1)); // TODO test
+                dispatch(setActiveChapterNumber(previousChapterNumber + 1));
             }
         ));
     }
@@ -56,7 +55,7 @@ export const InsertChapterLayer = ({ bookId, previousChapterNumber }: Props) => 
                     onChange={(event) => setHeadingInputValue(event.target.value)}
                     autoFocus={true}
                 />
-                <RequestButton className="insert-chapter-layer__submit" label="Hinzufügen" onClick={fetchToInsertVerse} />
+                <RequestButton className="insert-chapter-layer__submit" label="Hinzufügen" onClick={fetchToInsertChapter} />
             </p>
             <RequestReponseMessage />
         </div>
@@ -64,6 +63,5 @@ export const InsertChapterLayer = ({ bookId, previousChapterNumber }: Props) => 
 };
 
 InsertChapterLayer.propTypes = {
-    bookId: PropTypes.number.isRequired,
     previousChapterNumber: PropTypes.number.isRequired
 };

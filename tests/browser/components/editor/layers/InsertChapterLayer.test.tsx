@@ -46,12 +46,12 @@ describe('<InsertChapterLayer />', () => {
 
     beforeEach(() => {
         props = {
-            bookId: 5,
             previousChapterNumber: 2
         };
 
         state = {
             book: {
+                id: 5,
                 chapters: [
                     {
                         id: 1,

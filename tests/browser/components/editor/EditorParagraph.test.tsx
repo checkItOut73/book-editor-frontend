@@ -6,6 +6,7 @@ import { EditorVerse } from '@components/editor/EditorVerse';
 import { InsertVerseLayer } from '@components/editor/layers/InsertVerseLayer';
 import { DeleteParagraphLayer } from '@components/editor/layers/DeleteParagraphLayer';
 import { EditParagraphHeadingLayer } from '@components/editor/layers/EditParagraphHeadingLayer';
+import { TooltipTriggerDiv } from '@components/ui/TooltipTriggerDiv';
 
 jest.mock('@components/editor/EditorVerse', () => ({
     EditorVerse: (props) => <div {...props}>EditorVerseMock</div>
@@ -192,12 +193,12 @@ describe('<EditorParagraph />', () => {
         });
     });
 
-    describe('verse gaps | ', () => {
-        test('setTooltipText is passed correctly to the verse gaps', () => {
+    describe('verse placeholders and gaps | ', () => {
+        test('setTooltipText is passed correctly to the verse placeholders and gaps', () => {
             renderComponent();
 
             component.root
-                .findAllByProps({ className: 'verse-gap' })
+                .findAllByType(TooltipTriggerDiv)
                 .forEach((tooltipTriggerDiv) => {
                     props.setTooltipText.mockClear();
                     tooltipTriggerDiv.props.setTooltipText('insert verse');
@@ -208,49 +209,17 @@ describe('<EditorParagraph />', () => {
                 });
         });
 
-        test('setLayerContent is called correctly when the verse gaps are clicked', () => {
+        test('setLayerContent is called correctly when the verse placeholders and gaps are clicked', () => {
             renderComponent();
 
             component.root
-                .findAllByProps({ className: 'verse-gap' })
-                .forEach((tooltipTriggerDiv) => {
+                .findAllByType(TooltipTriggerDiv)
+                .forEach((tooltipTriggerDiv, index) => {
                     props.setTooltipText.mockClear();
                     tooltipTriggerDiv.props.onClick();
 
                     expect(props.setLayerContent).toHaveBeenCalledWith(
-                        <InsertVerseLayer />
-                    );
-                });
-        });
-    });
-
-    describe('verse placeholders | ', () => {
-        test('setTooltipText is passed correctly to the verse placeholders', () => {
-            renderComponent();
-
-            component.root
-                .findAllByProps({ className: 'verse-placeholder' })
-                .forEach((tooltipTriggerDiv) => {
-                    props.setTooltipText.mockClear();
-                    tooltipTriggerDiv.props.setTooltipText('insert verse');
-
-                    expect(props.setTooltipText).toHaveBeenCalledWith(
-                        'insert verse'
-                    );
-                });
-        });
-
-        test('setLayerContent is called correctly when the verse placeholders are clicked', () => {
-            renderComponent();
-
-            component.root
-                .findAllByProps({ className: 'verse-placeholder' })
-                .forEach((tooltipTriggerDiv) => {
-                    props.setTooltipText.mockClear();
-                    tooltipTriggerDiv.props.onClick();
-
-                    expect(props.setLayerContent).toHaveBeenCalledWith(
-                        <InsertVerseLayer />
+                        <InsertVerseLayer paragraphId={33} previousVerseNumber={index} />
                     );
                 });
         });

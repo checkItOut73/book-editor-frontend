@@ -61,6 +61,29 @@ export const book = (state = BOOK_DEFAULT_STATE, action: Action = {}) => {
                     };
                 })
             };
+        case ActionType.SET_PARAGRAPHS:
+            return {
+                ...state,
+                chapters: state.chapters.map((chapter) => {
+                    if (action.chapterId !== chapter.id) {
+                        return chapter;
+                    }
+
+                    return {
+                        ...chapter,
+                        paragraphs: action.paragraphs.map((paragraph, index) => {
+                            const paragraphInState = chapter.paragraphs.find((paragraphInStore) => paragraphInStore.id === paragraph.id) || {};
+
+                            return {
+                                verses: [],
+                                ...paragraphInState,
+                                ...paragraph,
+                                numberInChapter: index + 1
+                            };
+                        })
+                    };
+                })
+            };
         case ActionType.DELETE_PARAGRAPH:
             const paragraphToBeDeleted = state.chapters.map((chapter) => chapter.paragraphs).flat().find((paragraph) => paragraph.id === action.id);
 
@@ -110,6 +133,44 @@ export const book = (state = BOOK_DEFAULT_STATE, action: Action = {}) => {
                             return {
                                 ...paragraph,
                                 heading: action.heading
+                            };
+                        })
+                    };
+                })
+            };
+        case ActionType.SET_VERSES:
+            return {
+                ...state,
+                chapters: state.chapters.map((chapter) => {
+                    let numberInChapter = 1;
+
+                    return {
+                        ...chapter,
+                        paragraphs: chapter.paragraphs.map((paragraph) => {
+                            if (action.paragraphId !== paragraph.id) {
+                                return {
+                                    ...paragraph,
+                                    verses: paragraph.verses.map((verse) => {
+                                        return {
+                                            ...verse,
+                                            numberInChapter: numberInChapter++
+                                        };
+                                    })
+                                };
+                            }
+
+                            return {
+                                ...paragraph,
+                                verses: action.verses.map((verse, index) => {
+                                    const verseInState = paragraph.verses.find((verseInStore) => verseInStore.id === verse.id) || {};
+
+                                    return {
+                                        ...verseInState,
+                                        ...verse,
+                                        numberInParagraph: index + 1,
+                                        numberInChapter: numberInChapter++
+                                    }
+                                })
                             };
                         })
                     };

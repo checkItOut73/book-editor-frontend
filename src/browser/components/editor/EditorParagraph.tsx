@@ -28,7 +28,7 @@ export const EditorParagraph = ({ id, heading, verses, setTooltipText, setLayerC
                 className="verse-placeholder"
                 tooltipText="Vers einfügen"
                 setTooltipText={setTooltipText}
-                onClick={() => setLayerContent(<InsertVerseLayer />)}
+                onClick={() => setLayerContent(<InsertVerseLayer paragraphId={id} previousVerseNumber={0} />)}
             />
             { verses
                 .map((verseData, index) => [
@@ -44,7 +44,11 @@ export const EditorParagraph = ({ id, heading, verses, setTooltipText, setLayerC
                             className="verse-gap"
                             tooltipText="Vers einfügen"
                             setTooltipText={setTooltipText}
-                            onClick={() => setLayerContent(<InsertVerseLayer />)}
+                            onClick={
+                                () => setLayerContent(
+                                    <InsertVerseLayer paragraphId={id} previousVerseNumber={verseData.numberInParagraph} />
+                                )
+                            }
                         /> :
                         null
                 ])
@@ -56,7 +60,11 @@ export const EditorParagraph = ({ id, heading, verses, setTooltipText, setLayerC
                     className="verse-placeholder"
                     tooltipText="Vers einfügen"
                     setTooltipText={setTooltipText}
-                    onClick={() => setLayerContent(<InsertVerseLayer />)}
+                    onClick={
+                        () => setLayerContent(
+                            <InsertVerseLayer paragraphId={id} previousVerseNumber={verses.length} />
+                        )
+                    }
                 /> : null
             }
         </p>

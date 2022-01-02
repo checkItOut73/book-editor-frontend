@@ -1,16 +1,20 @@
 import { RequestState } from '@actions/requesting/types/RequestState';
-import { ChapterData } from '@server/UseCase/GetApp/BookData';
+import { ChapterData, ParagraphData, VerseData } from '@server/UseCase/GetApp/BookData';
 
 export type Action = {
     type?: ActionType;
+    id?: number;
     title?: string;
+    chapterId?: number;
+    chapterNumber?: number;
     chapters?: Array<{ id: number } & Partial<ChapterData>>;
+    heading?: string;
+    paragraphs?: Array<{ id: number } & Partial<ParagraphData>>;
+    paragraphId?: number;
+    verses?: Array<{ id: number } & Partial<VerseData>>;
+    text?: string;
     requestState?: RequestState;
     message?: string;
-    heading?: string;
-    text?: string;
-    id?: number;
-    chapterNumber?: number;
 };
 
 export enum ActionType {
@@ -23,13 +27,15 @@ export enum ActionType {
 
     SET_BOOK_TITLE = 'SET_BOOK_TITLE',
     SET_CHAPTERS = 'SET_CHAPTERS',
-
-    SET_CHAPTER_HEADING = 'SET_CHAPTER_HEADING',
     DELETE_CHAPTER = 'DELETE_CHAPTER',
 
-    SET_PARAGRAPH_HEADING = 'SET_PARAGRAPH_HEADING',
+    SET_CHAPTER_HEADING = 'SET_CHAPTER_HEADING',
+    SET_PARAGRAPHS = 'SET_PARAGRAPHS',
     DELETE_PARAGRAPH = 'DELETE_PARAGRAPH',
 
-    SET_VERSE_TEXT = 'SET_VERSE_TEXT',
-    DELETE_VERSE = 'DELETE_VERSE'
+    SET_PARAGRAPH_HEADING = 'SET_PARAGRAPH_HEADING',
+    SET_VERSES = 'SET_VERSES',
+    DELETE_VERSE = 'DELETE_VERSE',
+
+    SET_VERSE_TEXT = 'SET_VERSE_TEXT'
 }

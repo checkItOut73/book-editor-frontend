@@ -29,7 +29,7 @@ export const EditorChapter = ({ id, heading, number, paragraphs, setTooltipText,
                     className="paragraph-gap"
                     tooltipText="Paragraph einfügen"
                     setTooltipText={setTooltipText}
-                    onClick={() => setLayerContent(<InsertParagraphLayer />)}
+                    onClick={() => setLayerContent(<InsertParagraphLayer chapterId={id} previousParagraphNumber={0} />)}
                 />
                 { paragraphs.map((paragraphData, index) => [
                     <EditorParagraph
@@ -43,7 +43,14 @@ export const EditorChapter = ({ id, heading, number, paragraphs, setTooltipText,
                         className="paragraph-gap"
                         tooltipText="Paragraph einfügen"
                         setTooltipText={setTooltipText}
-                        onClick={() => setLayerContent(<InsertParagraphLayer />)}
+                        onClick={
+                            () => setLayerContent(
+                                <InsertParagraphLayer
+                                    chapterId={id}
+                                    previousParagraphNumber={paragraphData.numberInChapter}
+                                />
+                            )
+                        }
                     />
                 ]) }
             </>

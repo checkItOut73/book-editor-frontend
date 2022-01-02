@@ -258,6 +258,116 @@ describe('book | ', () => {
         });
     });
 
+    test('book reducer updates paragraphs correctly', () => {
+        const state = {
+            id: 93,
+            title: 'Book Title',
+            chapters: [
+                {
+                    id: 1,
+                    number: 1,
+                    heading: 'Chapter 1',
+                    paragraphs: []
+                },
+                {
+                    id: 5,
+                    number: 2,
+                    heading: 'Chapter 2',
+                    paragraphs: [
+                        {
+                            id: 9043,
+                            numberInChapter: 1,
+                            heading: 'Do Androids Dream of Electric Sheep?',
+                            verses: []
+                        },
+                        {
+                            id: 9044,
+                            numberInChapter: 2,
+                            heading: 'Everything I Never Told You',
+                            verses: [
+                                {
+                                    id: 493204,
+                                    numberInChapter: 1,
+                                    numberInParagraph: 1,
+                                    text: 'How it began...'
+                                }
+                            ]
+                        },
+                        {
+                            id: 9045,
+                            numberInChapter: 3,
+                            heading: 'Cloudy with a Chance of Meatballs',
+                            verses: []
+                        }
+                    ]
+                }
+            ]
+        };
+
+        const action = {
+            type: ActionType.SET_PARAGRAPHS,
+            chapterId: 5,
+            paragraphs: [
+                {
+                    id: 9044
+                },
+                {
+                    id: 90432,
+                    heading: 'Everything I Never Told You'
+                },
+                {
+                    id: 9045,
+                    heading: 'Cloudy with a Chance of Meatballs 2'
+                }
+            ]
+        };
+
+        expect(book(state, action)).toEqual({
+            id: 93,
+            title: 'Book Title',
+            chapters: [
+                {
+                    id: 1,
+                    number: 1,
+                    heading: 'Chapter 1',
+                    paragraphs: []
+                },
+                {
+                    id: 5,
+                    number: 2,
+                    heading: 'Chapter 2',
+                    paragraphs: [
+                        {
+                            id: 9044,
+                            numberInChapter: 1,
+                            heading: 'Everything I Never Told You',
+                            verses: [
+                                {
+                                    id: 493204,
+                                    numberInChapter: 1,
+                                    numberInParagraph: 1,
+                                    text: 'How it began...'
+                                }
+                            ]
+                        },
+                        {
+                            id: 90432,
+                            numberInChapter: 2,
+                            heading: 'Everything I Never Told You',
+                            verses: []
+                        },
+                        {
+                            id: 9045,
+                            numberInChapter: 3,
+                            heading: 'Cloudy with a Chance of Meatballs 2',
+                            verses: []
+                        }
+                    ]
+                }
+            ]
+        });
+    });
+
     test('book reducer deletes paragraph correctly', () => {
         const state = {
             id: 43,
@@ -570,6 +680,154 @@ describe('book | ', () => {
                             id: 2906,
                             heading: 'Updated Paragraph 2906',
                             verses: []
+                        }
+                    ]
+                }
+            ]
+        });
+    });
+
+    test('book reducer updates verses correctly', () => {
+        const state = {
+            id: 93,
+            title: 'Book Title',
+            chapters: [
+                {
+                    id: 1,
+                    number: 1,
+                    heading: 'Chapter 1',
+                    paragraphs: []
+                },
+                {
+                    id: 5,
+                    number: 2,
+                    heading: 'Chapter 2',
+                    paragraphs: [
+                        {
+                            id: 9043,
+                            numberInChapter: 1,
+                            heading: 'Do Androids Dream of Electric Sheep?',
+                            verses: [
+                                {
+                                    id: 456454,
+                                    numberInParagraph: 1,
+                                    numberInChapter: 1,
+                                    text: 'That is quite interesting.'
+                                },
+                                {
+                                    id: 456455,
+                                    numberInParagraph: 2,
+                                    numberInChapter: 2,
+                                    text: 'That is really interesting.'
+                                }
+                            ]
+                        },
+                        {
+                            id: 9044,
+                            numberInChapter: 2,
+                            heading: 'Everything I Never Told You',
+                            verses: [
+                                {
+                                    id: 456456,
+                                    numberInParagraph: 1,
+                                    numberInChapter: 3,
+                                    text: 'Do Androids Dream of Electric Sheep?'
+                                },
+                                {
+                                    id: 456457,
+                                    numberInParagraph: 2,
+                                    numberInChapter: 4,
+                                    text: 'Everything I Never Told You'
+                                },
+                                {
+                                    id: 456458,
+                                    numberInParagraph: 3,
+                                    numberInChapter: 5,
+                                    text: 'Cloudy with a Chance of Meatballs'
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        };
+
+        const action = {
+            type: ActionType.SET_VERSES,
+            paragraphId: 9044,
+            verses: [
+                {
+                    id: 456457
+                },
+                {
+                    id: 8673567,
+                    text: 'Something really new'
+                },
+                {
+                    id: 456458,
+                    text: 'Cloudy with a Chance of Meatballs 2'
+                }
+            ]
+        };
+
+        expect(book(state, action)).toEqual({
+            id: 93,
+            title: 'Book Title',
+            chapters: [
+                {
+                    id: 1,
+                    number: 1,
+                    heading: 'Chapter 1',
+                    paragraphs: []
+                },
+                {
+                    id: 5,
+                    number: 2,
+                    heading: 'Chapter 2',
+                    paragraphs: [
+                        {
+                            id: 9043,
+                            numberInChapter: 1,
+                            heading: 'Do Androids Dream of Electric Sheep?',
+                            verses: [
+                                {
+                                    id: 456454,
+                                    numberInParagraph: 1,
+                                    numberInChapter: 1,
+                                    text: 'That is quite interesting.'
+                                },
+                                {
+                                    id: 456455,
+                                    numberInParagraph: 2,
+                                    numberInChapter: 2,
+                                    text: 'That is really interesting.'
+                                }
+                            ]
+                        },
+                        {
+                            id: 9044,
+                            numberInChapter: 2,
+                            heading: 'Everything I Never Told You',
+                            verses: [
+                                {
+                                    id: 456457,
+                                    numberInParagraph: 1,
+                                    numberInChapter: 3,
+                                    text: 'Everything I Never Told You'
+                                },
+                                {
+                                    id: 8673567,
+                                    numberInParagraph: 2,
+                                    numberInChapter: 4,
+                                    text: 'Something really new'
+                                },
+                                {
+                                    id: 456458,
+                                    numberInParagraph: 3,
+                                    numberInChapter: 5,
+                                    text: 'Cloudy with a Chance of Meatballs 2'
+                                }
+                            ]
                         }
                     ]
                 }

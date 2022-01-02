@@ -6,6 +6,7 @@ import { EditorParagraph } from '@components/editor/EditorParagraph';
 import { EditChapterHeadingLayer } from '@components/editor/layers/EditChapterHeadingLayer';
 import { InsertParagraphLayer } from '@components/editor/layers/InsertParagraphLayer';
 import { DeleteChapterLayer } from '@components/editor/layers/DeleteChapterLayer';
+import { TooltipTriggerDiv } from '@components/ui/TooltipTriggerDiv';
 
 jest.mock('@components/editor/EditorParagraph', () => ({
     EditorParagraph: (props) => <div {...props}>EditorParagraphMock</div>
@@ -183,13 +184,13 @@ describe('<EditorChapter />', () => {
         renderComponent();
 
         component.root
-            .findAllByProps({ className: 'paragraph-gap' })
-            .forEach((tooltipTriggerDiv) => {
+            .findAllByType(TooltipTriggerDiv)
+            .forEach((tooltipTriggerDiv, index) => {
                 props.setTooltipText.mockClear();
                 tooltipTriggerDiv.props.onClick();
 
                 expect(props.setLayerContent).toHaveBeenCalledWith(
-                    <InsertParagraphLayer />
+                    <InsertParagraphLayer chapterId={5} previousParagraphNumber={index} />
                 );
             });
     });

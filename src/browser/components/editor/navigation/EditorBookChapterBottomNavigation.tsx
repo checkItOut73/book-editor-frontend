@@ -24,7 +24,7 @@ export const EditorBookChapterBottomNavigation = ({ chapters, setTooltipText, se
                 className="chapter-placeholder"
                 tooltipText="Kapitel hinzufügen"
                 setTooltipText={setTooltipText}
-                onClick={() => setLayerContent(<InsertChapterLayer bookId={bookId} previousChapterNumber={0} />)}
+                onClick={() => setLayerContent(<InsertChapterLayer previousChapterNumber={0} />)}
             />
             { chapters.map((chapterData) => [
                 activeChapterNumber === chapterData.number ?
@@ -42,7 +42,7 @@ export const EditorBookChapterBottomNavigation = ({ chapters, setTooltipText, se
                         className="chapter-placeholder"
                         tooltipText="Kapitel hinzufügen"
                         setTooltipText={setTooltipText}
-                        onClick={() => setLayerContent(<InsertChapterLayer bookId={bookId} previousChapterNumber={chapterData.number} />)}
+                        onClick={() => setLayerContent(<InsertChapterLayer previousChapterNumber={chapterData.number} />)}
                     />
             ]) }
         </div>
