@@ -5,8 +5,8 @@ import { BookChapterTopNavigation } from '@components/navigation/BookChapterTopN
 import { BookChapterBottomNavigation } from '@components/navigation/BookChapterBottomNavigation';
 import { BookContent } from '@components/BookContent';
 
+let bottomNavigationHeight;
 let intervalForFixingBottomNavigation;
-const BOTTOM_NAVIGATION_HEIGHT = 50;
 
 export const Book = ({ title, chapters }: BookData) => {
     const [activeChapterNumber, setActiveChapterNumber] = useState(1);
@@ -57,12 +57,13 @@ export const Book = ({ title, chapters }: BookData) => {
 
     function fixBottomNavigation() {
         const bottomNavigation = bottomNavigationRef.current;
+        bottomNavigationHeight = bottomNavigation.clientHeight;
 
         if (intervalForFixingBottomNavigation) {
             stopFixingBottomNavigation();
         }
         intervalForFixingBottomNavigation = setInterval(() => {
-            window.scrollTo(0, bottomNavigation.offsetTop - window.innerHeight + BOTTOM_NAVIGATION_HEIGHT);
+            window.scrollTo(0, bottomNavigation.offsetTop - window.innerHeight + bottomNavigationHeight);
         }, 20);
     }
 

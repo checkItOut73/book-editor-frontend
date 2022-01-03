@@ -33,6 +33,7 @@ global.window = {
     innerHeight: 500
 };
 const BOTTOM_NAVIGATION_OFFSET_TOP = 700;
+const BOTTOM_NAVIGATION_HEIGHT = 50;
 
 describe('<Book />', () => {
     let props;
@@ -60,7 +61,8 @@ describe('<Book />', () => {
 
     function createNodeMock() {
         return {
-            offsetTop: BOTTOM_NAVIGATION_OFFSET_TOP
+            offsetTop: BOTTOM_NAVIGATION_OFFSET_TOP,
+            clientHeight: BOTTOM_NAVIGATION_HEIGHT
         };
     }
 
