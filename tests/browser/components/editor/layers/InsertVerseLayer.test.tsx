@@ -60,19 +60,19 @@ describe('<InsertVerseLayer />', () => {
                                     {
                                         id: 1,
                                         numberInParagraph: 1,
-                                        numberInChapter: 1,
+                                        numberInChapter: 3,
                                         text: 'Verse 1'
                                     },
                                     {
                                         id: 2,
                                         numberInParagraph: 2,
-                                        numberInChapter: 2,
+                                        numberInChapter: 4,
                                         text: 'Verse 2'
                                     },
                                     {
                                         id: 3,
                                         numberInParagraph: 3,
-                                        numberInChapter: 3,
+                                        numberInChapter: 5,
                                         text: 'Verse 3'
                                     }
                                 ]

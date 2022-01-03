@@ -51,6 +51,7 @@ describe('<Paragraph />', () => {
                 >
                   VerseMock
                 </div>
+                 
                 <div
                   id={935}
                   numberInChapter={13}
@@ -82,6 +83,7 @@ describe('<Paragraph />', () => {
                   >
                     VerseMock
                   </div>
+                   
                   <div
                     id={935}
                     numberInChapter={13}

@@ -7,7 +7,11 @@ export const Paragraph = ({ heading, verses }: ParagraphData) => {
     return <>
         { getHeading() }
         <p>
-            { verses.map((verseData, index) => <Verse key={index} {...verseData} />) }
+            { verses.map(
+                (verseData, index) => (index === verses.length - 1) ?
+                    <Verse key={index} {...verseData} /> :
+                    [<Verse key={index} {...verseData} />, ' '])
+            }
         </p>
     </>;
 

@@ -29,7 +29,7 @@ export const InsertVerseLayer = ({ paragraphId, previousVerseNumber }: Props) =>
         paragraph.verses.forEach((verse) => {
             verses.push({ id: verse.id });
 
-            if (previousVerseNumber === verse.numberInChapter) {
+            if (previousVerseNumber === verse.numberInParagraph) {
                 verses.push({ text });
             }
         });
