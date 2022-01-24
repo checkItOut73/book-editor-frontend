@@ -2,3 +2,4 @@
 - autoprefixing prüfen
 - Rerenderings prüfen (Performance, Profiler)
 - Formular bei Enter-Druck abschicken
+- Bei fehlerhaften PATCH-Request passendere HTTP-Status-Codes (nicht 500), zum Beispiel 422 bei falschen Formulareingaben
